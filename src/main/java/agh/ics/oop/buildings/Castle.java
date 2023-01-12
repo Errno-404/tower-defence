@@ -3,7 +3,7 @@ package agh.ics.oop.buildings;
 import agh.ics.oop.Attack;
 import agh.ics.oop.Vector;
 
-public class Castle extends DefensiveBuildings{
+public class Castle extends DefensiveBuilding {
 
 
 

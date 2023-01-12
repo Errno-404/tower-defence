@@ -3,13 +3,13 @@ package agh.ics.oop.buildings;
 import agh.ics.oop.Attack;
 import agh.ics.oop.Vector;
 
-public abstract class Buildings {
+public abstract class Building {
     protected final int width;
     protected final int height;
     protected final Vector position;
     protected int health;
 
-    protected Buildings(int width, int height, Vector position, int health) {
+    protected Building(int width, int height, Vector position, int health) {
         this.width = width;
         this.height = height;
         this.position = position;

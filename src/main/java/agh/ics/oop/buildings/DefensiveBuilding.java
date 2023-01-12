@@ -4,13 +4,13 @@ import agh.ics.oop.Attack;
 import agh.ics.oop.Vector;
 
 
-public abstract class DefensiveBuildings extends Buildings {
+public abstract class DefensiveBuilding extends Building {
 
     // Defensive parameters
     private int defence;
 
 
-    protected DefensiveBuildings(Vector position, int width, int height, int health, int defence) {
+    protected DefensiveBuilding(Vector position, int width, int height, int health, int defence) {
         super(width, height, position, health);
         this.defence = defence;
     }

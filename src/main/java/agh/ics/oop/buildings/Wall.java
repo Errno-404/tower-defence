@@ -3,7 +3,7 @@ package agh.ics.oop.buildings;
 import agh.ics.oop.Attack;
 import agh.ics.oop.Vector;
 
-public class Wall extends DefensiveBuildings{
+public class Wall extends DefensiveBuilding {
     public Wall(Vector position, int width, int height, int health, int defence) {
         super(position, width, height, health, defence);
     }

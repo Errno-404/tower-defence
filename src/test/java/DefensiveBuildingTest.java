@@ -5,7 +5,7 @@ import agh.ics.oop.buildings.Wall;
 import org.junit.jupiter.api.Test;
 
 
-public class DefensiveBuildingsTest {
+public class DefensiveBuildingTest {
 
     @Test
     public void test(){
@@ -15,7 +15,10 @@ public class DefensiveBuildingsTest {
         castle.getHit(new Attack(50));
         castle.getHit(new Attack(60));
 
+        wall.upgradeDefence(5);
         wall.getHit(new Attack(50));
+        System.out.println(wall.getHealth());
+
         wall.getHit(new Attack(80));
 
 

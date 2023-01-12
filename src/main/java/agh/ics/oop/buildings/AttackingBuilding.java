@@ -3,7 +3,7 @@ package agh.ics.oop.buildings;
 import agh.ics.oop.Attack;
 import agh.ics.oop.Vector;
 
-public abstract class AttackingBuildings extends Buildings {
+public abstract class AttackingBuilding extends Building {
 
     //TODO TOWERS
     // pytanie, czy ta klasa jest nam potrzebna w ogóle? mają być 3 rodzaje wieżyczek, ale wystarczy tworzyć wtedy
@@ -16,7 +16,7 @@ public abstract class AttackingBuildings extends Buildings {
 
     protected Attack attack;
 
-    protected AttackingBuildings(int width, int height, Vector position, int health, Attack attack) {
+    protected AttackingBuilding(int width, int height, Vector position, int health, Attack attack) {
         super(width, height, position, health);
         this.attack = attack;
     }
