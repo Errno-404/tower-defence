@@ -6,3 +6,21 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+
+# Added by adam
+.mtj.tmp/
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+hs_err_pid*
+
+bin/
+build/
+.gradle
+.gradletasknamecache
+gradle-app.setting
+!gradle-wrapper.jar
+
+
