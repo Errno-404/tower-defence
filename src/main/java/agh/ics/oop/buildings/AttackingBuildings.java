@@ -21,5 +21,15 @@ public abstract class AttackingBuildings extends Buildings {
         this.attack = attack;
     }
 
+    @Override
+    public void getHit(Attack attack) {
+        int damage = attack.getStrength();
+        if(damage > this.health){
+            this.health = 0;
+        }
+        else{
+            this.health -= attack.getStrength();
+        }
 
+    }
 }
