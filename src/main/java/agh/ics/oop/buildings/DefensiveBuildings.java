@@ -4,46 +4,19 @@ import agh.ics.oop.Attack;
 import agh.ics.oop.Vector;
 
 
-public abstract class DefensiveBuildings {
-    // TODO Wall and castle
-
+public abstract class DefensiveBuildings extends Buildings {
 
     // Defensive parameters
-    protected int health;
     private int defence;
 
-    // Position and size parameters
-    private final int width;
-    private final int height;
-    private final Vector position;
 
-
-    public DefensiveBuildings(Vector position, int width, int height, int health, int defence) {
-        this.position = position;
-        this.width = width;
-        this.height = height;
-        this.health = health;
+    protected DefensiveBuildings(Vector position, int width, int height, int health, int defence) {
+        super(width, height, position, health);
         this.defence = defence;
     }
 
-    // Basic getters
-    public Vector getPosition() {
-        return position;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHealth(){
-        return this.health;
-    }
-
     // Game methods
+    @Override
     public void getHit(Attack attack) {
         // Chwilowo nie mam lepszego pomysłu na zrobienie defense, bo floatów się boję :/
 
@@ -58,6 +31,7 @@ public abstract class DefensiveBuildings {
 
     }
 
+    // Method specific for Defensive Buildings
     public void upgradeDefence(int deltaDefence) {
         // Zakładamy, że zarówno castle jak i Wall mogą zostać ulepszone
         this.defence += deltaDefence;
