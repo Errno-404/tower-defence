@@ -1,4 +1,4 @@
-/build/classes/java/main/agh/ics/oop/gui/App.class
+/build
 /.gradle/buildOutputCleanup/buildOutputCleanup.lock
 /.gradle/buildOutputCleanup/cache.properties
 /.gradle/7.4/checksums/checksums.lock
@@ -18,3 +18,4 @@
 /build/tmp/compileJava/previous-compilation-data.bin
 /.gradle/7.4/fileHashes/resourceHashesCache.bin
 /.gradle/7.4/checksums/sha1-checksums.bin
+/.idea
