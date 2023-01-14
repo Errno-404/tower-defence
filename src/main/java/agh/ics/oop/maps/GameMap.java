@@ -2,6 +2,7 @@ package agh.ics.oop.maps;
 
 import agh.ics.oop.Vector;
 import agh.ics.oop.buildings.Building;
+import agh.ics.oop.gui.GameScreen;
 
 import java.util.HashMap;
 
@@ -9,6 +10,7 @@ import java.util.HashMap;
 public abstract class GameMap {
     protected int width;
     protected int height;
+    GameScreen gameScreen;
 
 
     // TODO struktura danych odpowiednia dla metody canPlace

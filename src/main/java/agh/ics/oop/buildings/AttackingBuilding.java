@@ -13,7 +13,7 @@ public abstract class AttackingBuilding extends Building {
     // takich klas wieżyczek - zdrowie, obrona, pozycja itd.
     //
 
-
+    private double radius;
     protected Attack attack;
 
     protected AttackingBuilding(int width, int height, Vector position, int health, Attack attack) {
@@ -30,6 +30,5 @@ public abstract class AttackingBuilding extends Building {
         else{
             this.health -= attack.getStrength();
         }
-
     }
 }
