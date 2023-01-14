@@ -1,6 +1,7 @@
 package agh.ics.oop.gui;
 
 
+import agh.ics.oop.buildings.Building;
 import agh.ics.oop.maps.GameMap;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
@@ -13,6 +14,7 @@ import javafx.scene.paint.Color;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class GameScreen {
@@ -27,6 +29,12 @@ public class GameScreen {
     CanvasElement elementUnderCursor;
 
     CanvasElement[][] elements;
+
+    ArrayList<SelectionObserver> observers;
+
+
+    private Building selectedListBuilding = null; //if not null, place on mouseClick (if possible) the building on current cursor element and set back to null
+    private Building selectedExistingBuilding; //change on canvas click when selectedListBuilding is null
 
     public GameScreen(int width, int height){
         this.canvas = new Canvas(width,height);
@@ -82,6 +90,19 @@ public class GameScreen {
         this.canvas.setOnMouseClicked(e -> {
             System.out.println(this.elementUnderCursor.xIndex + "   " + this.elementUnderCursor.yIndex);
         });
+    }
+
+    public void notifySelectionChange(){
+        for(SelectionObserver o: this.observers){
+            o.updateSelected(selectedExistingBuilding);
+        }
+    }
+    public void setSelectedListBuilding(Building b){
+        this.selectedListBuilding = b;
+    }
+
+    public void updateInfoPane(){
+        //TODO
     }
 
     public void run(){
