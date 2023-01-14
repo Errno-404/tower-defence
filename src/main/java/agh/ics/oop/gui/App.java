@@ -49,6 +49,8 @@ public class App extends Application {
         leftPane.getChildren().add(new Label("nwm co tu moze byc jeszcze, moze sie przyda (leftPane)"));
         bpane.setLeft(leftPane);
 
+        //gameScreen.addObserver(...)
+
 
         primaryStage.setScene(new Scene(bpane));
         primaryStage.show();

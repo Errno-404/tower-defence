@@ -92,6 +92,10 @@ public class GameScreen {
         });
     }
 
+    public void addObserver(SelectionObserver o){
+        this.observers.add(o);
+    }
+
     public void notifySelectionChange(){
         for(SelectionObserver o: this.observers){
             o.updateSelected(selectedExistingBuilding);
