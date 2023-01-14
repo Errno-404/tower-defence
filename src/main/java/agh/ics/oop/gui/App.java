@@ -50,6 +50,7 @@ public class App extends Application {
         bpane.setLeft(leftPane);
 
         //gameScreen.addObserver(...)
+        //TODO: Może zmienić observerów na https://docs.oracle.com/en/java/javase/11/docs/api/java.desktop/java/beans/PropertyChangeListener.html
 
 
         primaryStage.setScene(new Scene(bpane));
