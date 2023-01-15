@@ -4,16 +4,11 @@ import agh.ics.oop.GameEngine;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import javafx.application.Application;
 
 public class App extends Application {
 
@@ -25,8 +20,8 @@ public class App extends Application {
     public void start(Stage primaryStage) {
 
         this.gameScreen = new GameScreen(width,height);
-        primaryStage.setTitle("title");
-        Timeline tl = new Timeline(new KeyFrame(Duration.millis((8)), e-> {gameScreen.run();}));
+        primaryStage.setTitle("BTD6");
+        Timeline tl = new Timeline(new KeyFrame(Duration.millis((10)), e-> {gameScreen.run();}));
         tl.setCycleCount(Timeline.INDEFINITE);
         tl.play();
 

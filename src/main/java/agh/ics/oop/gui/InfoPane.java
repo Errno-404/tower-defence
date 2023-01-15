@@ -1,6 +1,8 @@
 package agh.ics.oop.gui;
 
-public class InfoPane implements SelectionObserver{
+import agh.ics.oop.Interfaces.SelectionObserver;
+
+public class InfoPane implements SelectionObserver {
     @Override
     public void updateSelected(Object o) {
 

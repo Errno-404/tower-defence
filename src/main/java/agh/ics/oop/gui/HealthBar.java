@@ -1,11 +1,10 @@
 package agh.ics.oop.gui;
 
+import agh.ics.oop.Interfaces.HealthChangeObserver;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
-public class HealthBar implements HealthChangeObserver{
+public class HealthBar implements HealthChangeObserver {
     static double healthBarSizeX = 25;
     static double healthBarSizeY = 15;
 

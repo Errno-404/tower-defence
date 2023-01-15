@@ -1,21 +1,19 @@
 package agh.ics.oop.gui;
 
 
+import agh.ics.oop.Interfaces.SelectionObserver;
+import agh.ics.oop.Proejctiles.HomingProjectile;
+import agh.ics.oop.Proejctiles.HomingProjectileTestClass;
+import agh.ics.oop.Proejctiles.NormalProjectile;
+import agh.ics.oop.Vector;
 import agh.ics.oop.buildings.Building;
-import agh.ics.oop.maps.GameMap;
-import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
-
-import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class GameScreen {
 
@@ -84,6 +82,9 @@ public class GameScreen {
                 this.elementUnderCursor.highlight();
             }
 
+            //test
+            this.p2.updateTarget(new Vector(mouseX, mouseY));
+
 
         });
 
@@ -110,6 +111,8 @@ public class GameScreen {
     }
 
     HealthBar h1 = new HealthBar();
+    NormalProjectile p1 = new NormalProjectile(new Vector(100,100),2,new Vector(500,500));
+    HomingProjectileTestClass p2 = new HomingProjectileTestClass(new Vector(100,100),4);
 
     public void run(){
             for (int i = 0; i < 60; i++) {
@@ -123,6 +126,12 @@ public class GameScreen {
             //test
             this.h1.draw(this.gc);
             this.h1.reportHealthChange(this.h1.currentPercentage-0.0025);
+
+            this.p1.move();
+            this.p1.draw(this.gc);
+
+            this.p2.move();
+            this.p2.draw(this.gc);
             if(this.h1.currentPercentage<=0){
                 this.h1.reportHealthChange(1.0);
             }
