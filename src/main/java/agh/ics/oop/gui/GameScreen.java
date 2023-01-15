@@ -89,7 +89,7 @@ public class GameScreen {
         });
 
         this.canvas.setOnMouseClicked(e -> {
-            System.out.println(this.elementUnderCursor.xIndex + "   " + this.elementUnderCursor.yIndex);
+            System.out.println(this.elementUnderCursor.xIndex + "   " + this.elementUnderCursor.yIndex + "    " + this.elementUnderCursor.boxCentre);
         });
     }
 

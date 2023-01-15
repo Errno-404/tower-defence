@@ -1,5 +1,6 @@
 package agh.ics.oop.gui;
 
+import agh.ics.oop.Vector;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.ColorAdjust;
@@ -12,6 +13,8 @@ public class CanvasElement {
     private final double rectSize = (600/60);
     public double xIndex;
     public double yIndex;
+
+    public Vector boxCentre;
 
     private ImageView normalImg;
     private ImageView cursorImg;
@@ -40,15 +43,7 @@ public class CanvasElement {
         this.xIndex = posx;
         this.yIndex = posy;
 
-        //this.img.hoverProperty();
-        EventHandler<MouseEvent> handler = new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                System.out.println("1234");
-            }
-        };
-
-        this.img.setOnMouseClicked(handler);
+        this.boxCentre = new Vector(this.xIndex*rectSize + rectSize/2, this.yIndex*rectSize + rectSize/2);
 
     }
 
