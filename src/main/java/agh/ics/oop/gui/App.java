@@ -26,7 +26,7 @@ public class App extends Application {
 
         this.gameScreen = new GameScreen(width,height);
         primaryStage.setTitle("title");
-        Timeline tl = new Timeline(new KeyFrame(Duration.millis((20)), e-> {gameScreen.run();}));
+        Timeline tl = new Timeline(new KeyFrame(Duration.millis((8)), e-> {gameScreen.run();}));
         tl.setCycleCount(Timeline.INDEFINITE);
         tl.play();
 

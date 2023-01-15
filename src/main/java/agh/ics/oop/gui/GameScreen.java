@@ -51,8 +51,8 @@ public class GameScreen {
             Image defaultBlack = new Image(new FileInputStream("src/main/resources/blackRect.png"));
             Image cursorImg = new Image(new FileInputStream("src/main/resources/yellowRect.png"));
 
-            for (int i = 0; i < width; i++) {
-                for (int j = 0; j < height; j++) {
+            for (int i = 0; i < width/boxWidth; i++) {
+                for (int j = 0; j < height/boxWidth; j++) {
                     CanvasElement temp = new CanvasElement(defaultImage, cursorImg, i, j);
                     CanvasElement temp1 = new CanvasElement(defaultBlack, cursorImg,i, j);
                     if(i%2==0 || j%2 == 0){
@@ -109,11 +109,23 @@ public class GameScreen {
         //TODO
     }
 
+    HealthBar h1 = new HealthBar();
+
     public void run(){
             for (int i = 0; i < 60; i++) {
                 for (int j = 0; j < 60; j++) {
                     elements[i][j].draw(this.gc);
+
+
                 }
             }
+
+            //test
+            this.h1.draw(this.gc);
+            this.h1.reportHealthChange(this.h1.currentPercentage-0.0025);
+            if(this.h1.currentPercentage<=0){
+                this.h1.reportHealthChange(1.0);
+            }
         }
+
 }

@@ -2,6 +2,7 @@ package agh.ics.oop.buildings;
 
 import agh.ics.oop.Attack;
 import agh.ics.oop.Vector;
+import agh.ics.oop.gui.HealthChangeObserver;
 
 public abstract class Building {
     protected final int width;
