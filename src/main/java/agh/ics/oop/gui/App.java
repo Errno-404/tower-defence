@@ -21,7 +21,7 @@ public class App extends Application {
 
         this.gameScreen = new GameScreen(width,height);
         primaryStage.setTitle("BTD6");
-        Timeline tl = new Timeline(new KeyFrame(Duration.millis((10)), e-> {gameScreen.run();}));
+        Timeline tl = new Timeline(new KeyFrame(Duration.millis((30)), e-> {gameScreen.run();}));
         tl.setCycleCount(Timeline.INDEFINITE);
         tl.play();
 

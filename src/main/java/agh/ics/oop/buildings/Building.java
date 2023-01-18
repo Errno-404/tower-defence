@@ -35,4 +35,11 @@ public abstract class Building {
     public int getHealth(){
         return this.health;
     }
+
+
+    @Override
+    public String toString(){
+        return "*";
+    }
+
 }
