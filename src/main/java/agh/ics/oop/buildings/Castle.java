@@ -2,6 +2,8 @@ package agh.ics.oop.buildings;
 
 import agh.ics.oop.Attack;
 import agh.ics.oop.Vector;
+import agh.ics.oop.gui.GameScreen;
+import javafx.scene.image.Image;
 
 public class Castle extends DefensiveBuilding {
 
@@ -11,6 +13,10 @@ public class Castle extends DefensiveBuilding {
         super(position, width, height, health, defence);
     }
 
+    public Castle(int width, int height, int px, int py, int health, Image img, GameScreen gs){
+        super(width, height, px, py, health, img, gs);
+
+    }
     @Override
     public void getHit(Attack attack){
         super.getHit(attack);

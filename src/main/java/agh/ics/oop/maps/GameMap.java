@@ -1,5 +1,6 @@
 package agh.ics.oop.maps;
 
+import agh.ics.oop.Constants;
 import agh.ics.oop.Vector;
 import agh.ics.oop.buildings.Building;
 import agh.ics.oop.gui.GameScreen;
@@ -12,7 +13,7 @@ public abstract class GameMap {
     protected int height;
     GameScreen gameScreen;
 
-
+    mapElement[][] map = new mapElement[Constants.boxNoWidth][Constants.boxNoHeight];
     // TODO struktura danych odpowiednia dla metody canPlace
     HashMap<Vector, Building> buildings = new HashMap<>();
 

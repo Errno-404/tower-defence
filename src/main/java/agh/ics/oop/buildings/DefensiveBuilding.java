@@ -2,6 +2,8 @@ package agh.ics.oop.buildings;
 
 import agh.ics.oop.Attack;
 import agh.ics.oop.Vector;
+import agh.ics.oop.gui.GameScreen;
+import javafx.scene.image.Image;
 
 
 public abstract class DefensiveBuilding extends Building {
@@ -13,6 +15,11 @@ public abstract class DefensiveBuilding extends Building {
     protected DefensiveBuilding(Vector position, int width, int height, int health, int defence) {
         super(width, height, position, health);
         this.defence = defence;
+    }
+
+    protected DefensiveBuilding(int width, int height, int px, int py, int health, Image img, GameScreen gs) {
+        super(width, height, px, py, health, img, gs);
+        //this.defence = defence;
     }
 
     // Game methods

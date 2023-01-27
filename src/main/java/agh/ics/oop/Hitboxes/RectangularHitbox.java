@@ -47,4 +47,9 @@ public  class RectangularHitbox implements Hitbox{
         this.upperLeft.addVector(direction);
         this.lowerRight.addVector(direction);
     }
+
+    @Override
+    public boolean isIn(Vector position) {
+        return false;
+    }
 }

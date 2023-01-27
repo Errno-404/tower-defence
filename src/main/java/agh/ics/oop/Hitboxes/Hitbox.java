@@ -7,4 +7,6 @@ public interface Hitbox {
     boolean collidesWith(Hitbox hb);
 
     public void moveAlongVector(Vector direction);
+
+    public boolean isIn(Vector position);
 }

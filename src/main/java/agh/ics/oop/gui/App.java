@@ -19,9 +19,9 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        this.gameScreen = new GameScreen(width,height);
+        this.gameScreen = new GameScreen();
         primaryStage.setTitle("BTD6");
-        Timeline tl = new Timeline(new KeyFrame(Duration.millis((10)), e-> {gameScreen.run();}));
+        Timeline tl = new Timeline(new KeyFrame(Duration.millis((15)), e-> {gameScreen.run();}));
         tl.setCycleCount(Timeline.INDEFINITE);
         tl.play();
 

@@ -28,4 +28,9 @@ public class CircularHitbox implements Hitbox{
     public void moveAlongVector(Vector direction) {
         this.centre.addVector(direction);
     }
+
+    @Override
+    public boolean isIn(Vector position) {
+        return false;
+    }
 }

@@ -1,5 +1,6 @@
 package agh.ics.oop.gui;
 
+import agh.ics.oop.Constants;
 import agh.ics.oop.Vector;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
@@ -9,8 +10,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 public class CanvasElement {
-
-    private final double rectSize = (600/60);
     public double xIndex;
     public double yIndex;
 
@@ -35,20 +34,18 @@ public class CanvasElement {
 
         this.img = new ImageView(img);
         this.img.setCache(true);
-        this.img.setFitWidth(rectSize);
-        this.img.setFitHeight(rectSize);
 
 
 
         this.xIndex = posx;
         this.yIndex = posy;
 
-        this.boxCentre = new Vector(this.xIndex*rectSize + rectSize/2, this.yIndex*rectSize + rectSize/2);
+        this.boxCentre = new Vector(this.xIndex* Constants.boxWidth + Constants.boxNoHeight/2, this.yIndex*Constants.boxHeight + Constants.boxWidth/2);
 
     }
 
     public void draw(GraphicsContext gc){
-        gc.drawImage(this.img.getImage(), this.xIndex*rectSize, this.yIndex*rectSize);
+        gc.drawImage(this.img.getImage(), this.xIndex*Constants.boxWidth, this.yIndex*Constants.boxHeight);
     }
 
     public void highlight(){
@@ -60,5 +57,9 @@ public class CanvasElement {
     public void revert(){
         this.img = normalImg;
         //this.img.setEffect(null);
+    }
+
+    public void updateImage(ImageView iv){
+        this.img = iv;
     }
 }
