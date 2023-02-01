@@ -3,6 +3,7 @@ package agh.ics.oop.maps;
 import agh.ics.oop.Attackers;
 import agh.ics.oop.Constants;
 import agh.ics.oop.Hitboxes.RectangularHitbox;
+import agh.ics.oop.Interfaces.BuildingDestroyedObserver;
 import agh.ics.oop.Interfaces.EnemyObserver;
 import agh.ics.oop.Interfaces.ProjectileObserver;
 import agh.ics.oop.Proejctiles.Projectile;
@@ -12,12 +13,12 @@ import agh.ics.oop.buildings.Building;
 import agh.ics.oop.gui.GameScreen;
 
 
-public class GameMap implements ProjectileObserver, EnemyObserver {
+public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestroyedObserver {
     protected int width;
     protected int height;
     GameScreen gameScreen;
 
-    mapElement[][] map = new mapElement[Constants.boxNoWidth][Constants.boxNoHeight];
+    mapElement[][] map;
 
 
 
@@ -65,7 +66,7 @@ public class GameMap implements ProjectileObserver, EnemyObserver {
         }
 
         if(building instanceof AttackingBuilding){
-            //
+            //Add building to inRangeOf lists
         }
     }
 
@@ -92,5 +93,22 @@ public class GameMap implements ProjectileObserver, EnemyObserver {
     public void reportNewIndexEnemy(Vector old, Vector newpos, Attackers a) {
         this.map[old.getXindex()][old.getYindex()].enemyList.remove(a);
         this.map[newpos.getXindex()][newpos.getYindex()].enemyList.add(a);
+    }
+
+    @Override
+    public void reportBuildingDestroyed(Building b) {
+        for(int i = 0; i<b.getWidth();i++){
+            for(int j = 0;j<b.getHeight();j++){
+                this.gameScreen.elements[b.hitbox.upperLeft.getXindex() + i][b.hitbox.upperLeft.getYindex() + j].setOriginalView();
+                this.map[i][j].reachable = true;
+                this.map[i][j].placeable = true;
+
+
+            }
+        }
+
+        if(b instanceof AttackingBuilding){
+            //remove building from all inRangeOf lists
+        }
     }
 }

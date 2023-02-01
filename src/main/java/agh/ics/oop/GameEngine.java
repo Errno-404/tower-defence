@@ -49,7 +49,7 @@ public class GameEngine {
         else if(b instanceof AttackingBuilding b2){
             this.activeTowers.add(b2);
         }
-
+        b.setDestroyedObserver(this.gameMap);
         this.gameMap.placeMap(b);
     }
     public void moveProjectiles(){

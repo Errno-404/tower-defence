@@ -3,17 +3,14 @@ package agh.ics.oop.buildings;
 import agh.ics.oop.Attack;
 import agh.ics.oop.Constants;
 import agh.ics.oop.Hitboxes.RectangularHitbox;
+import agh.ics.oop.Interfaces.BuildingDestroyedObserver;
 import agh.ics.oop.Vector;
 import agh.ics.oop.gui.GameScreen;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
-import javafx.scene.shape.Rectangle;
 
-
-import java.util.ArrayList;
 
 public abstract class Building {
     protected final double width;
@@ -26,6 +23,8 @@ public abstract class Building {
 
     private ImageView[][] viewArray;
     private GameScreen gs;
+
+    private BuildingDestroyedObserver observer;
 
     protected Building(int width, int height, Vector position, int health) {
         this.width = width;
@@ -57,12 +56,12 @@ public abstract class Building {
         }
     }
 
+    public void setDestroyedObserver(BuildingDestroyedObserver o){
+        this.observer = o;
+    }
+
     public void destroyBuilding(){
-        for(int i = 0; i<this.width;i++){
-            for(int j = 0;j<this.height;j++){
-                this.gs.elements[this.hitbox.upperLeft.getXindex() + i][this.hitbox.upperLeft.getYindex() + j].setOriginalView();
-            }
-        }
+        this.observer.reportBuildingDestroyed(this);
     }
 
     // każdy budynek może zostać zaatakowany
