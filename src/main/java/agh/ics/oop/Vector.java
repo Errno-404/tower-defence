@@ -1,6 +1,5 @@
 package agh.ics.oop;
 
-import agh.ics.oop.Hitboxes.RectangularHitbox;
 
 public class Vector {
 
@@ -47,9 +46,16 @@ public class Vector {
         this.y += v.getY();
     }
 
+    public int getXindex(){
+        return (int) (this.x/Constants.boxWidth);
+    }
+
+    public int getYindex(){
+        return (int) (this.y/Constants.boxHeight);
+    }
     @Override
     public String toString(){
-        return "(" + Double.toString(this.x) + ", " + Double.toString(this.y) + ")";
+        return "(" + this.x + ", " + this.y + ")";
     }
 
 

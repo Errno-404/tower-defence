@@ -2,18 +2,22 @@ package agh.ics.oop.Proejctiles;
 
 import agh.ics.oop.Attackers;
 import agh.ics.oop.Hitboxes.RectangularHitbox;
+import agh.ics.oop.Interfaces.ProjectileObserver;
 import agh.ics.oop.Vector;
+import agh.ics.oop.maps.GameMap;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public abstract class Projectile {
 
-    Vector position;
+    public Vector position;
     double velocity;
     RectangularHitbox hitbox;
 
     ImageView sprite;
+
+    ProjectileObserver pobs;
 
     protected Projectile(Vector position, double velocity){
         this.position = position;
@@ -27,5 +31,9 @@ public abstract class Projectile {
 
     public void draw(GraphicsContext gc){
         gc.drawImage(this.sprite.getImage(),this.hitbox.upperLeft.getX(), this.hitbox.upperLeft.getY());
+    }
+
+    public void setObserver(ProjectileObserver o){
+        this.pobs = o;
     }
 }

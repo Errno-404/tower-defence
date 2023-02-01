@@ -2,12 +2,12 @@ package agh.ics.oop.gui;
 
 import agh.ics.oop.Constants;
 import agh.ics.oop.Vector;
-import javafx.event.EventHandler;
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
+
 
 public class CanvasElement {
     public double xIndex;
@@ -15,15 +15,18 @@ public class CanvasElement {
 
     public Vector boxCentre;
 
+
+    private final ImageView originalImage;
     private ImageView normalImg;
     private ImageView cursorImg;
 
     ColorAdjust cursorBrightener;
 
-    private ImageView img;
+    private ImageView img; //image that is used to draw
 
 
     public CanvasElement(Image img, Image cursorImg,double posx, double posy){
+        this.originalImage = new ImageView(img);
         this.normalImg = new ImageView(img);
         this.cursorImg = new ImageView(cursorImg);
 
@@ -33,14 +36,13 @@ public class CanvasElement {
 
 
         this.img = new ImageView(img);
-        this.img.setCache(true);
 
 
 
         this.xIndex = posx;
         this.yIndex = posy;
 
-        this.boxCentre = new Vector(this.xIndex* Constants.boxWidth + Constants.boxNoHeight/2, this.yIndex*Constants.boxHeight + Constants.boxWidth/2);
+        this.boxCentre = new Vector(this.xIndex* Constants.boxWidth + Constants.boxWidth/2, this.yIndex*Constants.boxHeight + Constants.boxWidth/2);
 
     }
 
@@ -60,6 +62,12 @@ public class CanvasElement {
     }
 
     public void updateImage(ImageView iv){
+        this.normalImg = iv;
         this.img = iv;
+    }
+
+    public void setOriginalView(){
+        this.normalImg = this.originalImage;
+        this.img = this.originalImage;
     }
 }

@@ -7,7 +7,7 @@ public  class RectangularHitbox implements Hitbox{
     public Vector lowerRight;
     public Vector centre;
 
-    public RectangularHitbox(Vector ul, Vector lr){
+    public RectangularHitbox(Vector ul, Vector lr){ //ul - upperleft, lr - lowerright
         this.upperLeft = ul;
         this.lowerRight = lr;
         this.centre = new Vector((ul.getX()+lr.getX())/2, (ul.getY()+lr.getY())/2);
