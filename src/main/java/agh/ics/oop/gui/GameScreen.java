@@ -78,7 +78,7 @@ public class GameScreen {
 
         this.gameEngine = new GameEngine(this);
         Random rand = new Random();
-        for(int i = 0;i<1;i++){
+        for(int i = 0;i<1000;i++){
             this.gameEngine.addProjectile();
         }
 
