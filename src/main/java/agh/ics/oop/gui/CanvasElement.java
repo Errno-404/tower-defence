@@ -10,8 +10,8 @@ import javafx.scene.image.ImageView;
 
 
 public class CanvasElement {
-    public double xIndex;
-    public double yIndex;
+    public int xIndex;
+    public int yIndex;
 
     public Vector boxCentre;
 
@@ -25,7 +25,7 @@ public class CanvasElement {
     private ImageView img; //image that is used to draw
 
 
-    public CanvasElement(Image img, Image cursorImg,double posx, double posy){
+    public CanvasElement(Image img, Image cursorImg,int posx, int posy){
         this.originalImage = new ImageView(img);
         this.normalImg = new ImageView(img);
         this.cursorImg = new ImageView(cursorImg);

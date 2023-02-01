@@ -26,7 +26,7 @@ public class HomingProjectileTestClass extends Projectile{
 
     @Override
     public void move() {
-        Vector oldPos = this.hitbox.centre;
+        Vector oldPos = this.getCentre();
         int oldposX = hitbox.centre.getXindex();
         int oldposY = hitbox.centre.getYindex();
 
@@ -37,9 +37,14 @@ public class HomingProjectileTestClass extends Projectile{
         int newposX = this.hitbox.centre.getXindex();
         int newposY = this.hitbox.centre.getYindex();
 
-        if(oldposX != newposX || oldposY != newposY){
-            this.pobs.reportNewIndexProjectile(oldPos,this.hitbox.centre,this);
+
+        if(!(oldposX == newposX && oldposY == newposY)){
+            this.pobs.reportNewIndexProjectile(new Vector(oldposX, oldposY),new Vector(newposX, newposY), this);
         }
+    }
+
+    public Vector getCentre(){
+        return this.hitbox.centre;
     }
 
     public void updateTarget(Vector newt){

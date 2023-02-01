@@ -78,7 +78,7 @@ public class GameScreen {
 
         this.gameEngine = new GameEngine(this);
         Random rand = new Random();
-        for(int i = 0;i<3500;i++){
+        for(int i = 0;i<1;i++){
             this.gameEngine.addProjectile();
         }
 
@@ -120,7 +120,8 @@ public class GameScreen {
 
         this.canvas.setOnMouseClicked(e -> {
             System.out.println(this.elementUnderCursor.xIndex + "   " + this.elementUnderCursor.yIndex + "    " + this.elementUnderCursor.boxCentre);
-
+            System.out.println(this.gameEngine.gameMap.map[this.elementUnderCursor.xIndex][this.elementUnderCursor.yIndex].projectileList.size());
+            System.out.println(this.gameEngine.gameMap.sumProj());
             //test
             this.castle.destroyBuilding();
         });

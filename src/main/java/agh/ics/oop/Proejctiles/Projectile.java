@@ -36,4 +36,14 @@ public abstract class Projectile {
     public void setObserver(ProjectileObserver o){
         this.pobs = o;
     }
+
+    @Override
+    public String toString(){
+        return "( " + this.position.toString() + "   " + this.position.getXindex() + " " + this.position.getYindex();
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

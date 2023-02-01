@@ -18,7 +18,7 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
     protected int height;
     GameScreen gameScreen;
 
-    mapElement[][] map;
+    public mapElement[][] map;
 
 
 
@@ -80,8 +80,17 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
     @Override
     public void reportNewIndexProjectile(Vector old, Vector newpos, Projectile p) {
         try {
-            this.map[old.getXindex()][old.getYindex()].projectileList.remove(p);
-            this.map[newpos.getXindex()][newpos.getYindex()].projectileList.add(p);
+
+            if(!this.map[(int) old.getX()][(int) old.getY()].projectileList.remove(p)){
+                System.out.println("removed from  " + old.getXindex() + " " + old.getYindex() + p);
+                System.out.println(this.map[old.getXindex()][old.getYindex()].projectileList);
+                System.out.println(this.map[old.getXindex()-1][old.getYindex()-1].projectileList);
+                System.out.println(this.map[old.getXindex()-1][old.getYindex()].projectileList);
+                System.out.println(this.map[old.getXindex()][old.getYindex()-1].projectileList);
+                System.out.println("\n");
+            }
+            this.map[(int) newpos.getX()][(int) newpos.getY()].projectileList.add(p);
+
         }
         catch(ArrayIndexOutOfBoundsException e){
             System.out.println(old.getX() +" " + old.getXindex() + " " + old.getY() + " " + old.getYindex());
@@ -110,5 +119,16 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
         if(b instanceof AttackingBuilding){
             //remove building from all inRangeOf lists
         }
+    }
+
+    public int sumProj(){
+        int acc = 0;
+        for(int i = 0;i<Constants.boxNoWidth+1;i++){
+            for(int j = 0;j<Constants.boxNoHeight+1;j++){
+                acc+=map[i][j].projectileList.size();
+            }
+        }
+
+        return acc;
     }
 }
