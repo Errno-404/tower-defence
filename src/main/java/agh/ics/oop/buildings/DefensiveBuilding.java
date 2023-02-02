@@ -28,11 +28,11 @@ public abstract class DefensiveBuilding extends Building {
         // Chwilowo nie mam lepszego pomysłu na zrobienie defense, bo floatów się boję :/
 
         int damage = attack.getStrength() - this.defence;
-        if(damage > this.health){
-            this.health = 0;
+        if(damage > this.currentHealth){
+            this.currentHealth = 0;
         }
         else{
-            this.health -= (attack.getStrength() - this.defence);
+            this.currentHealth -= (attack.getStrength() - this.defence);
         }
 
 

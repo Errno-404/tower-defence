@@ -10,6 +10,7 @@ import agh.ics.oop.Proejctiles.Projectile;
 import agh.ics.oop.Vector;
 import agh.ics.oop.buildings.AttackingBuilding;
 import agh.ics.oop.buildings.Building;
+import agh.ics.oop.buildings.DefensiveBuilding;
 import agh.ics.oop.gui.GameScreen;
 
 

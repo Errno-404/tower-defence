@@ -1,6 +1,7 @@
 package agh.ics.oop;
 
 
+import agh.ics.oop.Interfaces.BuildingDestroyedObserver;
 import agh.ics.oop.Proejctiles.HomingProjectileTestClass;
 import agh.ics.oop.Proejctiles.Projectile;
 import agh.ics.oop.buildings.AttackingBuilding;
@@ -12,17 +13,17 @@ import agh.ics.oop.maps.GameMap;
 import java.util.LinkedList;
 import java.util.Random;
 
-public class GameEngine {
+public class GameEngine implements BuildingDestroyedObserver {
     public GameScreen gs;
     public GameMap gameMap;
 
     public LinkedList<Projectile> projectiles = new LinkedList<>();
     public LinkedList<Enemy> enemies = new LinkedList<>();
 
-    LinkedList<AttackingBuilding> activeTowers = new LinkedList<>();
-    LinkedList<AttackingBuilding> waitingTowers = new LinkedList<>();
+    public LinkedList<AttackingBuilding> activeTowers = new LinkedList<>();
+    public LinkedList<AttackingBuilding> waitingTowers = new LinkedList<>();
 
-    LinkedList<DefensiveBuilding> defensiveBuildings = new LinkedList<>();
+    public LinkedList<DefensiveBuilding> defensiveBuildings = new LinkedList<>();
 
     public GameEngine(GameScreen gs){
         this.gs = gs;
@@ -49,10 +50,21 @@ public class GameEngine {
         else if(b instanceof AttackingBuilding b2){
             this.activeTowers.add(b2);
         }
-        b.setDestroyedObserver(this.gameMap);
+        b.addDestroyedObserver(this);
+        b.addDestroyedObserver(this.gameMap);
         this.gameMap.placeMap(b);
     }
     public void moveProjectiles(){
         this.projectiles.forEach(Projectile::move);
+    }
+
+    @Override
+    public void reportBuildingDestroyed(Building b) {
+        if (b instanceof DefensiveBuilding){
+            this.defensiveBuildings.remove(b);
+        }
+        else if(b instanceof AttackingBuilding){
+            //TODO
+        }
     }
 }

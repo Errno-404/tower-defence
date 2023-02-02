@@ -12,7 +12,7 @@ public class Wall extends DefensiveBuilding {
     @Override
     public void getHit(Attack attack) {
         super.getHit(attack);
-        if(this.health == 0){
+        if(this.currentHealth == 0){
             System.out.println("Mur zniszczony!");
         }
     }

@@ -24,11 +24,11 @@ public abstract class AttackingBuilding extends Building {
     @Override
     public void getHit(Attack attack) {
         int damage = attack.getStrength();
-        if(damage > this.health){
-            this.health = 0;
+        if(damage > this.currentHealth){
+            this.currentHealth = 0;
         }
         else{
-            this.health -= attack.getStrength();
+            this.currentHealth -= attack.getStrength();
         }
     }
 }

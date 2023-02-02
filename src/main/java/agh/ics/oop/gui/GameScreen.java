@@ -2,6 +2,7 @@ package agh.ics.oop.gui;
 
 
 import agh.ics.oop.Constants;
+import agh.ics.oop.Enemy;
 import agh.ics.oop.GameEngine;
 import agh.ics.oop.Interfaces.SelectionObserver;
 import agh.ics.oop.Proejctiles.HomingProjectile;
@@ -167,12 +168,20 @@ public class GameScreen {
                 }
             }
 
-            //test
-            this.h1.draw(this.gc);
-            this.h1.reportHealthChange(this.h1.currentPercentage-0.0025);
+            this.gameEngine.defensiveBuildings.forEach(Building::drawHealthBar);
+            this.gameEngine.activeTowers.forEach(Building::drawHealthBar);
+            this.gameEngine.waitingTowers.forEach(Building::drawHealthBar);
+            //this.gameEngine.enemies.forEach(Enemy::drawOnCanvas);
 
             this.gameEngine.moveProjectiles();
             this.gameEngine.projectiles.forEach((Projectile p) -> p.draw(this.gc));
+            //test
+            this.h1.drawTest(this.gc);
+            this.h1.reportHealthChange(this.h1.currentPercentage-0.0025);
+            this.castle.reduceHealth(0.0025);
+            System.out.println(this.castle.getCurrentHealth());
+
+
 
             if(this.h1.currentPercentage<=0){
                 this.h1.reportHealthChange(1.0);

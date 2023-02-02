@@ -1,15 +1,22 @@
 package agh.ics.oop.gui;
 
+import agh.ics.oop.Hitboxes.Hitbox;
+import agh.ics.oop.Hitboxes.RectangularHitbox;
 import agh.ics.oop.Interfaces.HealthChangeObserver;
+import agh.ics.oop.Vector;
+import agh.ics.oop.buildings.Building;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class HealthBar implements HealthChangeObserver {
-    static double healthBarSizeX = 25;
-    static double healthBarSizeY = 15;
+    static double healthBarSizeX = 25; //remove
+    static double healthBarSizeY = 15; //remove
+
+
+    //
 
     double currentPercentage = 1;
-    Color healtColor = Color.LIGHTGREEN;
+    Color healtColor = Color.LIMEGREEN;
 
     static double changePointLow = 0.1;
     static double changePointHigh = 0.75;
@@ -17,8 +24,11 @@ public class HealthBar implements HealthChangeObserver {
     static Color highHealth = Color.LIMEGREEN;
     static Color lowHealth = Color.RED;
 
+
     public HealthBar(){
+
     }
+
 
     public static Color lerp(Color c1, Color c2, double t){
         double r = ((1 - t)*c1.getRed() + c2.getRed()*t);
@@ -48,9 +58,22 @@ public class HealthBar implements HealthChangeObserver {
     }
 
 
+    public void draw(GraphicsContext gc, RectangularHitbox hb){
+        Vector upperLeft = hb.upperLeft;
+        Vector lowerRight = hb.lowerRight;
+        gc.setFill(Color.BLACK);
 
+        double totalx = (lowerRight.getX()- upperLeft.getX());
+        double totaly = (lowerRight.getY()- upperLeft.getY())*0.2;
+        gc.fillRect(upperLeft.getX(), upperLeft.getY(), totalx, totaly);
+        gc.setFill(this.healtColor);
+        double sizeX = this.currentPercentage*(lowerRight.getX() - upperLeft.getX());
+        gc.fillRect(upperLeft.getX(), upperLeft.getY(), sizeX, totaly);
+
+        gc.setFill(null);
+    }
     //testFunctions
-    public void draw(GraphicsContext gc){
+    public void drawTest(GraphicsContext gc){
 
         gc.setFill(Color.BLACK);
         gc.fillRect(303,303, healthBarSizeX, healthBarSizeY);

@@ -17,7 +17,7 @@ public class DefensiveBuildingTest {
 
         wall.upgradeDefence(5);
         wall.getHit(new Attack(50));
-        System.out.println(wall.getHealth());
+        System.out.println(wall.getCurrentHealth());
 
         wall.getHit(new Attack(80));
 
