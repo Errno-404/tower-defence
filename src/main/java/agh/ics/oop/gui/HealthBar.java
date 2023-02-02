@@ -19,10 +19,13 @@ public class HealthBar implements HealthChangeObserver {
     Color healtColor = Color.LIMEGREEN;
 
     static double changePointLow = 0.1;
-    static double changePointHigh = 0.75;
+    static double changePointHigh = 0.7;
 
     static Color highHealth = Color.LIMEGREEN;
+    static Color mediumHealth = Color.YELLOW;
     static Color lowHealth = Color.RED;
+
+
 
 
     public HealthBar(){
@@ -31,8 +34,9 @@ public class HealthBar implements HealthChangeObserver {
 
 
     public static Color lerp(Color c1, Color c2, double t){
+
         double r = ((1 - t)*c1.getRed() + c2.getRed()*t);
-        double g = (Math.round((1 - t)*c1.getGreen()) + c2.getGreen()*t);
+        double g = ((1 - t)*c1.getGreen() + c2.getGreen()*t);
         double b =  ((1 - t)*c1.getBlue() + c2.getBlue()*t);
         return Color.color(r,g,b);
     }
@@ -54,7 +58,13 @@ public class HealthBar implements HealthChangeObserver {
     @Override
     public void reportHealthChange(double f){
         this.currentPercentage = f;
-        this.healtColor = remap(changePointLow, changePointHigh, lowHealth, highHealth,f);
+        if(f >= 0.5){
+            this.healtColor = remap(0.5, changePointHigh, mediumHealth, highHealth,f);
+        }
+        else{
+            this.healtColor = remap(changePointLow, 0.5, lowHealth, mediumHealth,f);
+        }
+
     }
 
 
