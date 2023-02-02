@@ -41,11 +41,9 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
         for(int i = (int) hb.upperLeft.getXindex(); i<hb.lowerRight.getXindex(); i++){
             for(int j = (int) hb.upperLeft.getYindex(); j<hb.lowerRight.getYindex(); j++){
                 if(i < 0 || i >= Constants.boxNoWidth || j < 0 || j >= Constants.boxNoHeight){
-                    System.out.println("cant place for " + i + "   " + j);
                     return false;
                 }
                 if (!map[i][j].placeable){
-                    System.out.println("is occupied:   " + i + " " + j);
                     return false;
                 }
             }
@@ -60,13 +58,11 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
         int yIndex = anchorPoint.getYindex();
 
         if(!canPlace(building.hitbox)){
-            System.out.println("cant place!!!");
             return;
         }
 
         for(int i = xIndex;i< xIndex + building.getWidth();i++){
             for(int j = yIndex;j< yIndex + building.getHeight();j++){
-                System.out.println("updating element: " + i + " " + j);
                 this.map[i][j].updateCanvas(building.getView(i- xIndex,j - yIndex));
                 this.map[i][j].placeable = false;
                 this.map[i][j].reachable = false;

@@ -43,10 +43,8 @@ public class BuildingCreationSquare {
     }
 
     public void draw(){
-        System.out.println(this.hitbox.upperLeft + "   " + this.hitbox.lowerRight);
         boolean canPlace = this.map.canPlace(this.hitbox);
         this.validPosition = this.map.canPlace(this.hitbox);
-        System.out.println(this.validPosition);
         for(int i = this.anchorX; i<Math.min(Constants.boxNoWidth,this.anchorX+this.width);i++){
             for(int j = this.anchorY; j<Math.min(Constants.boxNoHeight,this.anchorY+this.height);j++){
                 if(this.map.map[i][j].canvasElement != null) {

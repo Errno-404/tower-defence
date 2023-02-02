@@ -192,7 +192,7 @@ public class GameScreen {
             });
             this.gameEngine.defensiveBuildings.removeAll(this.gameEngine.destroyedBuildings);
             this.gameEngine.destroyedBuildings.forEach(Building::destroyBuilding);
-
+            this.gameEngine.destroyedBuildings.clear(); //zmienic usuwanie zniszczonych budynkow na funkcje w GameEngine
 
 
             if(this.h1.currentPercentage<=0){
