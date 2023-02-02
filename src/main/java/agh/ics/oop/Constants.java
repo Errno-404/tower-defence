@@ -19,7 +19,7 @@ public final class Constants {
     };
 
     public final static HashMap<Integer, Integer[]> buildingSizes = new HashMap<>() {{
-        put(1, new Integer[]{5,5,0,0});
+        put(1, new Integer[]{3,3,0,0});
     }
     };
 

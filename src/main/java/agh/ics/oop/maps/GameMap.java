@@ -38,12 +38,14 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
     }
 
     public boolean canPlace(RectangularHitbox hb){
-        for(int i = (int) hb.upperLeft.getX(); i<hb.lowerRight.getX(); i++){
-            for(int j = (int) hb.upperLeft.getY(); j<hb.lowerRight.getY(); j++){
+        for(int i = (int) hb.upperLeft.getXindex(); i<hb.lowerRight.getXindex(); i++){
+            for(int j = (int) hb.upperLeft.getYindex(); j<hb.lowerRight.getYindex(); j++){
                 if(i < 0 || i >= Constants.boxNoWidth || j < 0 || j >= Constants.boxNoHeight){
+                    System.out.println("cant place for " + i + "   " + j);
                     return false;
                 }
                 if (!map[i][j].placeable){
+                    System.out.println("is occupied:   " + i + " " + j);
                     return false;
                 }
             }
@@ -58,6 +60,7 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
         int yIndex = anchorPoint.getYindex();
 
         if(!canPlace(building.hitbox)){
+            System.out.println("cant place!!!");
             return;
         }
 
@@ -65,6 +68,8 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
             for(int j = yIndex;j< yIndex + building.getHeight();j++){
                 System.out.println("updating element: " + i + " " + j);
                 this.map[i][j].updateCanvas(building.getView(i- xIndex,j - yIndex));
+                this.map[i][j].placeable = false;
+                this.map[i][j].reachable = false;
             }
         }
 
@@ -109,13 +114,16 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
 
     @Override
     public void reportBuildingDestroyed(Building b) {
-        for(int i = 0; i<b.getWidth();i++){
-            for(int j = 0;j<b.getHeight();j++){
-                this.gameScreen.elements[b.hitbox.upperLeft.getXindex() + i][b.hitbox.upperLeft.getYindex() + j].setOriginalView();
+        int upx = b.hitbox.upperLeft.getXindex();
+        int upy = b.hitbox.upperLeft.getYindex();
+
+        System.out.println(upx + " " + upy);
+
+        for(int i = upx; i<upx+b.getWidth();i++){
+            for(int j = upy;j<upy + b.getHeight();j++){
+                this.gameScreen.elements[i][j].setOriginalView();
                 this.map[i][j].reachable = true;
                 this.map[i][j].placeable = true;
-
-
             }
         }
 

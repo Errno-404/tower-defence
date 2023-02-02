@@ -24,6 +24,8 @@ public class BuildingCreationSquare {
 
     RectangularHitbox hitbox;
 
+    public boolean validPosition;
+
     public BuildingCreationSquare(int width, int height, int x, int y,GameMap map){
         this.width = width;
         this.height = height;
@@ -41,14 +43,17 @@ public class BuildingCreationSquare {
     }
 
     public void draw(){
+        System.out.println(this.hitbox.upperLeft + "   " + this.hitbox.lowerRight);
         boolean canPlace = this.map.canPlace(this.hitbox);
+        this.validPosition = this.map.canPlace(this.hitbox);
+        System.out.println(this.validPosition);
         for(int i = this.anchorX; i<Math.min(Constants.boxNoWidth,this.anchorX+this.width);i++){
             for(int j = this.anchorY; j<Math.min(Constants.boxNoHeight,this.anchorY+this.height);j++){
                 if(this.map.map[i][j].canvasElement != null) {
                     if (canPlace) {
-                        this.map.map[i][j].updateCanvas(this.canPlaceImage);
+                        this.map.map[i][j].canvasElement.setTemporaryView(this.canPlaceImage);
                     } else {
-                        this.map.map[i][j].updateCanvas(this.cantPlaceImage);
+                        this.map.map[i][j].canvasElement.setTemporaryView(this.cantPlaceImage);
                     }
                 }
             }
@@ -59,7 +64,7 @@ public class BuildingCreationSquare {
         for(int i = this.anchorX; i<Math.min(Constants.boxNoWidth,this.anchorX+this.width);i++){
             for(int j = this.anchorY; j<Math.min(Constants.boxNoHeight,this.anchorY+this.height); j++){
                 if(this.map.map[i][j].canvasElement != null){
-                    this.map.map[i][j].revertCanvas();
+                    this.map.map[i][j].canvasElement.revertTemporaryView();
                 }
 
             }
@@ -68,10 +73,21 @@ public class BuildingCreationSquare {
         this.anchorX = newX;
         this.anchorY = newY;
 
-        this.hitbox.upperLeft = new Vector(newX, newY);
-        this.hitbox.lowerRight = new Vector(newX + width, newY + height);
+        this.hitbox.upperLeft = new Vector(newX*Constants.boxWidth, newY*Constants.boxHeight);
+        this.hitbox.lowerRight = new Vector((newX + width)*Constants.boxWidth, (newY + height)*Constants.boxHeight);
 
         this.draw();
+    }
+
+    public void remove(){
+        for(int i = this.anchorX; i<Math.min(Constants.boxNoWidth,this.anchorX+this.width);i++){
+            for(int j = this.anchorY; j<Math.min(Constants.boxNoHeight,this.anchorY+this.height); j++){
+                if(this.map.map[i][j].canvasElement != null){
+                    this.map.map[i][j].canvasElement.revertTemporaryView();
+                }
+
+            }
+        }
     }
 
 

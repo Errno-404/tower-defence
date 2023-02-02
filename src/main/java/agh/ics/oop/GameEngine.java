@@ -25,6 +25,8 @@ public class GameEngine implements BuildingDestroyedObserver {
 
     public LinkedList<DefensiveBuilding> defensiveBuildings = new LinkedList<>();
 
+    public LinkedList<Building> destroyedBuildings = new LinkedList<>();
+
     public GameEngine(GameScreen gs){
         this.gs = gs;
 
@@ -44,15 +46,20 @@ public class GameEngine implements BuildingDestroyedObserver {
     }
 
     public void addBuilding(Building b){
-        if(b instanceof DefensiveBuilding b1){
-            this.defensiveBuildings.add(b1);
+        if(this.gameMap.canPlace(b.hitbox)){
+            if(b instanceof DefensiveBuilding b1){
+                this.defensiveBuildings.add(b1);
+            }
+            else if(b instanceof AttackingBuilding b2){
+                this.activeTowers.add(b2);
+            }
+            b.addDestroyedObserver(this);
+            b.addDestroyedObserver(this.gameMap);
+            this.gameMap.placeMap(b);
         }
-        else if(b instanceof AttackingBuilding b2){
-            this.activeTowers.add(b2);
+        else{
+            System.out.println("cant place!!!!");
         }
-        b.addDestroyedObserver(this);
-        b.addDestroyedObserver(this.gameMap);
-        this.gameMap.placeMap(b);
     }
     public void moveProjectiles(){
         this.projectiles.forEach(Projectile::move);

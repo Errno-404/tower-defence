@@ -20,8 +20,8 @@ public class mapElement {
     public CanvasElement canvasElement; //odpowiadajaca czesc canvasu
     Integer buildingID;
 
-    boolean reachable;
-    boolean placeable;
+    public boolean reachable;
+    public boolean placeable;
 
     public double flowFieldValue; //do znajdywania najkrotszych sciezek
 

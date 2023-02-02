@@ -83,14 +83,6 @@ public class GameScreen {
             this.gameEngine.addProjectile();
         }
 
-        //test
-        try {
-            this.castle = new Castle(3, 3, 2, 2, 5, new Image(new FileInputStream("src/main/resources/test.png")), this);
-            this.gameEngine.addBuilding(castle);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        //endtest
 
         this.canvas.setOnMouseMoved(e -> {
 
@@ -124,13 +116,22 @@ public class GameScreen {
         });
 
         this.canvas.setOnMouseClicked(e -> {
-            setSelectedListBuilding(1);
+           //test
+            int currX = this.elementUnderCursor.xIndex;
+            int currY = this.elementUnderCursor.yIndex;
+            if(selectedListBuildingID == 0){
+                setSelectedListBuilding(1);
+            }
+            else if(this.selectedBuildingSquare.validPosition){
+                placeSelectedListBuilding(BuildingFactory.getBuildingById(this.selectedListBuildingID,currX, currY,this));
+            }
+
 
             System.out.println(this.elementUnderCursor.xIndex + "   " + this.elementUnderCursor.yIndex + "    " + this.elementUnderCursor.boxCentre);
             System.out.println(this.gameEngine.gameMap.map[this.elementUnderCursor.xIndex][this.elementUnderCursor.yIndex].projectileList.size());
             System.out.println(this.gameEngine.gameMap.sumProj());
             //test
-            this.castle.destroyBuilding();
+            //this.castle.destroyBuilding();
         });
     }
 
@@ -150,6 +151,9 @@ public class GameScreen {
 
     public void placeSelectedListBuilding(Building b){
         this.gameEngine.addBuilding(b);
+        this.selectedListBuildingID = 0;
+        this.selectedBuildingSquare.remove();
+        this.selectedBuildingSquare = null;
     }
 
     public void updateInfoPane(){
@@ -178,8 +182,16 @@ public class GameScreen {
             //test
             this.h1.drawTest(this.gc);
             this.h1.reportHealthChange(this.h1.currentPercentage-0.0025);
-            this.castle.reduceHealth(0.0025);
-            System.out.println(this.castle.getCurrentHealth());
+
+
+            this.gameEngine.defensiveBuildings.forEach((DefensiveBuilding b) -> {
+                b.reduceHealth(0.1);
+                if(b.getCurrentHealth() <= 0){
+                    this.gameEngine.destroyedBuildings.add(b);
+                }
+            });
+            this.gameEngine.defensiveBuildings.removeAll(this.gameEngine.destroyedBuildings);
+            this.gameEngine.destroyedBuildings.forEach(Building::destroyBuilding);
 
 
 

@@ -24,6 +24,8 @@ public class CanvasElement {
 
     private ImageView img; //image that is used to draw
 
+    private ImageView temporaryView;
+
 
     public CanvasElement(Image img, Image cursorImg,int posx, int posy){
         this.originalImage = new ImageView(img);
@@ -69,5 +71,13 @@ public class CanvasElement {
     public void setOriginalView(){
         this.normalImg = this.originalImage;
         this.img = this.originalImage;
+    }
+
+    public void setTemporaryView(ImageView iv){
+        this.img = iv;
+    }
+
+    public void revertTemporaryView(){
+        this.img = normalImg;
     }
 }

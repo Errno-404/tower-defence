@@ -77,6 +77,10 @@ public abstract class Building {
         });
     }
 
+    public void updateCanvas(){
+
+    }
+
     //@Override
     public abstract void getHit(Attack attack);
 
@@ -108,10 +112,6 @@ public abstract class Building {
     //test
     public void reduceHealth(double t){
         this.currentHealth-=t;
-        System.out.println(this.currentHealth/this.maxHealth);
         this.healthBar.reportHealthChange(this.currentHealth/this.maxHealth);
-        if (this.currentHealth <= 0){
-            this.destroyBuilding();
-        }
     }
 }
