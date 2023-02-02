@@ -1,12 +1,10 @@
 package agh.ics.oop.Proejctiles;
 
-import agh.ics.oop.Attackers;
+import agh.ics.oop.Enemy;
 import agh.ics.oop.Hitboxes.RectangularHitbox;
 import agh.ics.oop.Interfaces.ProjectileObserver;
 import agh.ics.oop.Vector;
-import agh.ics.oop.maps.GameMap;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public abstract class Projectile {
@@ -27,7 +25,7 @@ public abstract class Projectile {
 
     public abstract void move();
 
-    public abstract void hit(Attackers collided);
+    public abstract void hit(Enemy collided);
 
     public void draw(GraphicsContext gc){
         gc.drawImage(this.sprite.getImage(),this.hitbox.upperLeft.getX(), this.hitbox.upperLeft.getY());

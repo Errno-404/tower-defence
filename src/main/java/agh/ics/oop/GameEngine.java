@@ -17,7 +17,7 @@ public class GameEngine {
     public GameMap gameMap;
 
     public LinkedList<Projectile> projectiles = new LinkedList<>();
-    public LinkedList<Attackers> enemies = new LinkedList<>();
+    public LinkedList<Enemy> enemies = new LinkedList<>();
 
     LinkedList<AttackingBuilding> activeTowers = new LinkedList<>();
     LinkedList<AttackingBuilding> waitingTowers = new LinkedList<>();

@@ -1,6 +1,6 @@
 package agh.ics.oop.maps;
 
-import agh.ics.oop.Attackers;
+import agh.ics.oop.Enemy;
 import agh.ics.oop.Hitboxes.Hitbox;
 import agh.ics.oop.Proejctiles.Projectile;
 import agh.ics.oop.buildings.AttackingBuilding;
@@ -17,7 +17,7 @@ public class mapElement {
 
     Hitbox border;
 
-    CanvasElement canvasElement; //odpowiadajaca czesc canvasu
+    public CanvasElement canvasElement; //odpowiadajaca czesc canvasu
     Integer buildingID;
 
     boolean reachable;
@@ -26,7 +26,7 @@ public class mapElement {
     public double flowFieldValue; //do znajdywania najkrotszych sciezek
 
     public HashSet<Projectile> projectileList; //lista projectili nad danym polem mapy
-    public HashSet<Attackers> enemyList; //list przeciwnikow na danym polu
+    public HashSet<Enemy> enemyList; //list przeciwnikow na danym polu
 
     public LinkedList<AttackingBuilding> inRangeOf;
 
@@ -49,5 +49,9 @@ public class mapElement {
 
     public void updateCanvas(ImageView iv){
         this.canvasElement.updateImage(iv);
+    }
+
+    public void revertCanvas(){
+        this.canvasElement.setOriginalView();
     }
 }

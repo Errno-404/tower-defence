@@ -4,9 +4,8 @@ import agh.ics.oop.Hitboxes.RectangularHitbox;
 import agh.ics.oop.Interfaces.HealthChangeObserver;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import org.w3c.dom.css.Rect;
 
-public abstract class Attackers {
+public abstract class Enemy {
 
 
     Integer maxHealth;

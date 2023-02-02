@@ -9,8 +9,7 @@ import agh.ics.oop.Proejctiles.HomingProjectileTestClass;
 import agh.ics.oop.Proejctiles.NormalProjectile;
 import agh.ics.oop.Proejctiles.Projectile;
 import agh.ics.oop.Vector;
-import agh.ics.oop.buildings.Building;
-import agh.ics.oop.buildings.Castle;
+import agh.ics.oop.buildings.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -34,7 +33,8 @@ public class GameScreen {
     GameEngine gameEngine;
 
 
-    private Building selectedListBuilding = null; //if not null, place on mouseClick (if possible) the building on current cursor element and set back to null
+    private int selectedListBuildingID = 0; //if not null, place on mouseClick (if possible) the building on current cursor element and set back to null
+    private BuildingCreationSquare selectedBuildingSquare = null;
     private Building selectedExistingBuilding; //change on canvas click when selectedListBuilding is null
 
 
@@ -106,6 +106,10 @@ public class GameScreen {
                 this.elementUnderCursor.highlight();
             }
 
+            if(this.selectedBuildingSquare != null){
+                this.selectedBuildingSquare.move(arrayIndexX, arrayIndexY);
+            }
+
             //test
             this.gameEngine.projectiles.forEach((Projectile p) -> {
                 if(p instanceof HomingProjectileTestClass p1){
@@ -119,6 +123,8 @@ public class GameScreen {
         });
 
         this.canvas.setOnMouseClicked(e -> {
+            setSelectedListBuilding(1);
+
             System.out.println(this.elementUnderCursor.xIndex + "   " + this.elementUnderCursor.yIndex + "    " + this.elementUnderCursor.boxCentre);
             System.out.println(this.gameEngine.gameMap.map[this.elementUnderCursor.xIndex][this.elementUnderCursor.yIndex].projectileList.size());
             System.out.println(this.gameEngine.gameMap.sumProj());
@@ -136,8 +142,13 @@ public class GameScreen {
             o.updateSelected(selectedExistingBuilding);
         }
     }
-    public void setSelectedListBuilding(Building b){
-        this.selectedListBuilding = b;
+    public void setSelectedListBuilding(Integer id){
+        this.selectedListBuildingID = id;
+        this.selectedBuildingSquare = BuildingSquareFactory.newSquare(id, this.gameEngine.gameMap);
+    }
+
+    public void placeSelectedListBuilding(Building b){
+        this.gameEngine.addBuilding(b);
     }
 
     public void updateInfoPane(){

@@ -1,6 +1,6 @@
 package agh.ics.oop.Proejctiles;
 
-import agh.ics.oop.Attackers;
+import agh.ics.oop.Enemy;
 import agh.ics.oop.Vector;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -9,9 +9,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class HomingProjectile extends Projectile{
-    Attackers target;
+    Enemy target;
 
-    public HomingProjectile(Vector position, double velocity, Attackers target) {
+    public HomingProjectile(Vector position, double velocity, Enemy target) {
         super(position, velocity);
         this.target = target;
 
@@ -42,7 +42,7 @@ public class HomingProjectile extends Projectile{
     }
 
     @Override
-    public void hit(Attackers collided) {
+    public void hit(Enemy collided) {
 
     }
 }

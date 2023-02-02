@@ -1,6 +1,6 @@
 package agh.ics.oop.maps;
 
-import agh.ics.oop.Attackers;
+import agh.ics.oop.Enemy;
 import agh.ics.oop.Constants;
 import agh.ics.oop.Hitboxes.RectangularHitbox;
 import agh.ics.oop.Interfaces.BuildingDestroyedObserver;
@@ -36,10 +36,12 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
         }
     }
 
-    private boolean canPlace(Building b){
-        RectangularHitbox hb = b.hitbox;
+    public boolean canPlace(RectangularHitbox hb){
         for(int i = (int) hb.upperLeft.getX(); i<hb.lowerRight.getX(); i++){
             for(int j = (int) hb.upperLeft.getY(); j<hb.lowerRight.getY(); j++){
+                if(i < 0 || i >= Constants.boxNoWidth || j < 0 || j >= Constants.boxNoHeight){
+                    return false;
+                }
                 if (!map[i][j].placeable){
                     return false;
                 }
@@ -54,7 +56,7 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
         int xIndex = anchorPoint.getXindex();
         int yIndex = anchorPoint.getYindex();
 
-        if(!canPlace(building)){
+        if(!canPlace(building.hitbox)){
             return;
         }
 
@@ -99,7 +101,7 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
     }
 
     @Override
-    public void reportNewIndexEnemy(Vector old, Vector newpos, Attackers a) {
+    public void reportNewIndexEnemy(Vector old, Vector newpos, Enemy a) {
         this.map[old.getXindex()][old.getYindex()].enemyList.remove(a);
         this.map[newpos.getXindex()][newpos.getYindex()].enemyList.add(a);
     }

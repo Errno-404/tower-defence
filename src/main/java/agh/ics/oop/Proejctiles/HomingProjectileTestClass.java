@@ -1,6 +1,6 @@
 package agh.ics.oop.Proejctiles;
 
-import agh.ics.oop.Attackers;
+import agh.ics.oop.Enemy;
 import agh.ics.oop.Vector;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -52,7 +52,7 @@ public class HomingProjectileTestClass extends Projectile{
     }
 
     @Override
-    public void hit(Attackers collided) {
+    public void hit(Enemy collided) {
 
     }
 }
