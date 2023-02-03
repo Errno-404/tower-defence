@@ -46,7 +46,7 @@ public class HomingProjectileTestClass extends Projectile{
 
     @Override
     public void hit(Hittable h) {
-        System.out.println(this);
+        //System.out.println(this);
         h.getHit(this);
     }
 

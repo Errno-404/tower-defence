@@ -181,7 +181,7 @@ public class GameEngine implements BuildingDestroyedObserver {
             for(int i = ul.getXindex();i<lr.getXindex();i++){
                 for(int j = ul.getYindex();j < lr.getYindex(); j++){
                     for (Projectile projectile : this.gameMap.map[i][j].enemyProjectileList) {
-                        System.out.println(this.enemyProjectiles);
+                        //System.out.println(this.enemyProjectiles);
                         if(projectile.getHitbox().collidesWith(b.hitbox)){
                             //System.out.println("hit detected!");
                             projectile.hit(b);

@@ -80,7 +80,7 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
             this.map[xIndex][yIndex].friendlyProjectileList.add(p);
         }
         else{
-            System.out.println("adding projectile to " + xIndex + "   " + yIndex);
+            //System.out.println("adding projectile to " + xIndex + "   " + yIndex);
             this.map[xIndex][yIndex].enemyProjectileList.add(p);
         }
 
@@ -141,7 +141,7 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
         int upx = b.hitbox.upperLeft.getXindex();
         int upy = b.hitbox.upperLeft.getYindex();
 
-        System.out.println(upx + " " + upy);
+        //System.out.println(upx + " " + upy);
 
         for(int i = upx; i<upx+b.getWidth();i++){
             for(int j = upy;j<upy + b.getHeight();j++){
