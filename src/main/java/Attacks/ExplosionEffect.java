@@ -1,4 +1,4 @@
-package agh.ics.oop.Proejctiles;
+package Attacks;
 
 import agh.ics.oop.Hitboxes.CircularHitbox;
 

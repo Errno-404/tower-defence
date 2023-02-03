@@ -2,7 +2,7 @@ package agh.ics.oop.maps;
 
 import agh.ics.oop.Enemy;
 import agh.ics.oop.Hitboxes.Hitbox;
-import agh.ics.oop.Proejctiles.Projectile;
+import Attacks.Projectile;
 import agh.ics.oop.buildings.AttackingBuilding;
 import agh.ics.oop.gui.CanvasElement;
 import javafx.scene.image.ImageView;
@@ -25,7 +25,10 @@ public class mapElement {
 
     public double flowFieldValue; //do znajdywania najkrotszych sciezek
 
-    public HashSet<Projectile> projectileList; //lista projectili nad danym polem mapy
+    public HashSet<Projectile> friendlyProjectileList;
+    public HashSet<Projectile> friendlyProjectileToRemove;
+    public HashSet<Projectile> enemyProjectileList;
+    public HashSet<Projectile> enemyProjectilesToRemove;
     public HashSet<Enemy> enemyList; //list przeciwnikow na danym polu
 
     public LinkedList<AttackingBuilding> inRangeOf;
@@ -39,12 +42,30 @@ public class mapElement {
         this.placeable = true;
 
         this.flowFieldValue = 0;
-        this.projectileList =  new HashSet<>();
+        this.friendlyProjectileList =  new HashSet<>();
+        this.enemyProjectileList = new HashSet<>();
+
+        this.friendlyProjectileToRemove = new HashSet<>();
+        this.enemyProjectilesToRemove = new HashSet<>();
+
         this.enemyList = new HashSet<>();
 
         this.inRangeOf = new LinkedList<>();
 
         this.canvasElement = ce;
+    }
+
+    public void clearUsedProjectiles(boolean isFriendly){
+        if(isFriendly) {
+            this.friendlyProjectileList.clear();
+        }
+        else{
+            this.enemyProjectileList.clear();
+        }
+
+
+
+
     }
 
     public void updateCanvas(ImageView iv){

@@ -1,9 +1,10 @@
 package agh.ics.oop.buildings;
 
-import agh.ics.oop.Attack;
+import Attacks.Attack;
 import agh.ics.oop.Constants;
 import agh.ics.oop.Hitboxes.RectangularHitbox;
 import agh.ics.oop.Interfaces.BuildingDestroyedObserver;
+import agh.ics.oop.Interfaces.Hittable;
 import agh.ics.oop.Vector;
 import agh.ics.oop.gui.GameScreen;
 import agh.ics.oop.gui.HealthBar;
@@ -15,7 +16,7 @@ import javafx.scene.image.WritableImage;
 import java.util.ArrayList;
 
 
-public abstract class Building {
+public abstract class Building implements Hittable {
     protected final double width;
     protected final double height;
 

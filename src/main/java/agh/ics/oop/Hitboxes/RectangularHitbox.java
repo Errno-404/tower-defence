@@ -20,17 +20,17 @@ public  class RectangularHitbox implements Hitbox{
         this.lowerRight = new Vector(centre.getX() + size/2, centre.getY() - size/2);
     }
 
-    public boolean collidesWith(RectangularHitbox hb) {
+    /*public boolean collidesWith(RectangularHitbox hb) {
         return (this.upperLeft.getX() >= hb.upperLeft.getX() && this.upperLeft.getX() <= hb.lowerRight.getX() &&
                 this.upperLeft.getY() >= hb.upperLeft.getY() && this.upperLeft.getY() <= hb.lowerRight.getY());
-    }
+    }*/
 
     @Override
     public boolean collidesWith(Hitbox hb) {
-        if(hb instanceof RectangularHitbox){
-            RectangularHitbox hb1 = (RectangularHitbox) hb;
-            return (this.upperLeft.getX() >= hb1.upperLeft.getX() && this.upperLeft.getX() <= hb1.lowerRight.getX() &&
-                    this.upperLeft.getY() >= hb1.upperLeft.getY() && this.upperLeft.getY() <= hb1.lowerRight.getY());
+        //System.out.println("checking collision");
+        if(hb instanceof RectangularHitbox hb1){
+            return (this.upperLeft.getX() >= hb1.upperLeft.getX() && this.lowerRight.getX() <= hb1.lowerRight.getX() &&
+                    this.upperLeft.getY() >= hb1.upperLeft.getY() && this.lowerRight.getY() <= hb1.lowerRight.getY());
         }
         else if(hb instanceof CircularHitbox){
             CircularHitbox hb1 = (CircularHitbox) hb;

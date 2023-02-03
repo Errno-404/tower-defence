@@ -1,6 +1,7 @@
-package agh.ics.oop.Proejctiles;
+package Attacks;
 
 import agh.ics.oop.Enemy;
+import agh.ics.oop.Interfaces.Hittable;
 import agh.ics.oop.Vector;
 
 public class ExplodingProjectile extends Projectile{
@@ -31,7 +32,7 @@ public class ExplodingProjectile extends Projectile{
     }
 
     @Override
-    public void hit(Enemy collided) {
+    public void hit(Hittable h) {
 
     }
 }

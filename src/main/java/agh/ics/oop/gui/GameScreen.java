@@ -2,13 +2,10 @@ package agh.ics.oop.gui;
 
 
 import agh.ics.oop.Constants;
-import agh.ics.oop.Enemy;
 import agh.ics.oop.GameEngine;
 import agh.ics.oop.Interfaces.SelectionObserver;
-import agh.ics.oop.Proejctiles.HomingProjectile;
-import agh.ics.oop.Proejctiles.HomingProjectileTestClass;
-import agh.ics.oop.Proejctiles.NormalProjectile;
-import agh.ics.oop.Proejctiles.Projectile;
+import Attacks.HomingProjectileTestClass;
+import Attacks.Projectile;
 import agh.ics.oop.Vector;
 import agh.ics.oop.buildings.*;
 import javafx.scene.canvas.Canvas;
@@ -79,8 +76,8 @@ public class GameScreen {
 
         this.gameEngine = new GameEngine(this);
         Random rand = new Random();
-        for(int i = 0;i<1000;i++){
-            this.gameEngine.addProjectile();
+        for(int i = 0;i<100;i++){
+            this.gameEngine.addProjectile(false);
         }
 
 
@@ -104,7 +101,7 @@ public class GameScreen {
             }
 
             //test
-            this.gameEngine.projectiles.forEach((Projectile p) -> {
+            this.gameEngine.friendlyProjectiles.forEach((Projectile p) -> {
                 if(p instanceof HomingProjectileTestClass p1){
                     p1.updateTarget(new Vector(rand.nextDouble(0,600), rand.nextDouble(0,600)));
                 }
@@ -121,14 +118,20 @@ public class GameScreen {
             int currY = this.elementUnderCursor.yIndex;
             if(selectedListBuildingID == 0){
                 setSelectedListBuilding(1);
+
             }
             else if(this.selectedBuildingSquare.validPosition){
                 placeSelectedListBuilding(BuildingFactory.getBuildingById(this.selectedListBuildingID,currX, currY,this));
+                this.gameEngine.enemyProjectiles.forEach((Projectile p) -> {
+                    if (p instanceof HomingProjectileTestClass p1){
+                        p1.updateTarget(this.gameEngine.defensiveBuildings.get(0).hitbox.centre);
+                    }
+                });
             }
 
 
             System.out.println(this.elementUnderCursor.xIndex + "   " + this.elementUnderCursor.yIndex + "    " + this.elementUnderCursor.boxCentre);
-            System.out.println(this.gameEngine.gameMap.map[this.elementUnderCursor.xIndex][this.elementUnderCursor.yIndex].projectileList.size());
+            System.out.println("projectiles at " + currX + " " + currY + "  " + this.gameEngine.gameMap.map[this.elementUnderCursor.xIndex][this.elementUnderCursor.yIndex].enemyProjectileList.size());
             System.out.println(this.gameEngine.gameMap.sumProj());
             //test
             //this.castle.destroyBuilding();
@@ -172,20 +175,23 @@ public class GameScreen {
                 }
             }
 
+
             this.gameEngine.defensiveBuildings.forEach(Building::drawHealthBar);
             this.gameEngine.activeTowers.forEach(Building::drawHealthBar);
             this.gameEngine.waitingTowers.forEach(Building::drawHealthBar);
             //this.gameEngine.enemies.forEach(Enemy::drawOnCanvas);
 
             this.gameEngine.moveProjectiles();
-            this.gameEngine.projectiles.forEach((Projectile p) -> p.draw(this.gc));
+            this.gameEngine.friendlyProjectiles.forEach((Projectile p) -> p.draw(this.gc));
+            this.gameEngine.enemyProjectiles.forEach((Projectile p) -> p.draw(this.gc));
+            this.gameEngine.checkCollisions();
             //test
             this.h1.drawTest(this.gc);
             this.h1.reportHealthChange(this.h1.currentPercentage-0.0025);
 
 
             this.gameEngine.defensiveBuildings.forEach((DefensiveBuilding b) -> {
-                b.reduceHealth(0.1);
+                //b.reduceHealth(0.1);
                 if(b.getCurrentHealth() <= 0){
                     this.gameEngine.destroyedBuildings.add(b);
                 }

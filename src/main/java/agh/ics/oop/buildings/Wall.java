@@ -1,6 +1,6 @@
 package agh.ics.oop.buildings;
 
-import agh.ics.oop.Attack;
+import Attacks.Attack;
 import agh.ics.oop.Vector;
 
 public class Wall extends DefensiveBuilding {
@@ -9,11 +9,16 @@ public class Wall extends DefensiveBuilding {
     }
 
 
-    @Override
+   /* @Override
     public void getHit(Attack attack) {
         super.getHit(attack);
         if(this.currentHealth == 0){
             System.out.println("Mur zniszczony!");
         }
+    }*/
+
+    @Override
+    public void getHit(Attack a) {
+
     }
 }

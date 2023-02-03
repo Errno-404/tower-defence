@@ -1,6 +1,6 @@
 package agh.ics.oop.buildings;
 
-import agh.ics.oop.Attack;
+import Attacks.Attack;
 import agh.ics.oop.Vector;
 
 public abstract class AttackingBuilding extends Building {
@@ -23,12 +23,6 @@ public abstract class AttackingBuilding extends Building {
 
     @Override
     public void getHit(Attack attack) {
-        int damage = attack.getStrength();
-        if(damage > this.currentHealth){
-            this.currentHealth = 0;
-        }
-        else{
-            this.currentHealth -= attack.getStrength();
-        }
+        this.reduceHealth(attack.getStrength());
     }
 }

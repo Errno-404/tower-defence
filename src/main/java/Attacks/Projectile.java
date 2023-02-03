@@ -1,13 +1,13 @@
-package agh.ics.oop.Proejctiles;
+package Attacks;
 
-import agh.ics.oop.Enemy;
 import agh.ics.oop.Hitboxes.RectangularHitbox;
+import agh.ics.oop.Interfaces.Hittable;
 import agh.ics.oop.Interfaces.ProjectileObserver;
 import agh.ics.oop.Vector;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.ImageView;
 
-public abstract class Projectile {
+public abstract class Projectile extends Attack {
 
     public Vector position;
     double velocity;
@@ -17,15 +17,23 @@ public abstract class Projectile {
 
     ProjectileObserver pobs;
 
-    protected Projectile(Vector position, double velocity){
+    protected Projectile(Vector position, double velocity, double str){
+        super(str);
         this.position = position;
         this.velocity = velocity;
         this.hitbox = new RectangularHitbox(position, 4);
     }
 
+    protected Projectile(Vector position, double velocity){
+        super(0.1);
+        this.position = position;
+        this.velocity = velocity;
+        this.hitbox = new RectangularHitbox(position, 3);
+    }
+
     public abstract void move();
 
-    public abstract void hit(Enemy collided);
+    public abstract void hit(Hittable h);
 
     public void draw(GraphicsContext gc){
         gc.drawImage(this.sprite.getImage(),this.hitbox.upperLeft.getX(), this.hitbox.upperLeft.getY());
@@ -33,6 +41,10 @@ public abstract class Projectile {
 
     public void setObserver(ProjectileObserver o){
         this.pobs = o;
+    }
+
+    public RectangularHitbox getHitbox(){
+        return this.hitbox;
     }
 
     @Override
@@ -44,4 +56,5 @@ public abstract class Projectile {
     public int hashCode() {
         return super.hashCode();
     }
+
 }

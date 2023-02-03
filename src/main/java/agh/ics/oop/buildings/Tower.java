@@ -1,6 +1,6 @@
 package agh.ics.oop.buildings;
 
-import agh.ics.oop.Attack;
+import Attacks.Attack;
 import agh.ics.oop.Vector;
 
 public class Tower extends AttackingBuilding {

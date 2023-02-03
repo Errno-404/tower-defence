@@ -6,11 +6,10 @@ import agh.ics.oop.Hitboxes.RectangularHitbox;
 import agh.ics.oop.Interfaces.BuildingDestroyedObserver;
 import agh.ics.oop.Interfaces.EnemyObserver;
 import agh.ics.oop.Interfaces.ProjectileObserver;
-import agh.ics.oop.Proejctiles.Projectile;
+import Attacks.Projectile;
 import agh.ics.oop.Vector;
 import agh.ics.oop.buildings.AttackingBuilding;
 import agh.ics.oop.buildings.Building;
-import agh.ics.oop.buildings.DefensiveBuilding;
 import agh.ics.oop.gui.GameScreen;
 
 
@@ -74,31 +73,60 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
         }
     }
 
-    public void addProjectile(Projectile p){
+    public void addProjectile(Projectile p, boolean isFriendly){
         int xIndex = p.position.getXindex();
         int yIndex = p.position.getYindex();
+        if(isFriendly){
+            this.map[xIndex][yIndex].friendlyProjectileList.add(p);
+        }
+        else{
+            System.out.println("adding projectile to " + xIndex + "   " + yIndex);
+            this.map[xIndex][yIndex].enemyProjectileList.add(p);
+        }
 
-        this.map[xIndex][yIndex].projectileList.add(p);
     }
 
     @Override
     public void reportNewIndexProjectile(Vector old, Vector newpos, Projectile p) {
         try {
+            int oldX = (int) old.getX();
+            int oldY = (int) old.getY();
 
-            if(!this.map[(int) old.getX()][(int) old.getY()].projectileList.remove(p)){
-                System.out.println("removed from  " + old.getXindex() + " " + old.getYindex() + p);
-                System.out.println(this.map[old.getXindex()][old.getYindex()].projectileList);
-                System.out.println(this.map[old.getXindex()-1][old.getYindex()-1].projectileList);
-                System.out.println(this.map[old.getXindex()-1][old.getYindex()].projectileList);
-                System.out.println(this.map[old.getXindex()][old.getYindex()-1].projectileList);
-                System.out.println("\n");
+            int newX = (int) newpos.getX();
+            int newY = (int) newpos.getY();
+            if(this.map[oldX][oldY].friendlyProjectileList.contains(p)){
+                this.map[oldX][oldY].friendlyProjectileList.remove(p);
+                this.map[(int) newpos.getX()][(int) newpos.getY()].friendlyProjectileList.add(p);
             }
-            this.map[(int) newpos.getX()][(int) newpos.getY()].projectileList.add(p);
+            else{
+                this.map[oldX][oldY].enemyProjectileList.remove(p);
+                this.map[newX][newY].enemyProjectileList.add(p);
+            }
+
+
 
         }
         catch(ArrayIndexOutOfBoundsException e){
             System.out.println(old.getX() +" " + old.getXindex() + " " + old.getY() + " " + old.getYindex());
             System.out.println(newpos.getX() +" " + newpos.getXindex() + " " + newpos.getY() + " " + newpos.getYindex());
+        }
+    }
+
+    @Override
+    public void projectileHit(Projectile p, boolean isFriendly) {
+        if(isFriendly){
+            this.map[p.getHitbox().upperLeft.getXindex()][p.getHitbox().upperLeft.getYindex()].friendlyProjectileToRemove.add(p);
+        }
+        else{
+            this.map[p.getHitbox().upperLeft.getXindex()][p.getHitbox().upperLeft.getYindex()].enemyProjectilesToRemove.add(p);
+        }
+    }
+
+    public void clearUsedProjectilesInRange(int x1, int y1, int x2, int y2, boolean isFriendly){
+        for(int i = x1; i< x2;i++){
+            for(int j = y1; j < y2; j++){
+                this.map[i][j].clearUsedProjectiles(isFriendly);
+            }
         }
     }
 
@@ -132,7 +160,7 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
         int acc = 0;
         for(int i = 0;i<Constants.boxNoWidth+1;i++){
             for(int j = 0;j<Constants.boxNoHeight+1;j++){
-                acc+=map[i][j].projectileList.size();
+                acc+=map[i][j].friendlyProjectileList.size();
             }
         }
 

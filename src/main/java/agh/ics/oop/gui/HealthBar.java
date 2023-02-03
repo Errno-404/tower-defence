@@ -1,10 +1,9 @@
 package agh.ics.oop.gui;
 
-import agh.ics.oop.Hitboxes.Hitbox;
+
 import agh.ics.oop.Hitboxes.RectangularHitbox;
 import agh.ics.oop.Interfaces.HealthChangeObserver;
 import agh.ics.oop.Vector;
-import agh.ics.oop.buildings.Building;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 

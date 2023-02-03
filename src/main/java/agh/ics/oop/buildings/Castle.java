@@ -1,6 +1,6 @@
 package agh.ics.oop.buildings;
 
-import agh.ics.oop.Attack;
+import Attacks.Attack;
 import agh.ics.oop.Vector;
 import agh.ics.oop.gui.GameScreen;
 import javafx.scene.image.Image;
@@ -26,9 +26,7 @@ public class Castle extends DefensiveBuilding {
     }
     @Override
     public void getHit(Attack attack){
-        super.getHit(attack);
-        if(this.currentHealth == 0){
-            System.out.println("Zamek zniszczony!");
-        }
+        //System.out.println("getting hit by " + attack.getStrength());
+        this.reduceHealth(attack.getStrength());
     }
 }
