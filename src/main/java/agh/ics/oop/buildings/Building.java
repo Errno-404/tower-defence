@@ -17,8 +17,10 @@ import java.util.ArrayList;
 
 
 public abstract class Building implements Hittable {
-    protected final int width;
-    protected final int height;
+    protected final int widthInTiles;
+    protected final int heightInTiles;
+
+    protected final Vector position;
 
     public RectangularHitbox hitbox;
 
@@ -29,19 +31,18 @@ public abstract class Building implements Hittable {
     private Image image;
 
     private ImageView[][] viewArray;
-    private GameScreen gs;
+    private final GameScreen gs;
 
-    private ArrayList<BuildingDestroyedObserver> observer = new ArrayList<>();
+    private final ArrayList<BuildingDestroyedObserver> observer = new ArrayList<>();
 
-    protected Building(int width, int height, Vector position, int health) {
-        this.width = width;
-        this.height = height;
-        this.currentHealth = health;
-    }
 
-    protected Building(int width, int height, int upperLeftx, int upperLefty, int health, Image img, GameScreen gs) {
-        this.width = width;
-        this.height = height;
+    protected Building(int widthInTiles, int heightInTiles, Vector position, double health, Image img, GameScreen gs) {
+        this.widthInTiles = widthInTiles;
+        this.heightInTiles = heightInTiles;
+        this.position = position;
+
+        double upperLeftx = position.getX();
+        double upperLefty = position.getY();
 
         this.currentHealth = health;
         this.maxHealth = health;
@@ -49,24 +50,53 @@ public abstract class Building implements Hittable {
 
         this.healthBar = new HealthBar();
 
-        this.hitbox = new RectangularHitbox(new Vector(upperLeftx*Constants.boxWidth, upperLefty*Constants.boxHeight),
-                new Vector((upperLeftx + width)*Constants.boxWidth, (upperLefty + height)*Constants.boxHeight));
+        this.hitbox = new RectangularHitbox(new Vector(upperLeftx*Constants.tileWidth, upperLefty*Constants.tileWidth),
+                new Vector((upperLeftx + widthInTiles)*Constants.tileWidth, (upperLefty + heightInTiles)*Constants.tileWidth));
 
-        this.viewArray = new ImageView[(int) width][(int) height];
+        this.viewArray = new ImageView[(int) widthInTiles][(int) heightInTiles];
 
 
 
         PixelReader reader = img.getPixelReader();
-        for(int i = 0;i<width;i++){
-            for(int j = 0;j<height;j++){
+        for(int i = 0; i< widthInTiles; i++){
+            for(int j = 0; j< heightInTiles; j++){
                 //Rectangle2D viewport = new Rectangle2D(i* Constants.boxWidth, j*Constants.boxHeight, Constants.boxWidth, Constants.boxHeight);
-                WritableImage croppedImage = new WritableImage(reader, (int) (i*Constants.boxWidth), (int) (j*Constants.boxHeight), (int) Constants.boxWidth, (int) Constants.boxHeight);
+                WritableImage croppedImage = new WritableImage(reader, (int) (i*Constants.tileWidth), (int) (j*Constants.tileWidth), (int) Constants.tileWidth, (int) Constants.tileWidth);
                 ImageView temp = new ImageView(croppedImage);
                 viewArray[i][j] = temp;
                 //gs.elements[upperLeftx+i][upperLefty+j].updateImage(temp);
             }
         }
     }
+
+//    protected Building(int widthInTiles, int heightInTiles, int upperLeftx, int upperLefty, int health, Image img, GameScreen gs) {
+//        this.widthInTiles = widthInTiles;
+//        this.heightInTiles = heightInTiles;
+//
+//        this.currentHealth = health;
+//        this.maxHealth = health;
+//        this.gs = gs;
+//
+//        this.healthBar = new HealthBar();
+//
+//        this.hitbox = new RectangularHitbox(new Vector(upperLeftx*Constants.tileWidth, upperLefty*Constants.tileWidth),
+//                new Vector((upperLeftx + widthInTiles)*Constants.tileWidth, (upperLefty + heightInTiles)*Constants.tileWidth));
+//
+//        this.viewArray = new ImageView[(int) widthInTiles][(int) heightInTiles];
+//
+//
+//
+//        PixelReader reader = img.getPixelReader();
+//        for(int i = 0; i< widthInTiles; i++){
+//            for(int j = 0; j< heightInTiles; j++){
+//                //Rectangle2D viewport = new Rectangle2D(i* Constants.boxWidth, j*Constants.boxHeight, Constants.boxWidth, Constants.boxHeight);
+//                WritableImage croppedImage = new WritableImage(reader, (int) (i*Constants.tileWidth), (int) (j*Constants.tileWidth), (int) Constants.tileWidth, (int) Constants.tileWidth);
+//                ImageView temp = new ImageView(croppedImage);
+//                viewArray[i][j] = temp;
+//                //gs.elements[upperLeftx+i][upperLefty+j].updateImage(temp);
+//            }
+//        }
+//    }
 
     public void addDestroyedObserver(BuildingDestroyedObserver o){
         this.observer.add(o);
@@ -90,12 +120,12 @@ public abstract class Building implements Hittable {
         return this.hitbox.upperLeft;
     }
 
-    public double getHeight() {
-        return this.height;
+    public double getHeightInTiles() {
+        return this.heightInTiles;
     }
 
-    public double getWidth() {
-        return this.width;
+    public double getWidthInTiles() {
+        return this.widthInTiles;
     }
 
     public double getCurrentHealth(){

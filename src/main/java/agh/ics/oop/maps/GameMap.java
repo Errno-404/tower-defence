@@ -20,8 +20,8 @@ import java.util.Queue;
 
 
 public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestroyedObserver {
-    protected int width;
-    protected int height;
+//    protected int mapWidth;
+//    protected int height;
     GameScreen gameScreen;
 
     public mapElement[][] map;
@@ -29,30 +29,41 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
     public mapElement castleCentre;
 
 
-
-    public GameMap(int width, int height, GameScreen gs){
-        this.height = height;
-        this.width = width;
+    public GameMap(GameScreen gs){
         this.gameScreen = gs;
 
-        this.map = new mapElement[Constants.boxNoWidth+1][Constants.boxNoHeight+1];
+        this.map = new mapElement[Constants.numberOfTiles +1][Constants.numberOfTiles +1];
 
-        for(int i = 0;i<Constants.boxNoWidth+1;i++){
-            for(int j = 0;j<Constants.boxNoHeight+1;j++){
+        for(int i = 0; i<Constants.numberOfTiles +1; i++){
+            for(int j = 0; j<Constants.numberOfTiles +1; j++){
                 map[i][j] = new mapElement(i,j, gs.elements[i][j]);
             }
         }
     }
 
+//    public GameMap(int width, int height, GameScreen gs){
+////        this.height = height;
+////        this.mapWidth = width;
+//        this.gameScreen = gs;
+//
+//        this.map = new mapElement[Constants.boxNoWidth+1][Constants.boxNoHeight+1];
+//
+//        for(int i = 0;i<Constants.boxNoWidth+1;i++){
+//            for(int j = 0;j<Constants.boxNoHeight+1;j++){
+//                map[i][j] = new mapElement(i,j, gs.elements[i][j]);
+//            }
+//        }
+//    }
+
     public boolean isOnMap(int i, int j){
-        return i >= 0 && i < Constants.boxNoWidth && j >= 0 && j < Constants.boxNoHeight;
+        return i >= 0 && i < Constants.numberOfTiles && j >= 0 && j < Constants.numberOfTiles;
     }
     public void updateMapWeights(){
         castleCentre.mapWeightValue = 0;
 
-        boolean[][] visited = new boolean[Constants.boxNoWidth][Constants.boxNoHeight];
-        for(int i = 0; i< Constants.boxNoWidth;i++){
-            for(int j = 0;j<Constants.boxNoHeight;j++){
+        boolean[][] visited = new boolean[Constants.numberOfTiles][Constants.numberOfTiles];
+        for(int i = 0; i< Constants.numberOfTiles; i++){
+            for(int j = 0; j<Constants.numberOfTiles; j++){
                 visited[i][j] = false;
             }
         }
@@ -116,7 +127,7 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
     public boolean canPlace(RectangularHitbox hb){
         for(int i = (int) hb.upperLeft.getXindex(); i<hb.lowerRight.getXindex(); i++){
             for(int j = (int) hb.upperLeft.getYindex(); j<hb.lowerRight.getYindex(); j++){
-                if(i < 0 || i >= Constants.boxNoWidth || j < 0 || j >= Constants.boxNoHeight){
+                if(i < 0 || i >= Constants.numberOfTiles || j < 0 || j >= Constants.numberOfTiles){
                     return false;
                 }
                 if (!map[i][j].placeable){
@@ -144,8 +155,8 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
 
 
 
-        for(int i = xIndex;i< xIndex + building.getWidth();i++){
-            for(int j = yIndex;j< yIndex + building.getHeight();j++){
+        for(int i = xIndex; i< xIndex + building.getWidthInTiles(); i++){
+            for(int j = yIndex; j< yIndex + building.getHeightInTiles(); j++){
                 this.map[i][j].updateCanvas(building.getView(i- xIndex,j - yIndex));
                 this.map[i][j].placeable = false;
                 this.map[i][j].buildingID = building;
@@ -236,8 +247,8 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
 
         //System.out.println(upx + " " + upy);
 
-        for(int i = upx; i<upx+b.getWidth();i++){
-            for(int j = upy;j<upy + b.getHeight();j++){
+        for(int i = upx; i<upx+b.getWidthInTiles(); i++){
+            for(int j = upy; j<upy + b.getHeightInTiles(); j++){
                 this.gameScreen.elements[i][j].setOriginalView();
                 this.map[i][j].reachable = true;
                 this.map[i][j].placeable = true;
@@ -287,8 +298,8 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
 
     public int sumProj(){
         int acc = 0;
-        for(int i = 0;i<Constants.boxNoWidth+1;i++){
-            for(int j = 0;j<Constants.boxNoHeight+1;j++){
+        for(int i = 0; i<Constants.numberOfTiles +1; i++){
+            for(int j = 0; j<Constants.numberOfTiles +1; j++){
                 acc+=map[i][j].friendlyProjectileList.size();
             }
         }

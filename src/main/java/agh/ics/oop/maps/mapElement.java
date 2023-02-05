@@ -39,7 +39,7 @@ public class mapElement {
         this.x = i;
         this.y = j;
 
-        this.squareCentre = new Vector(i* Constants.boxWidth + Constants.boxWidth/2, j*Constants.boxWidth + Constants.boxWidth/2);
+        this.squareCentre = new Vector(i* Constants.tileWidth + Constants.tileWidth /2, j*Constants.tileWidth + Constants.tileWidth /2);
 
         this.buildingID = null;
         this.reachable = true;

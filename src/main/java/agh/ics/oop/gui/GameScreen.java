@@ -45,7 +45,7 @@ public class GameScreen {
 
     public GameScreen(){
         double width = Constants.CanvasWidth;
-        double height = Constants.CanvasHeight;
+        double height = Constants.CanvasWidth;
         this.canvas = new Canvas(width,height);
         this.gc = canvas.getGraphicsContext2D();
 
@@ -58,8 +58,8 @@ public class GameScreen {
             Image defaultBlack = new Image(new FileInputStream("src/main/resources/blackRect.png"));
             Image cursorImg = new Image(new FileInputStream("src/main/resources/yellowRect.png"));
 
-            for (int i = 0; i < width/Constants.boxWidth; i++) {
-                for (int j = 0; j < height/Constants.boxWidth; j++) {
+            for (int i = 0; i < width/Constants.tileWidth; i++) {
+                for (int j = 0; j < height/Constants.tileWidth; j++) {
                     CanvasElement temp = new CanvasElement(defaultImage, cursorImg, i, j);
                     CanvasElement temp1 = new CanvasElement(defaultBlack, cursorImg,i, j);
                     if(i%2==0 || j%2 == 0){
@@ -100,8 +100,8 @@ public class GameScreen {
             double mouseX = e.getX();
             double mouseY = e.getY();
 
-            int arrayIndexX = (int) (mouseX/Constants.boxWidth);
-            int arrayIndexY = (int) (mouseY/Constants.boxWidth);
+            int arrayIndexX = (int) (mouseX/Constants.tileWidth);
+            int arrayIndexY = (int) (mouseY/Constants.tileWidth);
 
 
             if(this.elementUnderCursor != elements[arrayIndexX][arrayIndexY]){
@@ -145,7 +145,7 @@ public class GameScreen {
                 setSelectedListBuilding(2);
             }
             else if(this.selectedBuildingSquare.validPosition){
-                placeSelectedListBuilding(BuildingFactory.getBuildingById(this.selectedListBuildingID,currX, currY,this));
+                placeSelectedListBuilding(BuildingFactory.getBuildingById(this.selectedListBuildingID,currX, currY,this, gameEngine));
                 this.gameEngine.enemyProjectiles.forEach((Projectile p) -> {
                     if (p instanceof HomingProjectileTestClass p1){
                         p1.updateTarget(new Vector(rand.nextDouble(0,600), rand.nextDouble(0,600)));

@@ -17,13 +17,12 @@ public abstract class AttackingBuilding extends Building {
     TreeSet<Enemy> enemiesInRange = new TreeSet<>((Enemy e1, Enemy e2) -> (int) (e1.distanceFromCastle() - e2.distanceFromCastle()));
 
     private double radius;
-    protected Attack attack;
+
 
     public GameEngine ge;
 
-    protected AttackingBuilding(int width, int height,int px, int py, GameScreen gs, Image img) {
-        super(width, height ,px,py,100,img, gs);
-        this.attack = attack;
+    protected AttackingBuilding(int widthInTiles, int heightInTiles, Vector position, GameScreen gs, Image img, GameEngine ge) {
+        super(widthInTiles, heightInTiles, position, 100, img, gs);
         this.ge = ge;
     }
 
