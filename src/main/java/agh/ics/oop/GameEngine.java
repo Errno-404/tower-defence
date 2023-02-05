@@ -77,6 +77,11 @@ public class GameEngine implements BuildingDestroyedObserver {
             System.out.println("cant place!!!!");
         }
     }
+
+    public void addEnemy(Enemy e){
+        this.enemies.add(e);
+        this.gameMap.addEnemy(e);
+    }
     public void moveProjectiles(){
         this.friendlyProjectiles.forEach(Projectile::move);
         this.enemyProjectiles.forEach(Projectile::move);
@@ -93,6 +98,10 @@ public class GameEngine implements BuildingDestroyedObserver {
     }
 
     private boolean checkEnemyHitAtPosition(int x, int y, Enemy e){
+        if(!this.gameMap.isOnMap(x,y)){
+            return false;
+        }
+
         for (Projectile projectile : this.gameMap.map[x][y].friendlyProjectileList) {
             if(projectile.getHitbox().collidesWith(e.getHitbox())){
                 projectile.hit(e);

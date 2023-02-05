@@ -2,6 +2,8 @@ package agh.ics.oop.gui;
 
 
 import agh.ics.oop.Constants;
+import agh.ics.oop.Enemies.BasicEnemy;
+import agh.ics.oop.Enemies.Enemy;
 import agh.ics.oop.GameEngine;
 import agh.ics.oop.Interfaces.SelectionObserver;
 import agh.ics.oop.Attacks.HomingProjectileTestClass;
@@ -78,6 +80,14 @@ public class GameScreen {
         Random rand = new Random();
         for(int i = 0;i<1;i++){
             this.gameEngine.addProjectile(false);
+        }
+
+        try {
+            for (int i = 0; i < 500; i++) {
+                this.gameEngine.addEnemy(new BasicEnemy(rand.nextDouble(0,600), rand.nextDouble(0,600),this.gameEngine.gameMap));
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
         }
 
 
@@ -188,6 +198,12 @@ public class GameScreen {
             this.gameEngine.friendlyProjectiles.forEach((Projectile p) -> p.draw(this.gc));
             this.gameEngine.enemyProjectiles.forEach((Projectile p) -> p.draw(this.gc));
             this.gameEngine.checkCollisions();
+
+
+            this.gameEngine.enemies.forEach(Enemy::move);
+            this.gameEngine.enemies.forEach((Enemy e) -> {
+                e.draw(this.gc);
+            });
             //test
             this.h1.drawTest(this.gc);
             this.h1.reportHealthChange(this.h1.currentPercentage-0.0025);

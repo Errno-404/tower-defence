@@ -172,6 +172,10 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
 
     }
 
+    public void addEnemy(Enemy e){
+        this.map[e.getHitbox().centre.getXindex()][e.getHitbox().centre.getYindex()].enemyList.add(e);
+    }
+
     @Override
     public void reportNewIndexProjectile(Vector old, Vector newpos, Projectile p) {
         try {
