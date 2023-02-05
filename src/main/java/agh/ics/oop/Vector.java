@@ -41,8 +41,9 @@ public class Vector {
         this.y*=f;
     }
 
-    public Vector addVector(Vector v){
-        return new Vector(this.x + v.x,  this.y + v.y);
+    public void addVector(Vector v){
+        this.x += v.x;
+        this.y += v.y;
     }
 
     public int getXindex(){

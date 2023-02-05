@@ -61,15 +61,17 @@ public class mapElement {
 
     public void clearUsedProjectiles(boolean isFriendly){
         if(isFriendly) {
-            this.friendlyProjectileList.clear();
+            this.friendlyProjectileList.removeAll(this.friendlyProjectileToRemove);
+            this.friendlyProjectileToRemove.clear();
         }
         else{
-            this.enemyProjectileList.clear();
+            this.enemyProjectileList.removeAll(this.enemyProjectilesToRemove);
+            this.enemyProjectilesToRemove.clear();
         }
+    }
 
-
-
-
+    public void clearDeadEnemies(HashSet<Enemy> el){
+        this.enemyList.removeAll(el);
     }
 
     public void updateCanvas(ImageView iv){

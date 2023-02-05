@@ -46,7 +46,7 @@ public abstract class Enemy implements Hittable {
 
     @Override
     public void getHit(Attack a) {
-        a.hit(this);
+        this.reduceHealth(a.getStrength());
     }
 
     @Override
@@ -56,6 +56,9 @@ public abstract class Enemy implements Hittable {
     }
 
     public void move(){
+
+        int oldposX = hitbox.centre.getXindex();
+        int oldposY = hitbox.centre.getYindex();
 
         ArrayList<Pair<Integer, Integer>> moves = new ArrayList<Pair<Integer, Integer>>() {
             {
@@ -95,6 +98,20 @@ public abstract class Enemy implements Hittable {
 
 
         this.hitbox.moveAlongVector(this.hitbox.centre.getDirectionVector(this.map.map[nextXsquare][nextYsquare].squareCentre));
+
+        int newposX = this.hitbox.centre.getXindex();
+        int newposY = this.hitbox.centre.getYindex();
+
+        if(!(oldposX == newposX && oldposY == newposY)){
+            this.map.reportNewIndexEnemy(new Vector(oldposX, oldposY),new Vector(newposX, newposY), this);
+        }
+
+
+    }
+
+    public double distanceFromCastle(){
+        return Math.sqrt(Math.pow((this.map.castleCentre.squareCentre.getX() - this.hitbox.centre.getX()),2) +
+                Math.pow((this.map.castleCentre.squareCentre.getY() - this.hitbox.centre.getY()),2));
     }
 
     public void draw(GraphicsContext gc){
