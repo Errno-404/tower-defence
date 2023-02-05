@@ -20,8 +20,8 @@ public final class Constants {
     };
 
     public final static HashMap<Integer, Integer[]> buildingSizes = new HashMap<>() {{
-        put(1, new Integer[]{3,3,0,0});
-        put(2, new Integer[]{2,2,0,0});
+        put(1, new Integer[]{3,3,1,1});
+        put(2, new Integer[]{2,2,1,1});
     }
     };
 
