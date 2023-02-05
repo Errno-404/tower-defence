@@ -5,6 +5,7 @@ import agh.ics.oop.Constants;
 import agh.ics.oop.Hitboxes.RectangularHitbox;
 import agh.ics.oop.Interfaces.BuildingDestroyedObserver;
 import agh.ics.oop.Interfaces.EnemyObserver;
+import agh.ics.oop.Interfaces.OutOfMapObserver;
 import agh.ics.oop.Interfaces.ProjectileObserver;
 import agh.ics.oop.Attacks.Projectile;
 import agh.ics.oop.Vector;
@@ -19,7 +20,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 
-public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestroyedObserver {
+public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestroyedObserver, OutOfMapObserver {
 //    protected int mapWidth;
 //    protected int height;
     GameScreen gameScreen;
@@ -32,10 +33,10 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
     public GameMap(GameScreen gs){
         this.gameScreen = gs;
 
-        this.map = new mapElement[Constants.numberOfTiles +1][Constants.numberOfTiles +1];
+        this.map = new mapElement[Constants.numberOfTiles][Constants.numberOfTiles];
 
-        for(int i = 0; i<Constants.numberOfTiles +1; i++){
-            for(int j = 0; j<Constants.numberOfTiles +1; j++){
+        for(int i = 0; i<Constants.numberOfTiles; i++){
+            for(int j = 0; j<Constants.numberOfTiles; j++){
                 map[i][j] = new mapElement(i,j, gs.elements[i][j]);
             }
         }
@@ -230,10 +231,14 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
         }
     }
 
-    public void clearUsedProjectilesInRange(int x1, int y1, int x2, int y2, boolean isFriendly){
-        for(int i = x1; i< x2;i++){
-            for(int j = y1; j < y2; j++){
-                this.map[i][j].clearUsedProjectiles(isFriendly);
+    public void clearAllProjectiles(){
+        for(int i = 0;i<Constants.numberOfTiles;i++){
+            for(int j = 0;j<Constants.numberOfTiles;j++){
+                this.map[i][j].friendlyProjectileList.clear();
+                this.map[i][j].friendlyProjectileToRemove.clear();
+
+                this.map[i][j].enemyProjectileList.clear();
+                this.map[i][j].enemyProjectilesToRemove.clear();
             }
         }
     }
@@ -266,22 +271,6 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
         }
     }
 
-    public void clearUsedProjectiles(LinkedList<Projectile> lp1, LinkedList<Projectile> lp2){
-        lp1.forEach((Projectile p) -> {
-            int x = p.getHitbox().centre.getXindex();
-            int y = p.getHitbox().centre.getYindex();
-
-            this.map[x][y].friendlyProjectileList.remove(p);
-        });
-
-        lp2.forEach((Projectile p) -> {
-            int x = p.getHitbox().centre.getXindex();
-            int y = p.getHitbox().centre.getYindex();
-
-            this.map[x][y].enemyProjectileList.remove(p);
-        });
-    }
-
     public void clearUsedEnemyProjectiles(LinkedList<Projectile> p1){
         p1.forEach((Projectile p) -> {
             int x = p.getHitbox().centre.getXindex();
@@ -302,12 +291,19 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
 
     public int sumProj(){
         int acc = 0;
-        for(int i = 0; i<Constants.numberOfTiles +1; i++){
-            for(int j = 0; j<Constants.numberOfTiles +1; j++){
+        for(int i = 0; i<Constants.numberOfTiles; i++){
+            for(int j = 0; j<Constants.numberOfTiles; j++){
+                System.out.println("at " + i + " " + j + "   " + this.map[i][j].friendlyProjectileList.size());
                 acc+=map[i][j].friendlyProjectileList.size();
             }
         }
 
         return acc;
+    }
+
+    @Override
+    public void reportOutOfMap(int lastX, int lastY, Projectile p) {
+        System.out.println(this.map[lastX][lastY].friendlyProjectileList.remove(p));
+        System.out.println(this.map[lastX][lastY].enemyProjectileList.remove(p));
     }
 }

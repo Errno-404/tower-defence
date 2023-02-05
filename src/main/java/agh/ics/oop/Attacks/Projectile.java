@@ -2,10 +2,13 @@ package agh.ics.oop.Attacks;
 
 import agh.ics.oop.Hitboxes.RectangularHitbox;
 import agh.ics.oop.Interfaces.Hittable;
+import agh.ics.oop.Interfaces.OutOfMapObserver;
 import agh.ics.oop.Interfaces.ProjectileObserver;
 import agh.ics.oop.Vector;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.ImageView;
+
+import java.util.ArrayList;
 
 public abstract class Projectile extends Attack {
 
@@ -16,6 +19,7 @@ public abstract class Projectile extends Attack {
     ImageView sprite;
 
     ProjectileObserver pobs;
+    ArrayList<OutOfMapObserver> outObserver = new ArrayList<>();
 
     protected Projectile(Vector position, double velocity, double str){
         super(str);
@@ -41,6 +45,9 @@ public abstract class Projectile extends Attack {
 
     public void setObserver(ProjectileObserver o){
         this.pobs = o;
+    }
+    public void addOutObserver(OutOfMapObserver o){
+        this.outObserver.add(o);
     }
 
     public RectangularHitbox getHitbox(){

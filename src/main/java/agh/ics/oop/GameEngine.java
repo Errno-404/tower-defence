@@ -6,6 +6,7 @@ import agh.ics.oop.Hitboxes.RectangularHitbox;
 import agh.ics.oop.Interfaces.BuildingDestroyedObserver;
 import agh.ics.oop.Attacks.HomingProjectileTestClass;
 import agh.ics.oop.Attacks.Projectile;
+import agh.ics.oop.Interfaces.OutOfMapObserver;
 import agh.ics.oop.buildings.AttackingBuildings.AttackingBuilding;
 import agh.ics.oop.buildings.Building;
 import agh.ics.oop.buildings.DefensiveBuilding;
@@ -63,6 +64,7 @@ public class GameEngine implements BuildingDestroyedObserver {
 
     public void addProjectileReal(boolean type, Projectile p){
         p.setObserver(this.gameMap);
+        p.addOutObserver(this.gameMap);
         if(type){
             this.friendlyProjectiles.add(p);
         }
@@ -71,6 +73,7 @@ public class GameEngine implements BuildingDestroyedObserver {
         }
 
         this.gameMap.addProjectile(p, type);
+
     }
 
     public void addEnemiesToTowers(){
@@ -110,8 +113,51 @@ public class GameEngine implements BuildingDestroyedObserver {
         this.gameMap.addEnemy(e);
     }
     public void moveProjectiles(){
-        this.friendlyProjectiles.forEach(Projectile::move);
-        this.enemyProjectiles.forEach(Projectile::move);
+        this.gameMap.clearAllProjectiles();
+
+        this.friendlyProjectiles.forEach((Projectile p) ->{
+            p.move();
+            if(p.getHitbox().centre.getX() <= 5 || p.getHitbox().centre.getY() <= 5 ||
+            p.getHitbox().centre.getX() >= 595 || p.getHitbox().centre.getY() >= 595){
+                this.friendlyProjectilesToRemove.add(p);
+            }
+        });
+        this.enemyProjectiles.forEach((Projectile p) ->{
+            p.move();
+            if(p.getHitbox().centre.getX() <= 5 || p.getHitbox().centre.getY() <= 5 ||
+                    p.getHitbox().centre.getX() >= 595 || p.getHitbox().centre.getY() >= 595){
+                this.enemyProjectilesToRemove.add(p);
+            }
+        });
+
+        this.friendlyProjectiles.removeAll(this.friendlyProjectilesToRemove);
+        this.friendlyProjectilesToRemove.clear();
+
+        this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);
+        this.enemyProjectilesToRemove.clear();
+
+        addProjectilesToTiles();
+
+    }
+
+    public void addProjectilesToTiles(){
+        this.friendlyProjectiles.forEach((Projectile p) -> {
+            int x = p.getHitbox().centre.getXindex();
+            int y = p.getHitbox().centre.getYindex();
+
+            if(gameMap.isOnMap(x,y)){
+                this.gameMap.map[x][y].friendlyProjectileList.add(p);
+            }
+        });
+
+        this.enemyProjectiles.forEach((Projectile p) -> {
+            int x = p.getHitbox().centre.getXindex();
+            int y = p.getHitbox().centre.getYindex();
+
+            if(gameMap.isOnMap(x,y)){
+                this.gameMap.map[x][y].enemyProjectileList.add(p);
+            }
+        });
     }
 
 
@@ -326,4 +372,13 @@ public class GameEngine implements BuildingDestroyedObserver {
         this.friendlyProjectiles.removeAll(this.friendlyProjectilesToRemove);
         this.friendlyProjectilesToRemove.clear();*/
     }
+
+    public void removeRemainingProjectiles(){
+        this.friendlyProjectiles.removeAll(this.friendlyProjectilesToRemove);
+        this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);
+
+        this.friendlyProjectilesToRemove.clear();
+        this.enemyProjectilesToRemove.clear();
+    }
+
 }

@@ -214,6 +214,8 @@ public class GameScreen {
             this.gameEngine.enemyProjectiles.forEach((Projectile p) -> p.draw(this.gc));
             this.gameEngine.checkCollisions();
 
+            this.gameEngine.removeRemainingProjectiles();
+
 
             this.gameEngine.enemies.forEach(Enemy::move);
             this.gameEngine.enemies.forEach((Enemy e) -> {
