@@ -165,8 +165,10 @@ public class GameEngine implements BuildingDestroyedObserver {
             }
         });
 
-        //this.friendlyProjectiles.removeAll(friendlyProjectilesToRemove);
-        //this.friendlyProjectilesToRemove.clear();
+        this.gameMap.clearUsedFriendlyProjectiles(this.friendlyProjectilesToRemove);
+
+        this.friendlyProjectiles.removeAll(friendlyProjectilesToRemove);
+        this.friendlyProjectilesToRemove.clear();
     }
     
     private void checkBuildingCollisions(LinkedList<Building> buildings){
@@ -221,9 +223,9 @@ public class GameEngine implements BuildingDestroyedObserver {
                 }
             }
 
-            //this.gameMap.clearUsedProjectilesInRange(ul.getXindex()-1, ul.getYindex()-1, lr.getXindex()+1, lr.getYindex()+1, false);
-            //this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);
-            //this.enemyProjectilesToRemove.clear();
+            this.gameMap.clearUsedEnemyProjectiles(this.enemyProjectilesToRemove);
+            this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);
+            this.enemyProjectilesToRemove.clear();
         });
 
 
@@ -243,9 +245,9 @@ public class GameEngine implements BuildingDestroyedObserver {
 
                 }
             }
-            //this.gameMap.clearUsedProjectilesInRange(ul.getXindex()-1, ul.getYindex()-1, lr.getXindex()+1, lr.getYindex()+1, false);
-            //this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);
-            //this.enemyProjectilesToRemove.clear();
+            this.gameMap.clearUsedEnemyProjectiles(this.enemyProjectilesToRemove);
+            this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);
+            this.enemyProjectilesToRemove.clear();
         });
 
         //this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);
@@ -266,16 +268,16 @@ public class GameEngine implements BuildingDestroyedObserver {
 
                 }
             }
-            //this.gameMap.clearUsedProjectilesInRange(ul.getXindex()-1, ul.getYindex()-1, lr.getXindex()+1, lr.getYindex()+1, false);
-            //this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);
-            //this.enemyProjectilesToRemove.clear();
+            this.gameMap.clearUsedEnemyProjectiles(this.enemyProjectilesToRemove);
+            this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);
+            this.enemyProjectilesToRemove.clear();
         });
-        this.gameMap.clearUsedProjectiles(this.friendlyProjectilesToRemove, this.enemyProjectilesToRemove);
+        /*this.gameMap.clearUsedProjectiles(this.friendlyProjectilesToRemove, this.enemyProjectilesToRemove);
 
         this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);
         this.enemyProjectilesToRemove.clear();
 
         this.friendlyProjectiles.removeAll(this.friendlyProjectilesToRemove);
-        this.friendlyProjectilesToRemove.clear();
+        this.friendlyProjectilesToRemove.clear();*/
     }
 }

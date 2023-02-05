@@ -268,6 +268,24 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
         });
     }
 
+    public void clearUsedEnemyProjectiles(LinkedList<Projectile> p1){
+        p1.forEach((Projectile p) -> {
+            int x = p.getHitbox().centre.getXindex();
+            int y = p.getHitbox().centre.getYindex();
+
+            this.map[x][y].enemyProjectileList.remove(p);
+        });
+    }
+
+    public void clearUsedFriendlyProjectiles(LinkedList<Projectile> p2){
+        p2.forEach((Projectile p) -> {
+            int x = p.getHitbox().centre.getXindex();
+            int y = p.getHitbox().centre.getYindex();
+
+            this.map[x][y].friendlyProjectileList.remove(p);
+        });
+    }
+
     public int sumProj(){
         int acc = 0;
         for(int i = 0;i<Constants.boxNoWidth+1;i++){
