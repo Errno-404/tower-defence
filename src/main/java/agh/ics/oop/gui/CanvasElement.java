@@ -44,12 +44,12 @@ public class CanvasElement {
         this.xIndex = posx;
         this.yIndex = posy;
 
-        this.boxCentre = new Vector(this.xIndex* Constants.boxWidth + Constants.boxWidth/2, this.yIndex*Constants.boxHeight + Constants.boxWidth/2);
+        this.boxCentre = new Vector(this.xIndex* Constants.tileWidth + Constants.tileWidth /2, this.yIndex*Constants.tileWidth + Constants.tileWidth /2);
 
     }
 
     public void draw(GraphicsContext gc){
-        gc.drawImage(this.img.getImage(), this.xIndex*Constants.boxWidth, this.yIndex*Constants.boxHeight);
+        gc.drawImage(this.img.getImage(), this.xIndex*Constants.tileWidth, this.yIndex*Constants.tileWidth);
     }
 
     public void highlight(){

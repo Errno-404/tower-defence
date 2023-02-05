@@ -45,7 +45,7 @@ public class GameScreen {
 
     public GameScreen(){
         double width = Constants.CanvasWidth;
-        double height = Constants.CanvasHeight;
+        double height = Constants.CanvasWidth;
         this.canvas = new Canvas(width,height);
         this.gc = canvas.getGraphicsContext2D();
 
@@ -58,8 +58,8 @@ public class GameScreen {
             Image defaultBlack = new Image(new FileInputStream("src/main/resources/blackRect.png"));
             Image cursorImg = new Image(new FileInputStream("src/main/resources/yellowRect.png"));
 
-            for (int i = 0; i < width/Constants.boxWidth; i++) {
-                for (int j = 0; j < height/Constants.boxWidth; j++) {
+            for (int i = 0; i < width/Constants.tileWidth; i++) {
+                for (int j = 0; j < height/Constants.tileWidth; j++) {
                     CanvasElement temp = new CanvasElement(defaultImage, cursorImg, i, j);
                     CanvasElement temp1 = new CanvasElement(defaultBlack, cursorImg,i, j);
                     if(i%2==0 || j%2 == 0){
@@ -78,12 +78,16 @@ public class GameScreen {
 
         this.gameEngine = new GameEngine(this);
         Random rand = new Random();
-        for(int i = 0;i<1;i++){
+        for(int i = 0;i<1000;i++){
             this.gameEngine.addProjectile(false);
         }
 
+        for(int i = 0;i<1000;i++){
+            this.gameEngine.addProjectile(true);
+        }
+
         try {
-            for (int i = 0; i < 500; i++) {
+            for (int i = 0; i < 5; i++) {
                 this.gameEngine.addEnemy(new BasicEnemy(rand.nextDouble(0,600), rand.nextDouble(0,600),this.gameEngine.gameMap));
             }
         } catch (FileNotFoundException e) {
@@ -96,8 +100,8 @@ public class GameScreen {
             double mouseX = e.getX();
             double mouseY = e.getY();
 
-            int arrayIndexX = (int) (mouseX/Constants.boxWidth);
-            int arrayIndexY = (int) (mouseY/Constants.boxWidth);
+            int arrayIndexX = (int) (mouseX/Constants.tileWidth);
+            int arrayIndexY = (int) (mouseY/Constants.tileWidth);
 
 
             if(this.elementUnderCursor != elements[arrayIndexX][arrayIndexY]){
@@ -111,6 +115,13 @@ public class GameScreen {
             }
 
             //test
+            this.gameEngine.friendlyProjectiles.forEach((Projectile p) -> {
+                if(p instanceof HomingProjectileTestClass p1){
+                    p1.updateTarget(new Vector(mouseX, mouseY));
+                }
+
+            });
+
             this.gameEngine.enemyProjectiles.forEach((Projectile p) -> {
                 if(p instanceof HomingProjectileTestClass p1){
                     p1.updateTarget(new Vector(mouseX, mouseY));
@@ -126,12 +137,15 @@ public class GameScreen {
            //test
             int currX = this.elementUnderCursor.xIndex;
             int currY = this.elementUnderCursor.yIndex;
-            if(selectedListBuildingID == 0){
+            if(selectedListBuildingID == 0 && this.gameEngine.gameMap.castleCentre == null){
                 setSelectedListBuilding(1);
 
             }
+            else if(selectedListBuildingID == 0){
+                setSelectedListBuilding(2);
+            }
             else if(this.selectedBuildingSquare.validPosition){
-                placeSelectedListBuilding(BuildingFactory.getBuildingById(this.selectedListBuildingID,currX, currY,this));
+                placeSelectedListBuilding(BuildingFactory.getBuildingById(this.selectedListBuildingID,currX, currY,this, gameEngine));
                 this.gameEngine.enemyProjectiles.forEach((Projectile p) -> {
                     if (p instanceof HomingProjectileTestClass p1){
                         p1.updateTarget(new Vector(rand.nextDouble(0,600), rand.nextDouble(0,600)));
@@ -142,7 +156,8 @@ public class GameScreen {
 
             System.out.println(this.elementUnderCursor.xIndex + "   " + this.elementUnderCursor.yIndex + "    " + this.elementUnderCursor.boxCentre);
             //System.out.println("projectiles at " + currX + " " + currY + "  " + this.gameEngine.gameMap.map[this.elementUnderCursor.xIndex][this.elementUnderCursor.yIndex].enemyProjectileList.size());
-            System.out.println("fval: " +this.gameEngine.gameMap.map[this.elementUnderCursor.xIndex][this.elementUnderCursor.yIndex].mapWeightValue);
+            System.out.println("fval: " + this.gameEngine.friendlyProjectiles.size() + " " + this.gameEngine.friendlyProjectilesToRemove.size()
+                    + " " + this.gameEngine.enemies.size() + " " + this.gameEngine.deadEnemies.size() + " " + this.gameEngine.gameMap.sumProj());
             //test
             //this.castle.destroyBuilding();
         });

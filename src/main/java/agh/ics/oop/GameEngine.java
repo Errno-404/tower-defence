@@ -6,7 +6,7 @@ import agh.ics.oop.Hitboxes.RectangularHitbox;
 import agh.ics.oop.Interfaces.BuildingDestroyedObserver;
 import agh.ics.oop.Attacks.HomingProjectileTestClass;
 import agh.ics.oop.Attacks.Projectile;
-import agh.ics.oop.buildings.AttackingBuilding;
+import agh.ics.oop.buildings.AttackingBuildings.AttackingBuilding;
 import agh.ics.oop.buildings.Building;
 import agh.ics.oop.buildings.DefensiveBuilding;
 import agh.ics.oop.gui.GameScreen;
@@ -40,7 +40,8 @@ public class GameEngine implements BuildingDestroyedObserver {
     public GameEngine(GameScreen gs){
         this.gs = gs;
 
-        this.gameMap = new GameMap(Constants.boxNoWidth, Constants.boxNoHeight, this.gs);
+//        this.gameMap = new GameMap(Constants.boxNoWidth, Constants.boxNoHeight, this.gs);
+        this.gameMap = new GameMap(this.gs);
     }
 
 
@@ -59,6 +60,18 @@ public class GameEngine implements BuildingDestroyedObserver {
         }
 
         this.gameMap.addProjectile(h1, type);
+    }
+
+    public void addProjectileReal(boolean type, Projectile p){
+        p.setObserver(this.gameMap);
+        if(type){
+            this.friendlyProjectiles.add(p);
+        }
+        else{
+            this.enemyProjectiles.add(p);
+        }
+
+        this.gameMap.addProjectile(p, type);
     }
 
     public void addBuilding(Building b){
@@ -87,12 +100,18 @@ public class GameEngine implements BuildingDestroyedObserver {
         this.enemyProjectiles.forEach(Projectile::move);
     }
 
+    public void towersAttack(){
+        this.activeTowers.forEach(AttackingBuilding::attack);
+    }
+
     @Override
     public void reportBuildingDestroyed(Building b) {
         if (b instanceof DefensiveBuilding){
             this.defensiveBuildings.remove(b);
         }
         else if(b instanceof AttackingBuilding){
+            this.activeTowers.remove(b);
+            this.waitingTowers.remove(b);
             //TODO
         }
     }
@@ -102,18 +121,31 @@ public class GameEngine implements BuildingDestroyedObserver {
             return false;
         }
 
+
         for (Projectile projectile : this.gameMap.map[x][y].friendlyProjectileList) {
+
             if(projectile.getHitbox().collidesWith(e.getHitbox())){
                 projectile.hit(e);
+                this.friendlyProjectilesToRemove.add(projectile);
                 this.gameMap.projectileHit(projectile,true);
 
                 if(e.currentHealth <= 0){
                     this.deadEnemies.add(e);
+
+
+                    this.gameMap.clearUsedFriendlyProjectiles(this.friendlyProjectilesToRemove);
+                    this.friendlyProjectiles.removeAll(friendlyProjectilesToRemove);
+                    this.friendlyProjectilesToRemove.clear();
                     return true;
                 }
 
             }
         }
+
+        this.gameMap.clearUsedFriendlyProjectiles(this.friendlyProjectilesToRemove);
+
+        this.friendlyProjectiles.removeAll(friendlyProjectilesToRemove);
+        this.friendlyProjectilesToRemove.clear();
         return false;
     }
     
@@ -148,18 +180,20 @@ public class GameEngine implements BuildingDestroyedObserver {
                 died = checkEnemyHitAtPosition(centerX, Math.max(0,centerY-1), e);
             }
             if(!died){
-                died = checkEnemyHitAtPosition(Math.min(Constants.boxNoWidth-1, centerX+1),centerY, e);
+                died = checkEnemyHitAtPosition(Math.min(Constants.numberOfTiles -1, centerX+1),centerY, e);
             }
             if(!died){
-                died = checkEnemyHitAtPosition(centerX,Math.min(Constants.boxNoHeight-1, centerY+1), e);
+                died = checkEnemyHitAtPosition(centerX,Math.min(Constants.numberOfTiles -1, centerY+1), e);
             }
             if(!died){
-                died = checkEnemyHitAtPosition(Math.min(Constants.boxNoWidth-1,centerX+1),Math.min(Constants.boxNoHeight-1, centerY+1), e);
+                died = checkEnemyHitAtPosition(Math.min(Constants.numberOfTiles -1,centerX+1),Math.min(Constants.numberOfTiles -1, centerY+1), e);
             }
             if(!died){
-                died = checkEnemyHitAtPosition(Math.min(Constants.boxNoWidth-1,centerX-1),Math.min(Constants.boxNoHeight-1, centerY-1), e);
+                died = checkEnemyHitAtPosition(Math.min(Constants.numberOfTiles -1,centerX-1),Math.min(Constants.numberOfTiles -1, centerY-1), e);
             }
         });
+
+
     }
     
     private void checkBuildingCollisions(LinkedList<Building> buildings){
@@ -167,8 +201,8 @@ public class GameEngine implements BuildingDestroyedObserver {
         buildings.forEach((Building b) -> {
             Vector ul = b.hitbox.upperLeft;
             Vector lr = b.hitbox.lowerRight;
-            for(int i = ul.getXindex();i<ul.getXindex() + b.getWidth();i++){
-                for(int j = lr.getYindex();j < lr.getYindex() + b.getHeight(); j++){
+            for(int i = ul.getXindex(); i<ul.getXindex() + b.getWidthInTiles(); i++){
+                for(int j = lr.getYindex(); j < lr.getYindex() + b.getHeightInTiles(); j++){
                     for (Projectile projectile : this.gameMap.map[i][j].enemyProjectileList) {
                         if(projectile.getHitbox().collidesWith(b.hitbox)){
                             projectile.hit(b);
@@ -185,19 +219,28 @@ public class GameEngine implements BuildingDestroyedObserver {
         checkEnemyCollisions();
 
 
+        this.deadEnemies.forEach((Enemy e) -> {
+            this.gameMap.removeEnemy(e);
+        });
+
+        this.enemies.removeAll(deadEnemies);
+        this.deadEnemies.clear();
+
+
         this.defensiveBuildings.forEach((Building b) -> {
             Vector ul = b.hitbox.upperLeft;
             Vector lr = b.hitbox.lowerRight;
             for(int i = ul.getXindex();i<lr.getXindex();i++){
                 for(int j = ul.getYindex();j < lr.getYindex(); j++){
                     for (Projectile projectile : this.gameMap.map[i][j].enemyProjectileList) {
-                        //System.out.println(this.enemyProjectiles);
                         if(projectile.getHitbox().collidesWith(b.hitbox)){
-                            //System.out.println("hit detected!");
                             projectile.hit(b);
+
+
                             this.enemyProjectilesToRemove.add(projectile);
                             this.gameMap.projectileHit(projectile, false);
                             if(b.getCurrentHealth() <= 0){
+                                this.destroyedBuildings.add(b);
                                 break;
                             }
                         }
@@ -206,7 +249,7 @@ public class GameEngine implements BuildingDestroyedObserver {
                 }
             }
 
-            this.gameMap.clearUsedProjectilesInRange(ul.getXindex()-1, ul.getYindex()-1, lr.getXindex()+1, lr.getYindex()+1, false);
+            this.gameMap.clearUsedEnemyProjectiles(this.enemyProjectilesToRemove);
             this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);
             this.enemyProjectilesToRemove.clear();
         });
@@ -216,47 +259,61 @@ public class GameEngine implements BuildingDestroyedObserver {
         this.waitingTowers.forEach((Building b) -> {
             Vector ul = b.hitbox.upperLeft;
             Vector lr = b.hitbox.lowerRight;
-            for(int i = ul.getXindex();i<lr.getXindex() + b.getWidth();i++){
-                for(int j = ul.getYindex();j < lr.getYindex() + b.getHeight(); j++){
+            for(int i = ul.getXindex(); i<lr.getXindex() + b.getWidthInTiles(); i++){
+                for(int j = ul.getYindex(); j < lr.getYindex() + b.getHeightInTiles(); j++){
                     for (Projectile projectile : this.gameMap.map[i][j].enemyProjectileList) {
                         if(projectile.getHitbox().collidesWith(b.hitbox)){
                             projectile.hit(b);
                             this.enemyProjectilesToRemove.add(projectile);
                             this.gameMap.projectileHit(projectile, false);
+
+                            if(b.getCurrentHealth() <= 0){
+                                this.destroyedBuildings.add(b);
+                                break;
+                            }
                         }
                     }
 
                 }
             }
-            this.gameMap.clearUsedProjectilesInRange(ul.getXindex()-1, ul.getYindex()-1, lr.getXindex()+1, lr.getYindex()+1, false);
+            this.gameMap.clearUsedEnemyProjectiles(this.enemyProjectilesToRemove);
             this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);
             this.enemyProjectilesToRemove.clear();
         });
 
-        this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);
-        this.enemyProjectilesToRemove.clear();
+        //this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);
+        //this.enemyProjectilesToRemove.clear();
 
         this.activeTowers.forEach((Building b) -> {
             Vector ul = b.hitbox.upperLeft;
             Vector lr = b.hitbox.lowerRight;
-            for(int i = ul.getXindex();i<lr.getXindex() + b.getWidth();i++){
-                for(int j = ul.getYindex();j < lr.getYindex() + b.getHeight(); j++){
+            for(int i = ul.getXindex(); i<lr.getXindex() + b.getWidthInTiles(); i++){
+                for(int j = ul.getYindex(); j < lr.getYindex() + b.getHeightInTiles(); j++){
                     for (Projectile projectile : this.gameMap.map[i][j].enemyProjectileList) {
                         if(projectile.getHitbox().collidesWith(b.hitbox)){
                             projectile.hit(b);
                             this.enemyProjectilesToRemove.add(projectile);
                             this.gameMap.projectileHit(projectile, false);
+
+                            if(b.getCurrentHealth() <= 0){
+                                this.destroyedBuildings.add(b);
+                                break;
+                            }
                         }
                     }
 
                 }
             }
-            this.gameMap.clearUsedProjectilesInRange(ul.getXindex()-1, ul.getYindex()-1, lr.getXindex()+1, lr.getYindex()+1, false);
+            this.gameMap.clearUsedEnemyProjectiles(this.enemyProjectilesToRemove);
             this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);
             this.enemyProjectilesToRemove.clear();
         });
+        /*this.gameMap.clearUsedProjectiles(this.friendlyProjectilesToRemove, this.enemyProjectilesToRemove);
 
         this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);
         this.enemyProjectilesToRemove.clear();
+
+        this.friendlyProjectiles.removeAll(this.friendlyProjectilesToRemove);
+        this.friendlyProjectilesToRemove.clear();*/
     }
 }

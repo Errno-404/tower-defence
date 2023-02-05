@@ -8,7 +8,7 @@ import java.util.UUID;
 public class Main {
     //test
     public static void main(String[] args) {
-//        Application.launch(App.class, args);
+        Application.launch(App.class, args);
 
 
 

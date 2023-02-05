@@ -9,18 +9,16 @@ import javafx.scene.image.Image;
 public abstract class DefensiveBuilding extends Building {
 
     // Defensive parameters
-    private int defence;
+    private double defence;
 
 
-    protected DefensiveBuilding(Vector position, int width, int height, int health, int defence) {
-        super(width, height, position, health);
+    // int widthInTiles, int heightInTiles, Vector position, double health, Image img, GameScreen gs
+    protected DefensiveBuilding(int widthInTiles, int heightInTiles, Vector position, double health, Image img, GameScreen gs, double defence) {
+        super(widthInTiles, heightInTiles, position, health, img, gs);
         this.defence = defence;
     }
 
-    protected DefensiveBuilding(int width, int height, int px, int py, int health, Image img, GameScreen gs) {
-        super(width, height, px, py, health, img, gs);
-        //this.defence = defence;
-    }
+
 
     // Game methods
     @Override

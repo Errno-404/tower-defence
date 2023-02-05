@@ -4,7 +4,7 @@ import agh.ics.oop.Constants;
 import agh.ics.oop.Enemies.Enemy;
 import agh.ics.oop.Attacks.Projectile;
 import agh.ics.oop.Vector;
-import agh.ics.oop.buildings.AttackingBuilding;
+import agh.ics.oop.buildings.AttackingBuildings.AttackingBuilding;
 import agh.ics.oop.buildings.Building;
 import agh.ics.oop.gui.CanvasElement;
 import javafx.scene.image.ImageView;
@@ -39,7 +39,7 @@ public class mapElement {
         this.x = i;
         this.y = j;
 
-        this.squareCentre = new Vector(i* Constants.boxWidth + Constants.boxWidth/2, j*Constants.boxWidth + Constants.boxWidth/2);
+        this.squareCentre = new Vector(i* Constants.tileWidth + Constants.tileWidth /2, j*Constants.tileWidth + Constants.tileWidth /2);
 
         this.buildingID = null;
         this.reachable = true;
@@ -61,15 +61,17 @@ public class mapElement {
 
     public void clearUsedProjectiles(boolean isFriendly){
         if(isFriendly) {
-            this.friendlyProjectileList.clear();
+            this.friendlyProjectileList.removeAll(this.friendlyProjectileToRemove);
+            this.friendlyProjectileToRemove.clear();
         }
         else{
-            this.enemyProjectileList.clear();
+            this.enemyProjectileList.removeAll(this.enemyProjectilesToRemove);
+            this.enemyProjectilesToRemove.clear();
         }
+    }
 
-
-
-
+    public void clearDeadEnemies(HashSet<Enemy> el){
+        this.enemyList.removeAll(el);
     }
 
     public void updateCanvas(ImageView iv){
