@@ -41,9 +41,8 @@ public class Vector {
         this.y*=f;
     }
 
-    public void addVector(Vector v){
-        this.x += v.getX();
-        this.y += v.getY();
+    public Vector addVector(Vector v){
+        return new Vector(this.x + v.x,  this.y + v.y);
     }
 
     public int getXindex(){
@@ -59,4 +58,11 @@ public class Vector {
     }
 
 
+    public boolean follows (Vector v){
+        return (this.x >= v.x && this.y >= v.y);
+    }
+
+    public boolean precedes (Vector v){
+        return (this.x <= v.x && this.y <= v.y);
+    }
 }
