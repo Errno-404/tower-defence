@@ -4,8 +4,8 @@ package agh.ics.oop.gui;
 import agh.ics.oop.Constants;
 import agh.ics.oop.GameEngine;
 import agh.ics.oop.Interfaces.SelectionObserver;
-import Attacks.HomingProjectileTestClass;
-import Attacks.Projectile;
+import agh.ics.oop.Attacks.HomingProjectileTestClass;
+import agh.ics.oop.Attacks.Projectile;
 import agh.ics.oop.Vector;
 import agh.ics.oop.buildings.*;
 import javafx.scene.canvas.Canvas;
@@ -76,7 +76,7 @@ public class GameScreen {
 
         this.gameEngine = new GameEngine(this);
         Random rand = new Random();
-        for(int i = 0;i<1500;i++){
+        for(int i = 0;i<1;i++){
             this.gameEngine.addProjectile(false);
         }
 
@@ -101,9 +101,9 @@ public class GameScreen {
             }
 
             //test
-            this.gameEngine.friendlyProjectiles.forEach((Projectile p) -> {
+            this.gameEngine.enemyProjectiles.forEach((Projectile p) -> {
                 if(p instanceof HomingProjectileTestClass p1){
-                    p1.updateTarget(new Vector(rand.nextDouble(0,600), rand.nextDouble(0,600)));
+                    p1.updateTarget(new Vector(mouseX, mouseY));
                 }
 
             });
@@ -124,15 +124,15 @@ public class GameScreen {
                 placeSelectedListBuilding(BuildingFactory.getBuildingById(this.selectedListBuildingID,currX, currY,this));
                 this.gameEngine.enemyProjectiles.forEach((Projectile p) -> {
                     if (p instanceof HomingProjectileTestClass p1){
-                        p1.updateTarget(this.gameEngine.defensiveBuildings.get(0).hitbox.centre);
+                        p1.updateTarget(new Vector(rand.nextDouble(0,600), rand.nextDouble(0,600)));
                     }
                 });
             }
 
 
             System.out.println(this.elementUnderCursor.xIndex + "   " + this.elementUnderCursor.yIndex + "    " + this.elementUnderCursor.boxCentre);
-            System.out.println("projectiles at " + currX + " " + currY + "  " + this.gameEngine.gameMap.map[this.elementUnderCursor.xIndex][this.elementUnderCursor.yIndex].enemyProjectileList.size());
-            System.out.println(this.gameEngine.gameMap.sumProj());
+            //System.out.println("projectiles at " + currX + " " + currY + "  " + this.gameEngine.gameMap.map[this.elementUnderCursor.xIndex][this.elementUnderCursor.yIndex].enemyProjectileList.size());
+            System.out.println("fval: " +this.gameEngine.gameMap.map[this.elementUnderCursor.xIndex][this.elementUnderCursor.yIndex].mapWeightValue);
             //test
             //this.castle.destroyBuilding();
         });
@@ -148,6 +148,9 @@ public class GameScreen {
         }
     }
     public void setSelectedListBuilding(Integer id){
+        if(this.gameEngine.gameMap.castleCentre != null && id == 1){
+            return;
+        }
         this.selectedListBuildingID = id;
         this.selectedBuildingSquare = BuildingSquareFactory.newSquare(id, this.gameEngine.gameMap);
     }

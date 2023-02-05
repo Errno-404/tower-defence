@@ -1,16 +1,22 @@
 package agh.ics.oop.maps;
 
-import agh.ics.oop.Enemy;
+import agh.ics.oop.Enemies.Enemy;
 import agh.ics.oop.Constants;
 import agh.ics.oop.Hitboxes.RectangularHitbox;
 import agh.ics.oop.Interfaces.BuildingDestroyedObserver;
 import agh.ics.oop.Interfaces.EnemyObserver;
 import agh.ics.oop.Interfaces.ProjectileObserver;
-import Attacks.Projectile;
+import agh.ics.oop.Attacks.Projectile;
 import agh.ics.oop.Vector;
 import agh.ics.oop.buildings.AttackingBuilding;
 import agh.ics.oop.buildings.Building;
+import agh.ics.oop.buildings.Castle;
 import agh.ics.oop.gui.GameScreen;
+import javafx.util.Pair;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 
 public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestroyedObserver {
@@ -19,6 +25,8 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
     GameScreen gameScreen;
 
     public mapElement[][] map;
+
+    public mapElement castleCentre;
 
 
 
@@ -34,6 +42,75 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
                 map[i][j] = new mapElement(i,j, gs.elements[i][j]);
             }
         }
+    }
+
+    public boolean isOnMap(int i, int j){
+        return i >= 0 && i < Constants.boxNoWidth && j >= 0 && j < Constants.boxNoHeight;
+    }
+    public void updateMapWeights(){
+        castleCentre.mapWeightValue = 0;
+
+        boolean[][] visited = new boolean[Constants.boxNoWidth][Constants.boxNoHeight];
+        for(int i = 0; i< Constants.boxNoWidth;i++){
+            for(int j = 0;j<Constants.boxNoHeight;j++){
+                visited[i][j] = false;
+            }
+        }
+        visited[castleCentre.x][castleCentre.y] = true;
+
+        Queue<Pair<Integer, Integer>> queue = new LinkedList<>();
+        ArrayList<Pair<Integer, Integer>> moves = new ArrayList<Pair<Integer, Integer>>() {
+            {
+                add(new Pair<>(1,0));
+                add(new Pair<>(0,1));
+                add(new Pair<>(-1,0));
+                add(new Pair<>(0,-1));
+
+                add(new Pair<>(1,1));
+                add(new Pair<>(1,-1));
+                add(new Pair<>(-1,1));
+                add(new Pair<>(-1,-1));
+
+
+            }
+        };
+
+        queue.add(new Pair<>(castleCentre.x, castleCentre.y));
+
+        int itercount = 0;
+
+        while(!queue.isEmpty()){
+            itercount+=1;
+            Pair<Integer, Integer> top = queue.element();
+            queue.remove();
+            visited[top.getKey()][top.getValue()] = true;
+
+
+
+            for(Pair<Integer, Integer> move: moves){
+                int nextPosX = top.getKey() + move.getKey();
+                int nextPosY = top.getValue() + move.getValue();
+
+                if(isOnMap(nextPosX, nextPosY)){
+                    if(!this.map[nextPosX][nextPosY].reachable || visited[nextPosX][nextPosY]){
+                        continue;
+                    }
+                    else if(this.map[nextPosX][nextPosY].buildingID != null){
+                        this.map[nextPosX][nextPosY].mapWeightValue = this.map[top.getKey()][top.getValue()].mapWeightValue + 10;
+                        queue.add(new Pair<>(nextPosX, nextPosY));
+                    }
+                    else{
+                        this.map[nextPosX][nextPosY].mapWeightValue = this.map[top.getKey()][top.getValue()].mapWeightValue + 1;
+                        queue.add(new Pair<>(nextPosX, nextPosY));
+                    }
+
+                    visited[nextPosX][nextPosY] = true;
+
+                }
+            }
+        }
+        System.out.println("done after: " + itercount);
+
     }
 
     public boolean canPlace(RectangularHitbox hb){
@@ -60,14 +137,23 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
             return;
         }
 
+        if(castleCentre == null && building instanceof Castle){
+            this.castleCentre = this.map[building.hitbox.centre.getXindex()][building.hitbox.centre.getYindex()];
+
+        }
+        else{
+            return;
+        }
+
+
         for(int i = xIndex;i< xIndex + building.getWidth();i++){
             for(int j = yIndex;j< yIndex + building.getHeight();j++){
                 this.map[i][j].updateCanvas(building.getView(i- xIndex,j - yIndex));
                 this.map[i][j].placeable = false;
-                this.map[i][j].reachable = false;
+                this.map[i][j].buildingID = building;
             }
         }
-
+        updateMapWeights();
         if(building instanceof AttackingBuilding){
             //Add building to inRangeOf lists
         }

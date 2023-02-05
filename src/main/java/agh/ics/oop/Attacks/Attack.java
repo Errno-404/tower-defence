@@ -1,4 +1,4 @@
-package Attacks;
+package agh.ics.oop.Attacks;
 
 import agh.ics.oop.Interfaces.Hittable;
 

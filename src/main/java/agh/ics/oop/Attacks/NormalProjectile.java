@@ -1,16 +1,25 @@
-package Attacks;
+package agh.ics.oop.Attacks;
 
-import agh.ics.oop.Enemy;
 import agh.ics.oop.Interfaces.Hittable;
 import agh.ics.oop.Vector;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
-public class ExplodingProjectile extends Projectile{
-    ExplosionEffect onHitEffect;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
+public class NormalProjectile extends Projectile{
     Vector target;
 
-    protected ExplodingProjectile(Vector position, double velocity, Vector target) {
+    public NormalProjectile(Vector position, double velocity, Vector target) {
         super(position, velocity);
         this.target = target;
+        try {
+            this.sprite = new ImageView(new Image(new FileInputStream("src/main/resources/yellowRect.png")));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @Override
@@ -32,7 +41,6 @@ public class ExplodingProjectile extends Projectile{
     }
 
     @Override
-    public void hit(Hittable h) {
-
+    public void hit(Hittable collided) {
     }
 }

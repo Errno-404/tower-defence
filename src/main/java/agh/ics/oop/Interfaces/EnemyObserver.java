@@ -1,6 +1,6 @@
 package agh.ics.oop.Interfaces;
 
-import agh.ics.oop.Enemy;
+import agh.ics.oop.Enemies.Enemy;
 import agh.ics.oop.Vector;
 
 public interface EnemyObserver {

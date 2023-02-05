@@ -1,4 +1,3 @@
-import Attacks.Attack;
 import agh.ics.oop.Vector;
 import agh.ics.oop.buildings.Castle;
 import agh.ics.oop.buildings.Wall;

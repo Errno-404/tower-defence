@@ -1,6 +1,6 @@
 package agh.ics.oop.buildings;
 
-import Attacks.Attack;
+import agh.ics.oop.Attacks.Attack;
 import agh.ics.oop.Vector;
 import agh.ics.oop.gui.GameScreen;
 import javafx.scene.image.Image;

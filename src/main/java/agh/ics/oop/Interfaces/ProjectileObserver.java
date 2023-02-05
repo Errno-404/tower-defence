@@ -1,6 +1,6 @@
 package agh.ics.oop.Interfaces;
 
-import Attacks.Projectile;
+import agh.ics.oop.Attacks.Projectile;
 import agh.ics.oop.Vector;
 
 public interface ProjectileObserver {

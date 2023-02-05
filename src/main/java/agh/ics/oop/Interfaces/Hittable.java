@@ -1,6 +1,6 @@
 package agh.ics.oop.Interfaces;
 
-import Attacks.Attack;
+import agh.ics.oop.Attacks.Attack;
 
 public interface Hittable {
 

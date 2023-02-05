@@ -1,6 +1,3 @@
-import Attacks.Attack;
-import agh.ics.oop.Vector;
-import agh.ics.oop.buildings.Tower;
 import org.junit.jupiter.api.Test;
 
 public class AttackingBuildingTest {

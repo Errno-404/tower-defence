@@ -1,28 +1,16 @@
-package Attacks;
+package agh.ics.oop.Attacks;
 
-import agh.ics.oop.Enemy;
 import agh.ics.oop.Interfaces.Hittable;
 import agh.ics.oop.Vector;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+public class ExplodingProjectile extends Projectile{
+    ExplosionEffect onHitEffect;
+    Vector target;
 
-public class HomingProjectile extends Projectile{
-    Enemy target;
-
-    public HomingProjectile(Vector position, double velocity, Enemy target) {
+    protected ExplodingProjectile(Vector position, double velocity, Vector target) {
         super(position, velocity);
         this.target = target;
-
-        try {
-            this.sprite = new ImageView(new Image(new FileInputStream("src/main/resources/blackRect.png")));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
     }
-
 
     @Override
     public void move() {
@@ -30,7 +18,7 @@ public class HomingProjectile extends Projectile{
         int oldposX = hitbox.centre.getXindex();
         int oldposY = hitbox.centre.getYindex();
 
-        Vector direction = this.hitbox.centre.getDirectionVector(this.target.getHitbox().centre);
+        Vector direction = this.hitbox.centre.getDirectionVector(this.target);
         direction.multiplyScalar(this.velocity);
         this.hitbox.moveAlongVector(direction);
 

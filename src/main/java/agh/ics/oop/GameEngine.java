@@ -1,10 +1,11 @@
 package agh.ics.oop;
 
 
+import agh.ics.oop.Enemies.Enemy;
 import agh.ics.oop.Hitboxes.RectangularHitbox;
 import agh.ics.oop.Interfaces.BuildingDestroyedObserver;
-import Attacks.HomingProjectileTestClass;
-import Attacks.Projectile;
+import agh.ics.oop.Attacks.HomingProjectileTestClass;
+import agh.ics.oop.Attacks.Projectile;
 import agh.ics.oop.buildings.AttackingBuilding;
 import agh.ics.oop.buildings.Building;
 import agh.ics.oop.buildings.DefensiveBuilding;
@@ -187,6 +188,9 @@ public class GameEngine implements BuildingDestroyedObserver {
                             projectile.hit(b);
                             this.enemyProjectilesToRemove.add(projectile);
                             this.gameMap.projectileHit(projectile, false);
+                            if(b.getCurrentHealth() <= 0){
+                                break;
+                            }
                         }
                     }
 

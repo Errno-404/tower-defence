@@ -1,6 +1,6 @@
 package agh.ics.oop.buildings;
 
-import agh.ics.oop.Constants;
+
 import agh.ics.oop.gui.GameScreen;
 
 import java.io.FileNotFoundException;

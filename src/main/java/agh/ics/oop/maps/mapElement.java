@@ -1,9 +1,11 @@
 package agh.ics.oop.maps;
 
-import agh.ics.oop.Enemy;
-import agh.ics.oop.Hitboxes.Hitbox;
-import Attacks.Projectile;
+import agh.ics.oop.Constants;
+import agh.ics.oop.Enemies.Enemy;
+import agh.ics.oop.Attacks.Projectile;
+import agh.ics.oop.Vector;
 import agh.ics.oop.buildings.AttackingBuilding;
+import agh.ics.oop.buildings.Building;
 import agh.ics.oop.gui.CanvasElement;
 import javafx.scene.image.ImageView;
 
@@ -15,15 +17,15 @@ public class mapElement {
     Integer x;
     Integer y;
 
-    Hitbox border;
+    public Vector squareCentre;
 
     public CanvasElement canvasElement; //odpowiadajaca czesc canvasu
-    Integer buildingID;
+    Building buildingID;
 
     public boolean reachable;
     public boolean placeable;
 
-    public double flowFieldValue; //do znajdywania najkrotszych sciezek
+    public double mapWeightValue = Double.MAX_VALUE; //do znajdywania najkrotszych sciezek
 
     public HashSet<Projectile> friendlyProjectileList;
     public HashSet<Projectile> friendlyProjectileToRemove;
@@ -37,11 +39,13 @@ public class mapElement {
         this.x = i;
         this.y = j;
 
+        this.squareCentre = new Vector(i* Constants.boxWidth + Constants.boxWidth/2, j*Constants.boxWidth + Constants.boxWidth/2);
+
         this.buildingID = null;
         this.reachable = true;
         this.placeable = true;
 
-        this.flowFieldValue = 0;
+        this.mapWeightValue = 0;
         this.friendlyProjectileList =  new HashSet<>();
         this.enemyProjectileList = new HashSet<>();
 
