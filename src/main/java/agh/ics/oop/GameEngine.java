@@ -6,10 +6,9 @@ import agh.ics.oop.Hitboxes.RectangularHitbox;
 import agh.ics.oop.Interfaces.BuildingDestroyedObserver;
 import agh.ics.oop.Attacks.HomingProjectileTestClass;
 import agh.ics.oop.Attacks.Projectile;
-import agh.ics.oop.Interfaces.OutOfMapObserver;
 import agh.ics.oop.buildings.AttackingBuildings.AttackingBuilding;
 import agh.ics.oop.buildings.Building;
-import agh.ics.oop.buildings.DefensiveBuilding;
+import agh.ics.oop.buildings.DefensiveBuildings.DefensiveBuilding;
 import agh.ics.oop.gui.GameScreen;
 import agh.ics.oop.maps.GameMap;
 

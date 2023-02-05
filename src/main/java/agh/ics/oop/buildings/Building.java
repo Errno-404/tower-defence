@@ -42,6 +42,8 @@ public abstract class Building implements Hittable {
         this.heightInTiles = heightInTiles;
         this.position = position;
 
+        this.image = img;
+
         double upperLeftx = position.getX();
         double upperLefty = position.getY();
 
@@ -148,6 +150,11 @@ public abstract class Building implements Hittable {
     //test
     public void reduceHealth(double t){
         this.currentHealth-=t;
+        if(this.currentHealth <= 0){
+            this.observer.forEach((BuildingDestroyedObserver o) -> {
+                o.reportBuildingDestroyed(this);
+            });
+        }
         this.healthBar.reportHealthChange(this.currentHealth/this.maxHealth);
     }
 

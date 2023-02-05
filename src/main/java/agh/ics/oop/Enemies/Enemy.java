@@ -14,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
+import java.util.Timer;
 
 public abstract class Enemy implements Hittable {
 
@@ -29,11 +30,17 @@ public abstract class Enemy implements Hittable {
     GameMap map;
     Attack attack;
 
+    Timer enemyAttackTimer;
+
 
     public Enemy(double px, double py,double sizex, double sizey, double hp, Attack attack, GameMap map,Image sprite){
         this.currentHealth = hp;
         this.maxHealth = hp;
         this.hitbox = new RectangularHitbox(new Vector(px,py), new Vector(px + sizex, py + sizey));
+
+        this.enemyAttackTimer = new Timer();
+
+        this.enemyAttackTimer.scheduleAtFixedRate(new EnemyAttackManager(this),0L,1000L); //zmienić 1000L na attackSpeed albo coś takiego
 
         this.attack = attack;
 
@@ -43,6 +50,10 @@ public abstract class Enemy implements Hittable {
         this.map = map;
     }
 
+
+    public abstract void attack();
+
+    public abstract boolean canAttack();
 
     @Override
     public void getHit(Attack a) {
@@ -60,51 +71,58 @@ public abstract class Enemy implements Hittable {
         int oldposX = hitbox.centre.getXindex();
         int oldposY = hitbox.centre.getYindex();
 
-        ArrayList<Pair<Integer, Integer>> moves = new ArrayList<Pair<Integer, Integer>>() {
-            {
-                add(new Pair<>(1,0));
-                add(new Pair<>(0,1));
-                add(new Pair<>(-1,0));
-                add(new Pair<>(0,-1));
+        if(this.map.map[oldposX][oldposY].buildingID != null){
+            return;
+        }
+        else{
+            ArrayList<Pair<Integer, Integer>> moves = new ArrayList<Pair<Integer, Integer>>() {
+                {
+                    add(new Pair<>(1,0));
+                    add(new Pair<>(0,1));
+                    add(new Pair<>(-1,0));
+                    add(new Pair<>(0,-1));
 
-                add(new Pair<>(1,1));
-                add(new Pair<>(1,-1));
-                add(new Pair<>(-1,1));
-                add(new Pair<>(-1,-1));
+                    add(new Pair<>(1,1));
+                    add(new Pair<>(1,-1));
+                    add(new Pair<>(-1,1));
+                    add(new Pair<>(-1,-1));
 
 
-            }
-        };
+                }
+            };
 
-        int currX = this.hitbox.centre.getXindex();
-        int currY = this.hitbox.centre.getYindex();
+            int currX = this.hitbox.centre.getXindex();
+            int currY = this.hitbox.centre.getYindex();
 
-        int minIndex = 0;
-        double minVal = Integer.MAX_VALUE;
-        for(Pair<Integer, Integer> move: moves){
-            int nextX = currX + move.getKey();
-            int nextY = currY + move.getValue();
+            int minIndex = 0;
+            double minVal = Integer.MAX_VALUE;
+            for(Pair<Integer, Integer> move: moves){
+                int nextX = currX + move.getKey();
+                int nextY = currY + move.getValue();
 
-            if(this.map.isOnMap(nextX, nextY)){
-                if(this.map.map[nextX][nextY].mapWeightValue < minVal){
-                    minVal = this.map.map[nextX][nextY].mapWeightValue;
-                    minIndex = moves.indexOf(move);
+                if(this.map.isOnMap(nextX, nextY)){
+                    if(this.map.map[nextX][nextY].mapWeightValue < minVal){
+                        minVal = this.map.map[nextX][nextY].mapWeightValue;
+                        minIndex = moves.indexOf(move);
+                    }
                 }
             }
+
+            int nextXsquare = currX + moves.get(minIndex).getKey();
+            int nextYsquare = currY + moves.get(minIndex).getValue();
+
+
+            this.hitbox.moveAlongVector(this.hitbox.centre.getDirectionVector(this.map.map[nextXsquare][nextYsquare].squareCentre));
+
+            int newposX = this.hitbox.centre.getXindex();
+            int newposY = this.hitbox.centre.getYindex();
+
+            if(!(oldposX == newposX && oldposY == newposY)){
+                this.map.reportNewIndexEnemy(new Vector(oldposX, oldposY),new Vector(newposX, newposY), this);
+            }
+
         }
 
-        int nextXsquare = currX + moves.get(minIndex).getKey();
-        int nextYsquare = currY + moves.get(minIndex).getValue();
-
-
-        this.hitbox.moveAlongVector(this.hitbox.centre.getDirectionVector(this.map.map[nextXsquare][nextYsquare].squareCentre));
-
-        int newposX = this.hitbox.centre.getXindex();
-        int newposY = this.hitbox.centre.getYindex();
-
-        if(!(oldposX == newposX && oldposY == newposY)){
-            this.map.reportNewIndexEnemy(new Vector(oldposX, oldposY),new Vector(newposX, newposY), this);
-        }
 
 
     }

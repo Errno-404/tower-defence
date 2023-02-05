@@ -25,4 +25,22 @@ public final class Constants {
     }
     };
 
+    private static Integer[] getMap1RowEven(){
+        Integer[] ret = new Integer[Constants.numberOfTiles];
+
+
+        boolean isDark = true;
+        for(int i = 0; i<Constants.numberOfTiles;i++){
+            if(i%6==0) {
+                isDark = !isDark;
+            }
+
+        }
+        return ret;
+    }
+
+    public final static Integer[][] mapBackgroundData = new Integer[][] {
+
+    };
+
 }

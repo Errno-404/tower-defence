@@ -1,7 +1,8 @@
-package agh.ics.oop.buildings;
+package agh.ics.oop.buildings.DefensiveBuildings;
 
 import agh.ics.oop.Attacks.Attack;
 import agh.ics.oop.Vector;
+import agh.ics.oop.buildings.Building;
 import agh.ics.oop.gui.GameScreen;
 import javafx.scene.image.Image;
 
@@ -23,8 +24,6 @@ public abstract class DefensiveBuilding extends Building {
     // Game methods
     @Override
     public void getHit(Attack attack) {
-        // Chwilowo nie mam lepszego pomysłu na zrobienie defense, bo floatów się boję :/
-
         double damage = attack.getStrength() - this.defence;
         if(damage > this.currentHealth){
             this.currentHealth = 0;

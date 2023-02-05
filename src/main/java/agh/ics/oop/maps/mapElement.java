@@ -20,7 +20,7 @@ public class mapElement {
     public Vector squareCentre;
 
     public CanvasElement canvasElement; //odpowiadajaca czesc canvasu
-    Building buildingID;
+    public Building buildingID;
 
     public boolean reachable;
     public boolean placeable;
