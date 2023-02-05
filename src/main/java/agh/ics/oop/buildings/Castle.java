@@ -22,7 +22,7 @@ public class Castle extends DefensiveBuilding {
     }
 
     public Castle(int px, int py, GameScreen gs) throws FileNotFoundException {
-        super(3,3,px,py,100,new Image(new FileInputStream("src/main/resources/test.png")), gs);
+        super(3,3,px,py,500,new Image(new FileInputStream("src/main/resources/test.png")), gs);
     }
     @Override
     public void getHit(Attack attack){

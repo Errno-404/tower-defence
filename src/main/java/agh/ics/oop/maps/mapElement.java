@@ -4,7 +4,7 @@ import agh.ics.oop.Constants;
 import agh.ics.oop.Enemies.Enemy;
 import agh.ics.oop.Attacks.Projectile;
 import agh.ics.oop.Vector;
-import agh.ics.oop.buildings.AttackingBuilding;
+import agh.ics.oop.buildings.AttackingBuildings.AttackingBuilding;
 import agh.ics.oop.buildings.Building;
 import agh.ics.oop.gui.CanvasElement;
 import javafx.scene.image.ImageView;

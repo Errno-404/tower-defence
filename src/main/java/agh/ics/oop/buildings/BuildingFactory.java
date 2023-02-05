@@ -1,6 +1,7 @@
 package agh.ics.oop.buildings;
 
 
+import agh.ics.oop.buildings.AttackingBuildings.BasicTower;
 import agh.ics.oop.gui.GameScreen;
 
 import java.io.FileNotFoundException;
@@ -12,6 +13,13 @@ public class BuildingFactory {
             case 1:{
                 try{
                 return new Castle(px, py, gs);
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            case 2:{
+                try{
+                    return new BasicTower(px,py,gs);
                 } catch (FileNotFoundException e) {
                     throw new RuntimeException(e);
                 }
