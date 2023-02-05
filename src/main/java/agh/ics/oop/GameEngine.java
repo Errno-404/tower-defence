@@ -137,7 +137,6 @@ public class GameEngine implements BuildingDestroyedObserver {
         this.enemyProjectilesToRemove.clear();
 
         addProjectilesToTiles();
-
     }
 
     public void addProjectilesToTiles(){

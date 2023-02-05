@@ -102,7 +102,7 @@ public class GameScreen {
 //            this.gameEngine.addProjectile(true);
 //        }
 
-        for(int i = 0;i<1000;i++){
+        for(int i = 0;i<0;i++){
             this.gameEngine.addProjectile(true);
         }
 
@@ -144,22 +144,6 @@ public class GameScreen {
             if (this.selectedBuildingSquare != null) {
                 this.selectedBuildingSquare.move(arrayIndexX, arrayIndexY);
             }
-
-            //test
-            this.gameEngine.friendlyProjectiles.forEach((Projectile p) -> {
-                if (p instanceof HomingProjectileTestClass p1) {
-                    p1.updateTarget(new Vector(mouseX, mouseY));
-                }
-
-            });
-
-            this.gameEngine.enemyProjectiles.forEach((Projectile p) -> {
-                if (p instanceof HomingProjectileTestClass p1) {
-                    p1.updateTarget(new Vector(mouseX, mouseY));
-                }
-
-            });
-
 
         });
 
