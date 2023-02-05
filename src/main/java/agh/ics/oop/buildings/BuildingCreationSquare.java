@@ -70,8 +70,8 @@ public class BuildingCreationSquare {
         this.anchorX = newX;
         this.anchorY = newY;
 
-        this.hitbox.upperLeft = new Vector(newX*Constants.tileWidth, newY*Constants.tileWidth);
-        this.hitbox.lowerRight = new Vector((newX + width)*Constants.tileWidth, (newY + height)*Constants.tileWidth);
+        this.hitbox.upperLeft = new Vector(newX*Constants.tileSize, newY*Constants.tileSize);
+        this.hitbox.lowerRight = new Vector((newX + width)*Constants.tileSize, (newY + height)*Constants.tileSize);
 
         this.draw();
     }

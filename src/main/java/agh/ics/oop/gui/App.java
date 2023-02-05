@@ -13,17 +13,16 @@ import javafx.util.Duration;
 public class App extends Application {
 
     private GameScreen gameScreen;
-    private GameEngine gameEngine;
-    final int width = 600;
-    final int height = 600;
+
     @Override
     public void start(Stage primaryStage) {
 
         this.gameScreen = new GameScreen();
-        primaryStage.setTitle("BTD6");
+        primaryStage.setTitle("Tower Defence");
         Timeline tl = new Timeline(new KeyFrame(Duration.millis((15)), e-> {gameScreen.run();}));
         tl.setCycleCount(Timeline.INDEFINITE);
         tl.play();
+
 
         BorderPane bpane = new BorderPane();
         bpane.setCenter(this.gameScreen.canvas);
@@ -48,7 +47,9 @@ public class App extends Application {
         //TODO: Może zmienić observerów na https://docs.oracle.com/en/java/javase/11/docs/api/java.desktop/java/beans/PropertyChangeListener.html
 
 
+
         primaryStage.setScene(new Scene(bpane));
         primaryStage.show();
+
     }
 }

@@ -10,6 +10,8 @@ import javafx.scene.image.ImageView;
 
 
 public class CanvasElement {
+
+
     public int xIndex;
     public int yIndex;
 
@@ -38,18 +40,21 @@ public class CanvasElement {
 
 
         this.img = new ImageView(img);
+        this.img.setFitHeight(Constants.tileSize);
+        this.img.setFitWidth(Constants.tileSize);
 
 
 
         this.xIndex = posx;
         this.yIndex = posy;
 
-        this.boxCentre = new Vector(this.xIndex* Constants.tileWidth + Constants.tileWidth /2, this.yIndex*Constants.tileWidth + Constants.tileWidth /2);
+        this.boxCentre = new Vector(this.xIndex* Constants.tileSize + Constants.tileSize /2, this.yIndex*Constants.tileSize + Constants.tileSize /2);
 
     }
 
     public void draw(GraphicsContext gc){
-        gc.drawImage(this.img.getImage(), this.xIndex*Constants.tileWidth, this.yIndex*Constants.tileWidth);
+        gc.drawImage(this.img.getImage(), this.xIndex*Constants.tileSize, this.yIndex*Constants.tileSize);
+//        gc.drawImage(this.img.getImage(), 0, 0);
     }
 
     public void highlight(){

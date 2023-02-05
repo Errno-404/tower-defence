@@ -51,8 +51,8 @@ public abstract class Building implements Hittable {
 
         this.healthBar = new HealthBar();
 
-        this.hitbox = new RectangularHitbox(new Vector(upperLeftx*Constants.tileWidth, upperLefty*Constants.tileWidth),
-                new Vector((upperLeftx + widthInTiles)*Constants.tileWidth, (upperLefty + heightInTiles)*Constants.tileWidth));
+        this.hitbox = new RectangularHitbox(new Vector(upperLeftx*Constants.tileSize, upperLefty*Constants.tileSize),
+                new Vector((upperLeftx + widthInTiles)*Constants.tileSize, (upperLefty + heightInTiles)*Constants.tileSize));
 
         this.viewArray = new ImageView[(int) widthInTiles][(int) heightInTiles];
 
@@ -62,7 +62,7 @@ public abstract class Building implements Hittable {
         for(int i = 0; i< widthInTiles; i++){
             for(int j = 0; j< heightInTiles; j++){
                 //Rectangle2D viewport = new Rectangle2D(i* Constants.boxWidth, j*Constants.boxHeight, Constants.boxWidth, Constants.boxHeight);
-                WritableImage croppedImage = new WritableImage(reader, (int) (i*Constants.tileWidth), (int) (j*Constants.tileWidth), (int) Constants.tileWidth, (int) Constants.tileWidth);
+                WritableImage croppedImage = new WritableImage(reader, (int) (i*Constants.tileSize), (int) (j*Constants.tileSize), (int) Constants.tileSize, (int) Constants.tileSize);
                 ImageView temp = new ImageView(croppedImage);
                 viewArray[i][j] = temp;
                 //gs.elements[upperLeftx+i][upperLefty+j].updateImage(temp);
