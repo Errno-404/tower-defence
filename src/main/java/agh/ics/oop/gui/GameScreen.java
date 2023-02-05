@@ -13,6 +13,7 @@ import agh.ics.oop.buildings.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -56,15 +57,22 @@ public class GameScreen {
 
         this.elements = new CanvasElement[(int) CanvasWidth][(int) CanvasHeight];
         try {
-            Image defaultImage = new Image(new FileInputStream("src/main/resources/blueRect.png"));
-            Image defaultBlack = new Image(new FileInputStream("src/main/resources/blackRect.png"));
+
+            // Grafika trawy - podłoża
+            Image lighterGrass = new Image(new FileInputStream("src/main/resources/lighterGrass.png"), Constants.tileWidth, Constants.CanvasWidth, true, false);
+            Image darkerGrass = new Image(new FileInputStream("src/main/resources/darkerGrass.png"), Constants.tileWidth, Constants.tileWidth, true, false);
+
+
+//            Image defaultImage = new Image(new FileInputStream("src/main/resources/blueRect.png"));
+//            Image defaultBlack = new Image(new FileInputStream("src/main/resources/blackRect.png"));
+
             Image cursorImg = new Image(new FileInputStream("src/main/resources/yellowRect.png"));
 
             for (int i = 0; i < Constants.numberOfTiles; i++) {
                 for (int j = 0; j < Constants.numberOfTiles; j++) {
-                    CanvasElement temp = new CanvasElement(defaultImage, cursorImg, i, j);
-                    CanvasElement temp1 = new CanvasElement(defaultBlack, cursorImg,i, j);
-                    if(i%2==0 || j%2 == 0){
+                    CanvasElement temp = new CanvasElement(lighterGrass, cursorImg, i, j);
+                    CanvasElement temp1 = new CanvasElement(darkerGrass, cursorImg,i, j);
+                    if((i + j) % 2 == 0){
                         elements[i][j] = temp;
                     }
                     else{
@@ -77,6 +85,12 @@ public class GameScreen {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+
+
+
+
+
+
 
         this.gameEngine = new GameEngine(this);
         Random rand = new Random();
@@ -197,49 +211,63 @@ public class GameScreen {
 
 
     public void run(){
-            for (int i = 0; i < 60; i++) {
-                for (int j = 0; j < 60; j++) {
+
+            // pętle rysują wszystkie kafelki
+
+            for (int i = 0; i < Constants.numberOfTiles; i++) {
+                for (int j = 0; j < Constants.numberOfTiles; j++) {
                     elements[i][j].draw(this.gc);
 
 
                 }
             }
 
-
-            this.gameEngine.defensiveBuildings.forEach(Building::drawHealthBar);
-            this.gameEngine.activeTowers.forEach(Building::drawHealthBar);
-            this.gameEngine.waitingTowers.forEach(Building::drawHealthBar);
-            //this.gameEngine.enemies.forEach(Enemy::drawOnCanvas);
-
-            this.gameEngine.moveProjectiles();
-            this.gameEngine.friendlyProjectiles.forEach((Projectile p) -> p.draw(this.gc));
-            this.gameEngine.enemyProjectiles.forEach((Projectile p) -> p.draw(this.gc));
-            this.gameEngine.checkCollisions();
-
-
-            this.gameEngine.enemies.forEach(Enemy::move);
-            this.gameEngine.enemies.forEach((Enemy e) -> {
-                e.draw(this.gc);
-            });
-            //test
-            this.h1.drawTest(this.gc);
-            this.h1.reportHealthChange(this.h1.currentPercentage-0.0025);
-
-
-            this.gameEngine.defensiveBuildings.forEach((DefensiveBuilding b) -> {
-                //b.reduceHealth(0.1);
-                if(b.getCurrentHealth() <= 0){
-                    this.gameEngine.destroyedBuildings.add(b);
-                }
-            });
-            this.gameEngine.defensiveBuildings.removeAll(this.gameEngine.destroyedBuildings);
-            this.gameEngine.destroyedBuildings.forEach(Building::destroyBuilding);
-            this.gameEngine.destroyedBuildings.clear(); //zmienic usuwanie zniszczonych budynkow na funkcje w GameEngine
-
-
-            if(this.h1.currentPercentage<=0){
-                this.h1.reportHealthChange(1.0);
+            // rysowanie delikatnych linii siatki
+            gc.setFill(Color.LIGHTGRAY);
+            gc.setLineWidth(0.25);
+            for(int x = 0; x <= Constants.CanvasWidth; x += Constants.tileWidth){
+                gc.strokeLine(x, 0, x, Constants.CanvasWidth);
             }
-        }
+            for(int y = 0; y <= Constants.CanvasWidth; y += Constants.tileWidth){
+                gc.strokeLine(0, y, Constants.CanvasWidth, y);
+            }
 
-}
+
+
+//            this.gameEngine.defensiveBuildings.forEach(Building::drawHealthBar);
+//            this.gameEngine.activeTowers.forEach(Building::drawHealthBar);
+//            this.gameEngine.waitingTowers.forEach(Building::drawHealthBar);
+//            //this.gameEngine.enemies.forEach(Enemy::drawOnCanvas);
+//
+//            this.gameEngine.moveProjectiles();
+//            this.gameEngine.friendlyProjectiles.forEach((Projectile p) -> p.draw(this.gc));
+//            this.gameEngine.enemyProjectiles.forEach((Projectile p) -> p.draw(this.gc));
+//            this.gameEngine.checkCollisions();
+//
+//
+//            this.gameEngine.enemies.forEach(Enemy::move);
+//            this.gameEngine.enemies.forEach((Enemy e) -> {
+//                e.draw(this.gc);
+//            });
+//            //test
+//            this.h1.drawTest(this.gc);
+//            this.h1.reportHealthChange(this.h1.currentPercentage-0.0025);
+//
+//
+//            this.gameEngine.defensiveBuildings.forEach((DefensiveBuilding b) -> {
+//                //b.reduceHealth(0.1);
+//                if(b.getCurrentHealth() <= 0){
+//                    this.gameEngine.destroyedBuildings.add(b);
+//                }
+//            });
+//            this.gameEngine.defensiveBuildings.removeAll(this.gameEngine.destroyedBuildings);
+//            this.gameEngine.destroyedBuildings.forEach(Building::destroyBuilding);
+//            this.gameEngine.destroyedBuildings.clear(); //zmienic usuwanie zniszczonych budynkow na funkcje w GameEngine
+//
+//
+//            if(this.h1.currentPercentage<=0){
+//                this.h1.reportHealthChange(1.0);
+//            }
+//        }
+
+}}

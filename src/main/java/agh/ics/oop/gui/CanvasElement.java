@@ -38,6 +38,8 @@ public class CanvasElement {
 
 
         this.img = new ImageView(img);
+        this.img.setFitHeight(Constants.tileWidth);
+        this.img.setFitWidth(Constants.tileWidth);
 
 
 
@@ -50,6 +52,7 @@ public class CanvasElement {
 
     public void draw(GraphicsContext gc){
         gc.drawImage(this.img.getImage(), this.xIndex*Constants.tileWidth, this.yIndex*Constants.tileWidth);
+//        gc.drawImage(this.img.getImage(), 0, 0);
     }
 
     public void highlight(){
