@@ -8,7 +8,7 @@ import agh.ics.oop.Interfaces.EnemyObserver;
 import agh.ics.oop.Interfaces.ProjectileObserver;
 import agh.ics.oop.Attacks.Projectile;
 import agh.ics.oop.Vector;
-import agh.ics.oop.buildings.AttackingBuilding;
+import agh.ics.oop.buildings.AttackingBuildings.AttackingBuilding;
 import agh.ics.oop.buildings.Building;
 import agh.ics.oop.buildings.Castle;
 import agh.ics.oop.gui.GameScreen;
@@ -141,9 +141,7 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
             this.castleCentre = this.map[building.hitbox.centre.getXindex()][building.hitbox.centre.getYindex()];
 
         }
-        else{
-            return;
-        }
+
 
 
         for(int i = xIndex;i< xIndex + building.getWidth();i++){
@@ -154,8 +152,9 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
             }
         }
         updateMapWeights();
+
         if(building instanceof AttackingBuilding){
-            //Add building to inRangeOf lists
+
         }
     }
 

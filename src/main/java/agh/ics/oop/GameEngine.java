@@ -6,7 +6,7 @@ import agh.ics.oop.Hitboxes.RectangularHitbox;
 import agh.ics.oop.Interfaces.BuildingDestroyedObserver;
 import agh.ics.oop.Attacks.HomingProjectileTestClass;
 import agh.ics.oop.Attacks.Projectile;
-import agh.ics.oop.buildings.AttackingBuilding;
+import agh.ics.oop.buildings.AttackingBuildings.AttackingBuilding;
 import agh.ics.oop.buildings.Building;
 import agh.ics.oop.buildings.DefensiveBuilding;
 import agh.ics.oop.gui.GameScreen;
@@ -61,6 +61,18 @@ public class GameEngine implements BuildingDestroyedObserver {
         this.gameMap.addProjectile(h1, type);
     }
 
+    public void addProjectileReal(boolean type, Projectile p){
+        p.setObserver(this.gameMap);
+        if(type){
+            this.friendlyProjectiles.add(p);
+        }
+        else{
+            this.enemyProjectiles.add(p);
+        }
+
+        this.gameMap.addProjectile(p, type);
+    }
+
     public void addBuilding(Building b){
         if(this.gameMap.canPlace(b.hitbox)){
             if(b instanceof DefensiveBuilding b1){
@@ -87,12 +99,18 @@ public class GameEngine implements BuildingDestroyedObserver {
         this.enemyProjectiles.forEach(Projectile::move);
     }
 
+    public void towersAttack(){
+        this.activeTowers.forEach(AttackingBuilding::attack);
+    }
+
     @Override
     public void reportBuildingDestroyed(Building b) {
         if (b instanceof DefensiveBuilding){
             this.defensiveBuildings.remove(b);
         }
         else if(b instanceof AttackingBuilding){
+            this.activeTowers.remove(b);
+            this.waitingTowers.remove(b);
             //TODO
         }
     }
@@ -112,12 +130,21 @@ public class GameEngine implements BuildingDestroyedObserver {
 
                 if(e.currentHealth <= 0){
                     this.deadEnemies.add(e);
+
+
+                    this.gameMap.clearUsedFriendlyProjectiles(this.friendlyProjectilesToRemove);
+                    this.friendlyProjectiles.removeAll(friendlyProjectilesToRemove);
+                    this.friendlyProjectilesToRemove.clear();
                     return true;
                 }
 
             }
         }
 
+        this.gameMap.clearUsedFriendlyProjectiles(this.friendlyProjectilesToRemove);
+
+        this.friendlyProjectiles.removeAll(friendlyProjectilesToRemove);
+        this.friendlyProjectilesToRemove.clear();
         return false;
     }
     
@@ -165,10 +192,7 @@ public class GameEngine implements BuildingDestroyedObserver {
             }
         });
 
-        this.gameMap.clearUsedFriendlyProjectiles(this.friendlyProjectilesToRemove);
 
-        this.friendlyProjectiles.removeAll(friendlyProjectilesToRemove);
-        this.friendlyProjectilesToRemove.clear();
     }
     
     private void checkBuildingCollisions(LinkedList<Building> buildings){
@@ -208,13 +232,14 @@ public class GameEngine implements BuildingDestroyedObserver {
             for(int i = ul.getXindex();i<lr.getXindex();i++){
                 for(int j = ul.getYindex();j < lr.getYindex(); j++){
                     for (Projectile projectile : this.gameMap.map[i][j].enemyProjectileList) {
-                        //System.out.println(this.enemyProjectiles);
                         if(projectile.getHitbox().collidesWith(b.hitbox)){
-                            //System.out.println("hit detected!");
                             projectile.hit(b);
+
+
                             this.enemyProjectilesToRemove.add(projectile);
                             this.gameMap.projectileHit(projectile, false);
                             if(b.getCurrentHealth() <= 0){
+                                this.destroyedBuildings.add(b);
                                 break;
                             }
                         }
@@ -240,6 +265,11 @@ public class GameEngine implements BuildingDestroyedObserver {
                             projectile.hit(b);
                             this.enemyProjectilesToRemove.add(projectile);
                             this.gameMap.projectileHit(projectile, false);
+
+                            if(b.getCurrentHealth() <= 0){
+                                this.destroyedBuildings.add(b);
+                                break;
+                            }
                         }
                     }
 
@@ -263,6 +293,11 @@ public class GameEngine implements BuildingDestroyedObserver {
                             projectile.hit(b);
                             this.enemyProjectilesToRemove.add(projectile);
                             this.gameMap.projectileHit(projectile, false);
+
+                            if(b.getCurrentHealth() <= 0){
+                                this.destroyedBuildings.add(b);
+                                break;
+                            }
                         }
                     }
 

@@ -137,9 +137,12 @@ public class GameScreen {
            //test
             int currX = this.elementUnderCursor.xIndex;
             int currY = this.elementUnderCursor.yIndex;
-            if(selectedListBuildingID == 0){
+            if(selectedListBuildingID == 0 && this.gameEngine.gameMap.castleCentre == null){
                 setSelectedListBuilding(1);
 
+            }
+            else if(selectedListBuildingID == 0){
+                setSelectedListBuilding(2);
             }
             else if(this.selectedBuildingSquare.validPosition){
                 placeSelectedListBuilding(BuildingFactory.getBuildingById(this.selectedListBuildingID,currX, currY,this));
