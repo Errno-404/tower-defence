@@ -115,4 +115,11 @@ public abstract class Building implements Hittable {
         this.currentHealth-=t;
         this.healthBar.reportHealthChange(this.currentHealth/this.maxHealth);
     }
+
+
+    @Override
+    public String toString(){
+        return "*";
+    }
+
 }
