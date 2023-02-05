@@ -9,11 +9,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class NormalProjectile extends Projectile{
-    Vector target;
+    Vector direction;
 
     public NormalProjectile(Vector position, double velocity, Vector target) {
         super(position, velocity);
-        this.target = target;
+        this.direction = position.getDirectionVector(target);
+        this.direction.normalise();
+        this.direction.multiplyScalar(this.velocity);
         try {
             this.sprite = new ImageView(new Image(new FileInputStream("src/main/resources/yellowRect.png")));
         } catch (FileNotFoundException e) {
@@ -24,23 +26,23 @@ public class NormalProjectile extends Projectile{
 
     @Override
     public void move() {
-        Vector oldPos = this.hitbox.centre;
+        Vector oldPos = new Vector(this.hitbox.centre);
         int oldposX = hitbox.centre.getXindex();
         int oldposY = hitbox.centre.getYindex();
 
-        Vector direction = this.hitbox.centre.getDirectionVector(this.target);
-        direction.multiplyScalar(this.velocity);
-        this.hitbox.moveAlongVector(direction);
+
+        this.hitbox.moveAlongVector(this.direction);
 
         int newposX = this.hitbox.centre.getXindex();
         int newposY = this.hitbox.centre.getYindex();
 
-        if(oldposX != newposX || oldposY != newposY){
+        if((oldposX != newposX || oldposY != newposY) && (newposX >= 0 && newposY >= 0)){
             this.pobs.reportNewIndexProjectile(oldPos,this.hitbox.centre,this);
         }
     }
 
     @Override
     public void hit(Hittable collided) {
+        collided.getHit(this);
     }
 }

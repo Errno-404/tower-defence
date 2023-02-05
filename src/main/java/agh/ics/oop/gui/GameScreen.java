@@ -78,11 +78,11 @@ public class GameScreen {
 
         this.gameEngine = new GameEngine(this);
         Random rand = new Random();
-        for(int i = 0;i<1000;i++){
+        for(int i = 0;i<0;i++){
             this.gameEngine.addProjectile(false);
         }
 
-        for(int i = 0;i<1000;i++){
+        for(int i = 0;i<0;i++){
             this.gameEngine.addProjectile(true);
         }
 
@@ -203,10 +203,10 @@ public class GameScreen {
                 }
             }
 
+            this.gameEngine.clearEnemiesInTowers();
 
             this.gameEngine.defensiveBuildings.forEach(Building::drawHealthBar);
-            this.gameEngine.activeTowers.forEach(Building::drawHealthBar);
-            this.gameEngine.waitingTowers.forEach(Building::drawHealthBar);
+            this.gameEngine.towers.forEach(Building::drawHealthBar);
             //this.gameEngine.enemies.forEach(Enemy::drawOnCanvas);
 
             this.gameEngine.moveProjectiles();
@@ -219,6 +219,8 @@ public class GameScreen {
             this.gameEngine.enemies.forEach((Enemy e) -> {
                 e.draw(this.gc);
             });
+
+            this.gameEngine.addEnemiesToTowers();
             //test
             this.h1.drawTest(this.gc);
             this.h1.reportHealthChange(this.h1.currentPercentage-0.0025);

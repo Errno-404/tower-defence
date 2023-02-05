@@ -6,6 +6,7 @@ import agh.ics.oop.Hitboxes.RectangularHitbox;
 import agh.ics.oop.Interfaces.BuildingDestroyedObserver;
 import agh.ics.oop.Interfaces.Hittable;
 import agh.ics.oop.Vector;
+import agh.ics.oop.buildings.AttackingBuildings.AttackingBuilding;
 import agh.ics.oop.gui.GameScreen;
 import agh.ics.oop.gui.HealthBar;
 import javafx.scene.image.Image;
@@ -106,6 +107,10 @@ public abstract class Building implements Hittable {
         this.observer.forEach((BuildingDestroyedObserver o) -> {
             o.reportBuildingDestroyed(this);
         });
+
+        if(this instanceof AttackingBuilding a1){
+            a1.attackManager.cancel();
+        }
     }
 
     public void updateCanvas(){

@@ -164,8 +164,12 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
         }
         updateMapWeights();
 
-        if(building instanceof AttackingBuilding){
-
+        if(building instanceof AttackingBuilding b1){
+            for(int i = 0;i < 59; i++){
+                for(int j = 0; j<59;j++){
+                    this.map[i][j].inRangeOf.add(b1);
+                }
+            }
         }
     }
 
@@ -193,14 +197,14 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
     @Override
     public void reportNewIndexProjectile(Vector old, Vector newpos, Projectile p) {
         try {
-            int oldX = (int) old.getX();
-            int oldY = (int) old.getY();
+            int oldX = old.getXindex();
+            int oldY = old.getYindex();
 
-            int newX = (int) newpos.getX();
-            int newY = (int) newpos.getY();
+            int newX = newpos.getXindex();
+            int newY = newpos.getYindex();
             if(this.map[oldX][oldY].friendlyProjectileList.contains(p)){
                 this.map[oldX][oldY].friendlyProjectileList.remove(p);
-                this.map[(int) newpos.getX()][(int) newpos.getY()].friendlyProjectileList.add(p);
+                this.map[newX][newY].friendlyProjectileList.add(p);
             }
             else{
                 this.map[oldX][oldY].enemyProjectileList.remove(p);
