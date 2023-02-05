@@ -78,12 +78,16 @@ public class GameScreen {
 
         this.gameEngine = new GameEngine(this);
         Random rand = new Random();
-        for(int i = 0;i<1;i++){
+        for(int i = 0;i<1000;i++){
             this.gameEngine.addProjectile(false);
         }
 
+        for(int i = 0;i<1000;i++){
+            this.gameEngine.addProjectile(true);
+        }
+
         try {
-            for (int i = 0; i < 500; i++) {
+            for (int i = 0; i < 5; i++) {
                 this.gameEngine.addEnemy(new BasicEnemy(rand.nextDouble(0,600), rand.nextDouble(0,600),this.gameEngine.gameMap));
             }
         } catch (FileNotFoundException e) {
@@ -111,6 +115,13 @@ public class GameScreen {
             }
 
             //test
+            this.gameEngine.friendlyProjectiles.forEach((Projectile p) -> {
+                if(p instanceof HomingProjectileTestClass p1){
+                    p1.updateTarget(new Vector(mouseX, mouseY));
+                }
+
+            });
+
             this.gameEngine.enemyProjectiles.forEach((Projectile p) -> {
                 if(p instanceof HomingProjectileTestClass p1){
                     p1.updateTarget(new Vector(mouseX, mouseY));
@@ -142,7 +153,8 @@ public class GameScreen {
 
             System.out.println(this.elementUnderCursor.xIndex + "   " + this.elementUnderCursor.yIndex + "    " + this.elementUnderCursor.boxCentre);
             //System.out.println("projectiles at " + currX + " " + currY + "  " + this.gameEngine.gameMap.map[this.elementUnderCursor.xIndex][this.elementUnderCursor.yIndex].enemyProjectileList.size());
-            System.out.println("fval: " +this.gameEngine.gameMap.map[this.elementUnderCursor.xIndex][this.elementUnderCursor.yIndex].mapWeightValue);
+            System.out.println("fval: " + this.gameEngine.friendlyProjectiles.size() + " " + this.gameEngine.friendlyProjectilesToRemove.size()
+                    + " " + this.gameEngine.enemies.size() + " " + this.gameEngine.deadEnemies.size() + " " + this.gameEngine.gameMap.sumProj());
             //test
             //this.castle.destroyBuilding();
         });

@@ -102,9 +102,12 @@ public class GameEngine implements BuildingDestroyedObserver {
             return false;
         }
 
+
         for (Projectile projectile : this.gameMap.map[x][y].friendlyProjectileList) {
+
             if(projectile.getHitbox().collidesWith(e.getHitbox())){
                 projectile.hit(e);
+                this.friendlyProjectilesToRemove.add(projectile);
                 this.gameMap.projectileHit(projectile,true);
 
                 if(e.currentHealth <= 0){
@@ -114,6 +117,7 @@ public class GameEngine implements BuildingDestroyedObserver {
 
             }
         }
+
         return false;
     }
     
@@ -160,6 +164,9 @@ public class GameEngine implements BuildingDestroyedObserver {
                 died = checkEnemyHitAtPosition(Math.min(Constants.boxNoWidth-1,centerX-1),Math.min(Constants.boxNoHeight-1, centerY-1), e);
             }
         });
+
+        //this.friendlyProjectiles.removeAll(friendlyProjectilesToRemove);
+        //this.friendlyProjectilesToRemove.clear();
     }
     
     private void checkBuildingCollisions(LinkedList<Building> buildings){
@@ -185,6 +192,14 @@ public class GameEngine implements BuildingDestroyedObserver {
         checkEnemyCollisions();
 
 
+        this.deadEnemies.forEach((Enemy e) -> {
+            this.gameMap.removeEnemy(e);
+        });
+
+        this.enemies.removeAll(deadEnemies);
+        this.deadEnemies.clear();
+
+
         this.defensiveBuildings.forEach((Building b) -> {
             Vector ul = b.hitbox.upperLeft;
             Vector lr = b.hitbox.lowerRight;
@@ -206,9 +221,9 @@ public class GameEngine implements BuildingDestroyedObserver {
                 }
             }
 
-            this.gameMap.clearUsedProjectilesInRange(ul.getXindex()-1, ul.getYindex()-1, lr.getXindex()+1, lr.getYindex()+1, false);
-            this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);
-            this.enemyProjectilesToRemove.clear();
+            //this.gameMap.clearUsedProjectilesInRange(ul.getXindex()-1, ul.getYindex()-1, lr.getXindex()+1, lr.getYindex()+1, false);
+            //this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);
+            //this.enemyProjectilesToRemove.clear();
         });
 
 
@@ -228,13 +243,13 @@ public class GameEngine implements BuildingDestroyedObserver {
 
                 }
             }
-            this.gameMap.clearUsedProjectilesInRange(ul.getXindex()-1, ul.getYindex()-1, lr.getXindex()+1, lr.getYindex()+1, false);
-            this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);
-            this.enemyProjectilesToRemove.clear();
+            //this.gameMap.clearUsedProjectilesInRange(ul.getXindex()-1, ul.getYindex()-1, lr.getXindex()+1, lr.getYindex()+1, false);
+            //this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);
+            //this.enemyProjectilesToRemove.clear();
         });
 
-        this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);
-        this.enemyProjectilesToRemove.clear();
+        //this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);
+        //this.enemyProjectilesToRemove.clear();
 
         this.activeTowers.forEach((Building b) -> {
             Vector ul = b.hitbox.upperLeft;
@@ -251,12 +266,16 @@ public class GameEngine implements BuildingDestroyedObserver {
 
                 }
             }
-            this.gameMap.clearUsedProjectilesInRange(ul.getXindex()-1, ul.getYindex()-1, lr.getXindex()+1, lr.getYindex()+1, false);
-            this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);
-            this.enemyProjectilesToRemove.clear();
+            //this.gameMap.clearUsedProjectilesInRange(ul.getXindex()-1, ul.getYindex()-1, lr.getXindex()+1, lr.getYindex()+1, false);
+            //this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);
+            //this.enemyProjectilesToRemove.clear();
         });
+        this.gameMap.clearUsedProjectiles(this.friendlyProjectilesToRemove, this.enemyProjectilesToRemove);
 
         this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);
         this.enemyProjectilesToRemove.clear();
+
+        this.friendlyProjectiles.removeAll(this.friendlyProjectilesToRemove);
+        this.friendlyProjectilesToRemove.clear();
     }
 }

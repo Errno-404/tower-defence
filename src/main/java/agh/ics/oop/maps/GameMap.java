@@ -176,6 +176,10 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
         this.map[e.getHitbox().centre.getXindex()][e.getHitbox().centre.getYindex()].enemyList.add(e);
     }
 
+    public void removeEnemy(Enemy e){
+        this.map[e.getHitbox().getCentre().getXindex()][e.getHitbox().getCentre().getYindex()].enemyList.remove(e);
+    }
+
     @Override
     public void reportNewIndexProjectile(Vector old, Vector newpos, Projectile p) {
         try {
@@ -241,9 +245,27 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
             }
         }
 
+        updateMapWeights();
+
         if(b instanceof AttackingBuilding){
             //remove building from all inRangeOf lists
         }
+    }
+
+    public void clearUsedProjectiles(LinkedList<Projectile> lp1, LinkedList<Projectile> lp2){
+        lp1.forEach((Projectile p) -> {
+            int x = p.getHitbox().centre.getXindex();
+            int y = p.getHitbox().centre.getYindex();
+
+            this.map[x][y].friendlyProjectileList.remove(p);
+        });
+
+        lp2.forEach((Projectile p) -> {
+            int x = p.getHitbox().centre.getXindex();
+            int y = p.getHitbox().centre.getYindex();
+
+            this.map[x][y].enemyProjectileList.remove(p);
+        });
     }
 
     public int sumProj(){
