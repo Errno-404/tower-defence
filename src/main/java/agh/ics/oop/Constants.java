@@ -3,7 +3,7 @@ package agh.ics.oop;
 import java.util.HashMap;
 
 public final class Constants {
-    public final static double tileSize = 60;
+    public final static double tileSize = 30;
 //    public final static double tileWidth = 10;
 
 //    public final static double CanvasWidth = 600;

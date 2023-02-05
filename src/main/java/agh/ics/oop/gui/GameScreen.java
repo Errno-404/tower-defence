@@ -28,6 +28,9 @@ public class GameScreen {
 
     public CanvasElement[][] elements;
 
+    // przechowuje elementy tła mapy
+    private CanvasElement[][] background;
+
     ArrayList<SelectionObserver> observers;
 
     GameEngine gameEngine;
@@ -50,6 +53,12 @@ public class GameScreen {
 
 
         this.elements = new CanvasElement[(int) canvasSize][(int) canvasSize];
+
+
+        this.background = new CanvasElement[Constants.numberOfTiles][Constants.numberOfTiles];
+
+
+
         try {
 
             // Grafika trawy - podłoża
@@ -77,14 +86,14 @@ public class GameScreen {
                     CanvasElement temp = new CanvasElement(lighterGrass, cursorImg, i, j);
                     CanvasElement temp1 = new CanvasElement(darkerGrass, cursorImg, i, j);
                     if ((i + j) % 2 == 0) {
-                        elements[i][j] = temp;
+                        background[i][j] = temp;
                     } else {
-                        elements[i][j] = temp1;
+                        background[i][j] = temp1;
                     }
 
                 }
             }
-            this.elementUnderCursor = elements[0][0];
+            this.elementUnderCursor = background[0][0];
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -233,11 +242,14 @@ public class GameScreen {
 
         for (int i = 0; i < Constants.numberOfTiles; i++) {
             for (int j = 0; j < Constants.numberOfTiles; j++) {
-                elements[i][j].draw(this.gc);
+                background[i][j].draw(this.gc);
 
 
             }
         }
+
+
+
 
             this.gameEngine.clearEnemiesInTowers();
 
@@ -270,24 +282,7 @@ public class GameScreen {
 //        }
 
 
-//            this.gameEngine.defensiveBuildings.forEach(Building::drawHealthBar);
-//            this.gameEngine.activeTowers.forEach(Building::drawHealthBar);
-//            this.gameEngine.waitingTowers.forEach(Building::drawHealthBar);
-//            //this.gameEngine.enemies.forEach(Enemy::drawOnCanvas);
 //
-//            this.gameEngine.moveProjectiles();
-//            this.gameEngine.friendlyProjectiles.forEach((Projectile p) -> p.draw(this.gc));
-//            this.gameEngine.enemyProjectiles.forEach((Projectile p) -> p.draw(this.gc));
-//            this.gameEngine.checkCollisions();
-//
-//
-//            this.gameEngine.enemies.forEach(Enemy::move);
-//            this.gameEngine.enemies.forEach((Enemy e) -> {
-//                e.draw(this.gc);
-//            });
-//            //test
-//            this.h1.drawTest(this.gc);
-//            this.h1.reportHealthChange(this.h1.currentPercentage-0.0025);
 //
 //
 //            this.gameEngine.defensiveBuildings.forEach((DefensiveBuilding b) -> {
