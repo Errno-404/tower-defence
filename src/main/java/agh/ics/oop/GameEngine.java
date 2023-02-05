@@ -40,7 +40,8 @@ public class GameEngine implements BuildingDestroyedObserver {
     public GameEngine(GameScreen gs){
         this.gs = gs;
 
-        this.gameMap = new GameMap(Constants.boxNoWidth, Constants.boxNoHeight, this.gs);
+//        this.gameMap = new GameMap(Constants.boxNoWidth, Constants.boxNoHeight, this.gs);
+        this.gameMap = new GameMap(this.gs);
     }
 
 
@@ -179,16 +180,16 @@ public class GameEngine implements BuildingDestroyedObserver {
                 died = checkEnemyHitAtPosition(centerX, Math.max(0,centerY-1), e);
             }
             if(!died){
-                died = checkEnemyHitAtPosition(Math.min(Constants.boxNoWidth-1, centerX+1),centerY, e);
+                died = checkEnemyHitAtPosition(Math.min(Constants.numberOfTiles -1, centerX+1),centerY, e);
             }
             if(!died){
-                died = checkEnemyHitAtPosition(centerX,Math.min(Constants.boxNoHeight-1, centerY+1), e);
+                died = checkEnemyHitAtPosition(centerX,Math.min(Constants.numberOfTiles -1, centerY+1), e);
             }
             if(!died){
-                died = checkEnemyHitAtPosition(Math.min(Constants.boxNoWidth-1,centerX+1),Math.min(Constants.boxNoHeight-1, centerY+1), e);
+                died = checkEnemyHitAtPosition(Math.min(Constants.numberOfTiles -1,centerX+1),Math.min(Constants.numberOfTiles -1, centerY+1), e);
             }
             if(!died){
-                died = checkEnemyHitAtPosition(Math.min(Constants.boxNoWidth-1,centerX-1),Math.min(Constants.boxNoHeight-1, centerY-1), e);
+                died = checkEnemyHitAtPosition(Math.min(Constants.numberOfTiles -1,centerX-1),Math.min(Constants.numberOfTiles -1, centerY-1), e);
             }
         });
 
@@ -200,8 +201,8 @@ public class GameEngine implements BuildingDestroyedObserver {
         buildings.forEach((Building b) -> {
             Vector ul = b.hitbox.upperLeft;
             Vector lr = b.hitbox.lowerRight;
-            for(int i = ul.getXindex();i<ul.getXindex() + b.getWidth();i++){
-                for(int j = lr.getYindex();j < lr.getYindex() + b.getHeight(); j++){
+            for(int i = ul.getXindex(); i<ul.getXindex() + b.getWidthInTiles(); i++){
+                for(int j = lr.getYindex(); j < lr.getYindex() + b.getHeightInTiles(); j++){
                     for (Projectile projectile : this.gameMap.map[i][j].enemyProjectileList) {
                         if(projectile.getHitbox().collidesWith(b.hitbox)){
                             projectile.hit(b);
@@ -258,8 +259,8 @@ public class GameEngine implements BuildingDestroyedObserver {
         this.waitingTowers.forEach((Building b) -> {
             Vector ul = b.hitbox.upperLeft;
             Vector lr = b.hitbox.lowerRight;
-            for(int i = ul.getXindex();i<lr.getXindex() + b.getWidth();i++){
-                for(int j = ul.getYindex();j < lr.getYindex() + b.getHeight(); j++){
+            for(int i = ul.getXindex(); i<lr.getXindex() + b.getWidthInTiles(); i++){
+                for(int j = ul.getYindex(); j < lr.getYindex() + b.getHeightInTiles(); j++){
                     for (Projectile projectile : this.gameMap.map[i][j].enemyProjectileList) {
                         if(projectile.getHitbox().collidesWith(b.hitbox)){
                             projectile.hit(b);
@@ -286,8 +287,8 @@ public class GameEngine implements BuildingDestroyedObserver {
         this.activeTowers.forEach((Building b) -> {
             Vector ul = b.hitbox.upperLeft;
             Vector lr = b.hitbox.lowerRight;
-            for(int i = ul.getXindex();i<lr.getXindex() + b.getWidth();i++){
-                for(int j = ul.getYindex();j < lr.getYindex() + b.getHeight(); j++){
+            for(int i = ul.getXindex(); i<lr.getXindex() + b.getWidthInTiles(); i++){
+                for(int j = ul.getYindex(); j < lr.getYindex() + b.getHeightInTiles(); j++){
                     for (Projectile projectile : this.gameMap.map[i][j].enemyProjectileList) {
                         if(projectile.getHitbox().collidesWith(b.hitbox)){
                             projectile.hit(b);

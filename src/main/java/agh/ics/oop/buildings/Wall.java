@@ -2,10 +2,14 @@ package agh.ics.oop.buildings;
 
 import agh.ics.oop.Attacks.Attack;
 import agh.ics.oop.Vector;
+import agh.ics.oop.gui.GameScreen;
+import javafx.scene.image.Image;
 
 public class Wall extends DefensiveBuilding {
-    public Wall(Vector position, int width, int height, int health, int defence) {
-        super(position, width, height, health, defence);
+    public Wall(int widthInTiles, int heightInTiles, Vector position, Image img, GameScreen gs, double health, double defence) {
+
+        // int widthInTiles, int heightInTiles, Vector position, double health, Image img, GameScreen gs, double defence
+        super(widthInTiles, heightInTiles, position, health, img, gs, defence);
     }
 
 

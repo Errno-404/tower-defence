@@ -1,6 +1,8 @@
 package agh.ics.oop.buildings;
 
 
+import agh.ics.oop.GameEngine;
+import agh.ics.oop.Vector;
 import agh.ics.oop.buildings.AttackingBuildings.BasicTower;
 import agh.ics.oop.gui.GameScreen;
 
@@ -8,18 +10,21 @@ import java.io.FileNotFoundException;
 
 public class BuildingFactory {
 
-    public static Building getBuildingById(Integer id, int px, int py, GameScreen gs){
+    public static Building getBuildingById(Integer id, int px, int py, GameScreen gs, GameEngine ge){
         switch(id){
             case 1:{
                 try{
-                return new Castle(px, py, gs);
+
+                Vector position = new Vector(px, py);
+                return new Castle(position, gs);
                 } catch (FileNotFoundException e) {
                     throw new RuntimeException(e);
                 }
             }
             case 2:{
                 try{
-                    return new BasicTower(px,py,gs);
+                    Vector position = new Vector(px ,py);
+                    return new BasicTower(position,gs, ge);
                 } catch (FileNotFoundException e) {
                     throw new RuntimeException(e);
                 }
