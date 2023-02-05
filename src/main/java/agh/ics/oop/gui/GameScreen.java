@@ -3,7 +3,6 @@ package agh.ics.oop.gui;
 
 import agh.ics.oop.Constants;
 import agh.ics.oop.Enemies.BasicEnemy;
-import agh.ics.oop.Enemies.Enemy;
 import agh.ics.oop.GameEngine;
 import agh.ics.oop.Interfaces.SelectionObserver;
 import agh.ics.oop.Attacks.HomingProjectileTestClass;
@@ -13,7 +12,6 @@ import agh.ics.oop.buildings.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -46,24 +44,32 @@ public class GameScreen {
 
 
     public GameScreen() {
-        double CanvasWidth = Constants.CanvasWidth;
-        double CanvasHeight = CanvasWidth;
-        this.canvas = new Canvas(CanvasWidth, CanvasWidth);
+        double canvasSize = Constants.canvasSize;
+        this.canvas = new Canvas(canvasSize, canvasSize);
         this.gc = canvas.getGraphicsContext2D();
 
 
-        this.elements = new CanvasElement[(int) CanvasWidth][(int) CanvasHeight];
+        this.elements = new CanvasElement[(int) canvasSize][(int) canvasSize];
         try {
 
             // Grafika trawy - podłoża
-            Image lighterGrass = new Image(new FileInputStream("src/main/resources/lighterGrass.png"), Constants.tileWidth, Constants.CanvasWidth, true, false);
-            Image darkerGrass = new Image(new FileInputStream("src/main/resources/darkerGrass.png"), Constants.tileWidth, Constants.tileWidth, true, false);
+
+            Image lighterGrass = new Image(new FileInputStream("src/main/resources/lighterGrass.png"),
+                    Constants.tileSize, Constants.canvasSize, true, false);
+            Image darkerGrass = new Image(new FileInputStream("src/main/resources/darkerGrass.png"),
+                    Constants.tileSize, Constants.tileSize, true, false);
 
 
 //            Image defaultImage = new Image(new FileInputStream("src/main/resources/blueRect.png"));
 //            Image defaultBlack = new Image(new FileInputStream("src/main/resources/blackRect.png"));
 
+
+            // Grafika kursora ?
+
             Image cursorImg = new Image(new FileInputStream("src/main/resources/yellowRect.png"));
+
+
+            // Dodawanie odpowiedniego elementu do narysowania
 
             for (int i = 0; i < Constants.numberOfTiles; i++) {
                 for (int j = 0; j < Constants.numberOfTiles; j++) {
@@ -98,13 +104,14 @@ public class GameScreen {
 
 
 
-        try {
-            for (int i = 0; i < 5; i++) {
-                this.gameEngine.addEnemy(new BasicEnemy(rand.nextDouble(0, 600), rand.nextDouble(0, 600), this.gameEngine.gameMap));
-            }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        // co to jest?
+//        try {
+//            for (int i = 0; i < 5; i++) {
+//                this.gameEngine.addEnemy(new BasicEnemy(rand.nextDouble(0, 600), rand.nextDouble(0, 600), this.gameEngine.gameMap));
+//            }
+//        } catch (FileNotFoundException e) {
+//            throw new RuntimeException(e);
+//        }
 
 
         // onMouse Events
@@ -113,8 +120,8 @@ public class GameScreen {
             double mouseX = e.getX();
             double mouseY = e.getY();
 
-            int arrayIndexX = (int) (mouseX / Constants.tileWidth);
-            int arrayIndexY = (int) (mouseY / Constants.tileWidth);
+            int arrayIndexX = (int) (mouseX / Constants.tileSize);
+            int arrayIndexY = (int) (mouseY / Constants.tileSize);
 
 
             if (this.elementUnderCursor != elements[arrayIndexX][arrayIndexY]) {
@@ -222,14 +229,14 @@ public class GameScreen {
         }
 
         // rysowanie delikatnych linii siatki
-        gc.setFill(Color.LIGHTGRAY);
-        gc.setLineWidth(0.25);
-        for (int x = 0; x <= Constants.CanvasWidth; x += Constants.tileWidth) {
-            gc.strokeLine(x, 0, x, Constants.CanvasWidth);
-        }
-        for (int y = 0; y <= Constants.CanvasWidth; y += Constants.tileWidth) {
-            gc.strokeLine(0, y, Constants.CanvasWidth, y);
-        }
+//        gc.setFill(Color.LIGHTGRAY);
+//        gc.setLineWidth(0.05);
+//        for (int x = 0; x <= Constants.CanvasWidth; x += Constants.tileWidth) {
+//            gc.strokeLine(x, 0, x, Constants.CanvasWidth);
+//        }
+//        for (int y = 0; y <= Constants.CanvasWidth; y += Constants.tileWidth) {
+//            gc.strokeLine(0, y, Constants.CanvasWidth, y);
+//        }
 
 
 //            this.gameEngine.defensiveBuildings.forEach(Building::drawHealthBar);

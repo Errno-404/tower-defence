@@ -47,11 +47,11 @@ public class Vector {
     }
 
     public int getXindex(){
-        return (int) (this.x/Constants.tileWidth);
+        return (int) (this.x/Constants.tileSize);
     }
 
     public int getYindex(){
-        return (int) (this.y/Constants.tileWidth);
+        return (int) (this.y/Constants.tileSize);
     }
     @Override
     public String toString(){
