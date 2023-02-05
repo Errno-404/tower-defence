@@ -77,6 +77,11 @@ public class GameEngine implements BuildingDestroyedObserver {
             System.out.println("cant place!!!!");
         }
     }
+
+    public void addEnemy(Enemy e){
+        this.enemies.add(e);
+        this.gameMap.addEnemy(e);
+    }
     public void moveProjectiles(){
         this.friendlyProjectiles.forEach(Projectile::move);
         this.enemyProjectiles.forEach(Projectile::move);

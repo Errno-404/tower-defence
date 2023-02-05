@@ -4,9 +4,13 @@ import agh.ics.oop.Attacks.Attack;
 import agh.ics.oop.Hitboxes.RectangularHitbox;
 import agh.ics.oop.Interfaces.HealthChangeObserver;
 import agh.ics.oop.Interfaces.Hittable;
+import agh.ics.oop.Vector;
+import agh.ics.oop.gui.GameScreen;
+import agh.ics.oop.gui.HealthBar;
 import agh.ics.oop.maps.GameMap;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
@@ -18,11 +22,26 @@ public abstract class Enemy implements Hittable {
     public double currentHealth;
     Image sprite;
 
-    HealthChangeObserver hpObs;
+    HealthBar hpObs;
 
     RectangularHitbox hitbox;
 
     GameMap map;
+    Attack attack;
+
+
+    public Enemy(double px, double py,double sizex, double sizey, double hp, Attack attack, GameMap map,Image sprite){
+        this.currentHealth = hp;
+        this.maxHealth = hp;
+        this.hitbox = new RectangularHitbox(new Vector(px,py), new Vector(px + sizex, py + sizey));
+
+        this.attack = attack;
+
+        this.hpObs = new HealthBar();
+
+        this.sprite = sprite;
+        this.map = map;
+    }
 
 
     @Override
@@ -79,6 +98,7 @@ public abstract class Enemy implements Hittable {
     }
 
     public void draw(GraphicsContext gc){
+        this.hpObs.draw(gc,this.hitbox);
         gc.drawImage(sprite,hitbox.upperLeft.getX(), hitbox.upperLeft.getY());
     }
 

@@ -16,8 +16,8 @@ public  class RectangularHitbox implements Hitbox{
     public RectangularHitbox(Vector centre, double size){
         this.centre = centre;
 
-        this.upperLeft = new Vector(centre.getX() - size/2,centre.getY() + size/2);
-        this.lowerRight = new Vector(centre.getX() + size/2, centre.getY() - size/2);
+        this.upperLeft = new Vector(centre.getX() - size/2,centre.getY() - size/2);
+        this.lowerRight = new Vector(centre.getX() + size/2, centre.getY() + size/2);
     }
 
     /*public boolean collidesWith(RectangularHitbox hb) {

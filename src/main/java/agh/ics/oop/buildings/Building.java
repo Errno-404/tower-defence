@@ -17,8 +17,8 @@ import java.util.ArrayList;
 
 
 public abstract class Building implements Hittable {
-    protected final double width;
-    protected final double height;
+    protected final int width;
+    protected final int height;
 
     public RectangularHitbox hitbox;
 
@@ -39,7 +39,7 @@ public abstract class Building implements Hittable {
         this.currentHealth = health;
     }
 
-    protected Building(double width, double height, int upperLeftx, int upperLefty, int health, Image img, GameScreen gs) {
+    protected Building(int width, int height, int upperLeftx, int upperLefty, int health, Image img, GameScreen gs) {
         this.width = width;
         this.height = height;
 
