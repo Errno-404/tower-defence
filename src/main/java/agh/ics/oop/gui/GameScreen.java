@@ -83,8 +83,8 @@ public class GameScreen {
         }
 
         try {
-            for (int i = 0; i < 5; i++) {
-                this.gameEngine.addEnemy(new BasicEnemy(300,300,this.gameEngine.gameMap));
+            for (int i = 0; i < 500; i++) {
+                this.gameEngine.addEnemy(new BasicEnemy(rand.nextDouble(0,600), rand.nextDouble(0,600),this.gameEngine.gameMap));
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);

@@ -98,6 +98,10 @@ public class GameEngine implements BuildingDestroyedObserver {
     }
 
     private boolean checkEnemyHitAtPosition(int x, int y, Enemy e){
+        if(!this.gameMap.isOnMap(x,y)){
+            return false;
+        }
+
         for (Projectile projectile : this.gameMap.map[x][y].friendlyProjectileList) {
             if(projectile.getHitbox().collidesWith(e.getHitbox())){
                 projectile.hit(e);

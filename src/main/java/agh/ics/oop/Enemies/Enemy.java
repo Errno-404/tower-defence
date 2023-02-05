@@ -98,8 +98,8 @@ public abstract class Enemy implements Hittable {
     }
 
     public void draw(GraphicsContext gc){
-        this.hpObs.draw(gc,this.hitbox);
         gc.drawImage(sprite,hitbox.upperLeft.getX(), hitbox.upperLeft.getY());
+        this.hpObs.draw(gc,this.hitbox);
     }
 
     public RectangularHitbox getHitbox(){
