@@ -10,6 +10,8 @@ import javafx.scene.image.ImageView;
 
 
 public class CanvasElement {
+
+
     public int xIndex;
     public int yIndex;
 

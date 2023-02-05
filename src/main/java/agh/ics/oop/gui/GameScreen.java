@@ -30,7 +30,6 @@ public class GameScreen {
     public CanvasElement[][] elements;
 
 
-
     // something other
     ArrayList<SelectionObserver> observers;
     GameEngine gameEngine;
@@ -46,13 +45,11 @@ public class GameScreen {
     Castle castle;
 
 
-    public GameScreen(){
+    public GameScreen() {
         double CanvasWidth = Constants.CanvasWidth;
         double CanvasHeight = CanvasWidth;
-        this.canvas = new Canvas(CanvasWidth,CanvasWidth);
+        this.canvas = new Canvas(CanvasWidth, CanvasWidth);
         this.gc = canvas.getGraphicsContext2D();
-
-
 
 
         this.elements = new CanvasElement[(int) CanvasWidth][(int) CanvasHeight];
@@ -71,11 +68,10 @@ public class GameScreen {
             for (int i = 0; i < Constants.numberOfTiles; i++) {
                 for (int j = 0; j < Constants.numberOfTiles; j++) {
                     CanvasElement temp = new CanvasElement(lighterGrass, cursorImg, i, j);
-                    CanvasElement temp1 = new CanvasElement(darkerGrass, cursorImg,i, j);
-                    if((i + j) % 2 == 0){
+                    CanvasElement temp1 = new CanvasElement(darkerGrass, cursorImg, i, j);
+                    if ((i + j) % 2 == 0) {
                         elements[i][j] = temp;
-                    }
-                    else{
+                    } else {
                         elements[i][j] = temp1;
                     }
 
@@ -87,151 +83,153 @@ public class GameScreen {
         }
 
 
-
-
-
-
-
+        // Dodanie silnika do ekranu
         this.gameEngine = new GameEngine(this);
         Random rand = new Random();
-        for(int i = 0;i<1000;i++){
-            this.gameEngine.addProjectile(false);
-        }
 
-        for(int i = 0;i<1000;i++){
-            this.gameEngine.addProjectile(true);
-        }
+
+//        for(int i = 0;i<1000;i++){
+//            this.gameEngine.addProjectile(false);
+//        }
+
+//        for (int i = 0; i < 1000; i++) {
+//            this.gameEngine.addProjectile(true);
+//        }
+
+
 
         try {
             for (int i = 0; i < 5; i++) {
-                this.gameEngine.addEnemy(new BasicEnemy(rand.nextDouble(0,600), rand.nextDouble(0,600),this.gameEngine.gameMap));
+                this.gameEngine.addEnemy(new BasicEnemy(rand.nextDouble(0, 600), rand.nextDouble(0, 600), this.gameEngine.gameMap));
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
 
 
+        // onMouse Events
         this.canvas.setOnMouseMoved(e -> {
 
             double mouseX = e.getX();
             double mouseY = e.getY();
 
-            int arrayIndexX = (int) (mouseX/Constants.tileWidth);
-            int arrayIndexY = (int) (mouseY/Constants.tileWidth);
+            int arrayIndexX = (int) (mouseX / Constants.tileWidth);
+            int arrayIndexY = (int) (mouseY / Constants.tileWidth);
 
 
-            if(this.elementUnderCursor != elements[arrayIndexX][arrayIndexY]){
+            if (this.elementUnderCursor != elements[arrayIndexX][arrayIndexY]) {
                 this.elementUnderCursor.revert();
                 this.elementUnderCursor = elements[arrayIndexX][arrayIndexY];
                 this.elementUnderCursor.highlight();
             }
 
-            if(this.selectedBuildingSquare != null){
+            // TODO ??
+            if (this.selectedBuildingSquare != null) {
                 this.selectedBuildingSquare.move(arrayIndexX, arrayIndexY);
             }
 
             //test
             this.gameEngine.friendlyProjectiles.forEach((Projectile p) -> {
-                if(p instanceof HomingProjectileTestClass p1){
+                if (p instanceof HomingProjectileTestClass p1) {
                     p1.updateTarget(new Vector(mouseX, mouseY));
                 }
 
             });
 
             this.gameEngine.enemyProjectiles.forEach((Projectile p) -> {
-                if(p instanceof HomingProjectileTestClass p1){
+                if (p instanceof HomingProjectileTestClass p1) {
                     p1.updateTarget(new Vector(mouseX, mouseY));
                 }
 
             });
 
 
-
         });
 
         this.canvas.setOnMouseClicked(e -> {
-           //test
+            //test
             int currX = this.elementUnderCursor.xIndex;
             int currY = this.elementUnderCursor.yIndex;
-            if(selectedListBuildingID == 0 && this.gameEngine.gameMap.castleCentre == null){
+            if (selectedListBuildingID == 0 && this.gameEngine.gameMap.castleCentre == null) {
                 setSelectedListBuilding(1);
 
-            }
-            else if(selectedListBuildingID == 0){
+            } else if (selectedListBuildingID == 0) {
                 setSelectedListBuilding(2);
-            }
-            else if(this.selectedBuildingSquare.validPosition){
-                placeSelectedListBuilding(BuildingFactory.getBuildingById(this.selectedListBuildingID,currX, currY,this, gameEngine));
+            } else if (this.selectedBuildingSquare.validPosition) {
+                placeSelectedListBuilding(BuildingFactory.getBuildingById(this.selectedListBuildingID, currX, currY, this, gameEngine));
                 this.gameEngine.enemyProjectiles.forEach((Projectile p) -> {
-                    if (p instanceof HomingProjectileTestClass p1){
-                        p1.updateTarget(new Vector(rand.nextDouble(0,600), rand.nextDouble(0,600)));
+                    if (p instanceof HomingProjectileTestClass p1) {
+                        p1.updateTarget(new Vector(rand.nextDouble(0, 600), rand.nextDouble(0, 600)));
                     }
                 });
             }
 
 
-            System.out.println(this.elementUnderCursor.xIndex + "   " + this.elementUnderCursor.yIndex + "    " + this.elementUnderCursor.boxCentre);
+//            System.out.println(this.elementUnderCursor.xIndex + "   " + this.elementUnderCursor.yIndex + "    " + this.elementUnderCursor.boxCentre);
             //System.out.println("projectiles at " + currX + " " + currY + "  " + this.gameEngine.gameMap.map[this.elementUnderCursor.xIndex][this.elementUnderCursor.yIndex].enemyProjectileList.size());
-            System.out.println("fval: " + this.gameEngine.friendlyProjectiles.size() + " " + this.gameEngine.friendlyProjectilesToRemove.size()
-                    + " " + this.gameEngine.enemies.size() + " " + this.gameEngine.deadEnemies.size() + " " + this.gameEngine.gameMap.sumProj());
+//            System.out.println("fval: " + this.gameEngine.friendlyProjectiles.size() + " " + this.gameEngine.friendlyProjectilesToRemove.size()
+//                    + " " + this.gameEngine.enemies.size() + " " + this.gameEngine.deadEnemies.size() + " " + this.gameEngine.gameMap.sumProj());
             //test
             //this.castle.destroyBuilding();
         });
     }
 
-    public void addObserver(SelectionObserver o){
+    public void addObserver(SelectionObserver o) {
         this.observers.add(o);
     }
 
-    public void notifySelectionChange(){
-        for(SelectionObserver o: this.observers){
+    public void notifySelectionChange() {
+        for (SelectionObserver o : this.observers) {
             o.updateSelected(selectedExistingBuilding);
         }
     }
-    public void setSelectedListBuilding(Integer id){
-        if(this.gameEngine.gameMap.castleCentre != null && id == 1){
+
+    public void setSelectedListBuilding(Integer id) {
+        if (this.gameEngine.gameMap.castleCentre != null && id == 1) {
             return;
         }
         this.selectedListBuildingID = id;
         this.selectedBuildingSquare = BuildingSquareFactory.newSquare(id, this.gameEngine.gameMap);
     }
 
-    public void placeSelectedListBuilding(Building b){
+    public void placeSelectedListBuilding(Building b) {
         this.gameEngine.addBuilding(b);
         this.selectedListBuildingID = 0;
         this.selectedBuildingSquare.remove();
         this.selectedBuildingSquare = null;
     }
 
-    public void updateInfoPane(){
+    public void updateInfoPane() {
         //TODO
     }
 
     HealthBar h1 = new HealthBar();
 
 
-    public void run(){
 
-            // pętle rysują wszystkie kafelki
+    // ========================================= Główna metoda ==============================================
 
-            for (int i = 0; i < Constants.numberOfTiles; i++) {
-                for (int j = 0; j < Constants.numberOfTiles; j++) {
-                    elements[i][j].draw(this.gc);
+    public void run() {
+
+        // pętle rysują wszystkie kafelki
+
+        for (int i = 0; i < Constants.numberOfTiles; i++) {
+            for (int j = 0; j < Constants.numberOfTiles; j++) {
+                elements[i][j].draw(this.gc);
 
 
-                }
             }
+        }
 
-            // rysowanie delikatnych linii siatki
-            gc.setFill(Color.LIGHTGRAY);
-            gc.setLineWidth(0.25);
-            for(int x = 0; x <= Constants.CanvasWidth; x += Constants.tileWidth){
-                gc.strokeLine(x, 0, x, Constants.CanvasWidth);
-            }
-            for(int y = 0; y <= Constants.CanvasWidth; y += Constants.tileWidth){
-                gc.strokeLine(0, y, Constants.CanvasWidth, y);
-            }
-
+        // rysowanie delikatnych linii siatki
+        gc.setFill(Color.LIGHTGRAY);
+        gc.setLineWidth(0.25);
+        for (int x = 0; x <= Constants.CanvasWidth; x += Constants.tileWidth) {
+            gc.strokeLine(x, 0, x, Constants.CanvasWidth);
+        }
+        for (int y = 0; y <= Constants.CanvasWidth; y += Constants.tileWidth) {
+            gc.strokeLine(0, y, Constants.CanvasWidth, y);
+        }
 
 
 //            this.gameEngine.defensiveBuildings.forEach(Building::drawHealthBar);
@@ -270,4 +268,5 @@ public class GameScreen {
 //            }
 //        }
 
-}}
+    }
+}
