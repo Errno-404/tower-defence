@@ -98,7 +98,7 @@ public class GameEngine implements BuildingDestroyedObserver {
             }
             b.addDestroyedObserver(this);
             b.addDestroyedObserver(this.gameMap);
-            this.gameMap.placeMap(b);
+            this.gameMap.placeMapElement(b);
         }
         else{
             System.out.println("cant place!!!!");

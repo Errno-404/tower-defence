@@ -138,7 +138,7 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
         return true;
     }
 
-    public void placeMap(Building building){
+    public void placeMapElement(Building building){
         Vector anchorPoint = building.getAnchorPosition();
 
         int xIndex = anchorPoint.getXindex();
