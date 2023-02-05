@@ -28,8 +28,7 @@ public class GameEngine implements BuildingDestroyedObserver {
 
     public LinkedList<Enemy> enemies = new LinkedList<>();
 
-    public LinkedList<AttackingBuilding> activeTowers = new LinkedList<>();
-    public LinkedList<AttackingBuilding> waitingTowers = new LinkedList<>();
+    public LinkedList<AttackingBuilding> towers = new LinkedList<>();
 
     public LinkedList<DefensiveBuilding> defensiveBuildings = new LinkedList<>();
 
@@ -74,13 +73,28 @@ public class GameEngine implements BuildingDestroyedObserver {
         this.gameMap.addProjectile(p, type);
     }
 
+    public void addEnemiesToTowers(){
+        this.enemies.forEach((Enemy e) -> {
+            int x = e.getHitbox().centre.getXindex();
+            int y = e.getHitbox().getCentre().getYindex();
+
+            this.gameMap.map[x][y].inRangeOf.forEach((AttackingBuilding a) -> {
+                a.addEnemyInRange(e);
+            });
+        });
+    }
+
+    public void clearEnemiesInTowers(){
+        this.towers.forEach(AttackingBuilding::clearEnemies);
+    }
+
     public void addBuilding(Building b){
         if(this.gameMap.canPlace(b.hitbox)){
             if(b instanceof DefensiveBuilding b1){
                 this.defensiveBuildings.add(b1);
             }
             else if(b instanceof AttackingBuilding b2){
-                this.activeTowers.add(b2);
+                this.towers.add(b2);
             }
             b.addDestroyedObserver(this);
             b.addDestroyedObserver(this.gameMap);
@@ -100,9 +114,6 @@ public class GameEngine implements BuildingDestroyedObserver {
         this.enemyProjectiles.forEach(Projectile::move);
     }
 
-    public void towersAttack(){
-        this.activeTowers.forEach(AttackingBuilding::attack);
-    }
 
     @Override
     public void reportBuildingDestroyed(Building b) {
@@ -110,8 +121,7 @@ public class GameEngine implements BuildingDestroyedObserver {
             this.defensiveBuildings.remove(b);
         }
         else if(b instanceof AttackingBuilding){
-            this.activeTowers.remove(b);
-            this.waitingTowers.remove(b);
+            this.towers.remove(b);
             //TODO
         }
     }
@@ -256,7 +266,7 @@ public class GameEngine implements BuildingDestroyedObserver {
 
 
 
-        this.waitingTowers.forEach((Building b) -> {
+        this.towers.forEach((Building b) -> {
             Vector ul = b.hitbox.upperLeft;
             Vector lr = b.hitbox.lowerRight;
             for(int i = ul.getXindex(); i<lr.getXindex() + b.getWidthInTiles(); i++){
@@ -284,7 +294,7 @@ public class GameEngine implements BuildingDestroyedObserver {
         //this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);
         //this.enemyProjectilesToRemove.clear();
 
-        this.activeTowers.forEach((Building b) -> {
+        /*this.activeTowers.forEach((Building b) -> {
             Vector ul = b.hitbox.upperLeft;
             Vector lr = b.hitbox.lowerRight;
             for(int i = ul.getXindex(); i<lr.getXindex() + b.getWidthInTiles(); i++){
@@ -307,7 +317,7 @@ public class GameEngine implements BuildingDestroyedObserver {
             this.gameMap.clearUsedEnemyProjectiles(this.enemyProjectilesToRemove);
             this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);
             this.enemyProjectilesToRemove.clear();
-        });
+        });*/
         /*this.gameMap.clearUsedProjectiles(this.friendlyProjectilesToRemove, this.enemyProjectilesToRemove);
 
         this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);

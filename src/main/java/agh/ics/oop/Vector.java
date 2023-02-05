@@ -6,6 +6,10 @@ public class Vector {
     private double x;
     private double y;
 
+    public Vector(Vector v){
+        this.x = v.x;
+        this.y = v.y;
+    }
     public Vector(double x, double y){
         this.x = x;
         this.y = y;

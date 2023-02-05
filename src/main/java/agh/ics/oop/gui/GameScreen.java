@@ -3,6 +3,7 @@ package agh.ics.oop.gui;
 
 import agh.ics.oop.Constants;
 import agh.ics.oop.Enemies.BasicEnemy;
+import agh.ics.oop.Enemies.Enemy;
 import agh.ics.oop.GameEngine;
 import agh.ics.oop.Interfaces.SelectionObserver;
 import agh.ics.oop.Attacks.HomingProjectileTestClass;
@@ -20,16 +21,15 @@ import java.util.Random;
 
 public class GameScreen {
 
-    // Canvas variables
     public Canvas canvas;
     public GraphicsContext gc;
+
     CanvasElement elementUnderCursor;
 
     public CanvasElement[][] elements;
 
-
-    // something other
     ArrayList<SelectionObserver> observers;
+
     GameEngine gameEngine;
 
 
@@ -102,7 +102,17 @@ public class GameScreen {
 //            this.gameEngine.addProjectile(true);
 //        }
 
+        for(int i = 0;i<1000;i++){
+            this.gameEngine.addProjectile(true);
+        }
 
+        try {
+            for (int i = 0; i < 5; i++) {
+                this.gameEngine.addEnemy(new BasicEnemy(rand.nextDouble(0,600), rand.nextDouble(0,600),this.gameEngine.gameMap));
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
         // co to jest?
 //        try {
@@ -227,6 +237,28 @@ public class GameScreen {
 
             }
         }
+
+            this.gameEngine.clearEnemiesInTowers();
+
+            this.gameEngine.defensiveBuildings.forEach(Building::drawHealthBar);
+            this.gameEngine.towers.forEach(Building::drawHealthBar);
+            //this.gameEngine.enemies.forEach(Enemy::drawOnCanvas);
+
+            this.gameEngine.moveProjectiles();
+            this.gameEngine.friendlyProjectiles.forEach((Projectile p) -> p.draw(this.gc));
+            this.gameEngine.enemyProjectiles.forEach((Projectile p) -> p.draw(this.gc));
+            this.gameEngine.checkCollisions();
+
+
+            this.gameEngine.enemies.forEach(Enemy::move);
+            this.gameEngine.enemies.forEach((Enemy e) -> {
+                e.draw(this.gc);
+            });
+
+            this.gameEngine.addEnemiesToTowers();
+            //test
+            this.h1.drawTest(this.gc);
+            this.h1.reportHealthChange(this.h1.currentPercentage-0.0025);
 
         // rysowanie delikatnych linii siatki
 //        gc.setFill(Color.LIGHTGRAY);
