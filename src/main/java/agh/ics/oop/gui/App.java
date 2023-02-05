@@ -13,9 +13,7 @@ import javafx.util.Duration;
 public class App extends Application {
 
     private GameScreen gameScreen;
-    private GameEngine gameEngine;
-    final int width = 600;
-    final int height = 600;
+
     @Override
     public void start(Stage primaryStage) {
 

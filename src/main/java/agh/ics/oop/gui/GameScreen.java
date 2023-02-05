@@ -21,15 +21,17 @@ import java.util.Random;
 
 public class GameScreen {
 
+    // Canvas variables
     public Canvas canvas;
     public GraphicsContext gc;
-
     CanvasElement elementUnderCursor;
 
     public CanvasElement[][] elements;
 
-    ArrayList<SelectionObserver> observers;
 
+
+    // something other
+    ArrayList<SelectionObserver> observers;
     GameEngine gameEngine;
 
 
@@ -44,22 +46,22 @@ public class GameScreen {
 
 
     public GameScreen(){
-        double width = Constants.CanvasWidth;
-        double height = Constants.CanvasWidth;
-        this.canvas = new Canvas(width,height);
+        double CanvasWidth = Constants.CanvasWidth;
+        double CanvasHeight = CanvasWidth;
+        this.canvas = new Canvas(CanvasWidth,CanvasWidth);
         this.gc = canvas.getGraphicsContext2D();
 
 
 
 
-        this.elements = new CanvasElement[(int) width][(int) height];
+        this.elements = new CanvasElement[(int) CanvasWidth][(int) CanvasHeight];
         try {
             Image defaultImage = new Image(new FileInputStream("src/main/resources/blueRect.png"));
             Image defaultBlack = new Image(new FileInputStream("src/main/resources/blackRect.png"));
             Image cursorImg = new Image(new FileInputStream("src/main/resources/yellowRect.png"));
 
-            for (int i = 0; i < width/Constants.tileWidth; i++) {
-                for (int j = 0; j < height/Constants.tileWidth; j++) {
+            for (int i = 0; i < Constants.numberOfTiles; i++) {
+                for (int j = 0; j < Constants.numberOfTiles; j++) {
                     CanvasElement temp = new CanvasElement(defaultImage, cursorImg, i, j);
                     CanvasElement temp1 = new CanvasElement(defaultBlack, cursorImg,i, j);
                     if(i%2==0 || j%2 == 0){
