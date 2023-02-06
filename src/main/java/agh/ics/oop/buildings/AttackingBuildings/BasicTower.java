@@ -1,7 +1,6 @@
 package agh.ics.oop.buildings.AttackingBuildings;
 
 import agh.ics.oop.Attacks.Attack;
-import agh.ics.oop.Attacks.NormalProjectile;
 import agh.ics.oop.Attacks.Projectile;
 import agh.ics.oop.Enemies.Enemy;
 import agh.ics.oop.GameEngine;
@@ -25,7 +24,7 @@ public class BasicTower extends AttackingBuilding {
     public void attack() {
         if(!this.enemiesInRange.isEmpty()){
             Enemy target = this.enemiesInRange.first();
-            this.ge.addProjectileReal(true, (Projectile) AttackFactory.BasicTowerAttack(target,new Vector(hitbox.getCentre())));
+            this.ge.addProjectile(true, (Projectile) AttackFactory.BasicTowerAttack(target,new Vector(hitbox.getCentre())));
         }
     }
 
