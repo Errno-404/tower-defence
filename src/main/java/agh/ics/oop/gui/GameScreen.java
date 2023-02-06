@@ -43,7 +43,6 @@ public class GameScreen {
     ArrayList<Projectile> projectiles = new ArrayList<>();
 
 
-
     // ################################################### Tworzenie ekranu ###################################################################
 
     public GameScreen() {
@@ -84,18 +83,13 @@ public class GameScreen {
         }
 
 
-
-
         // Dodanie silnika do ekranu
         this.gameEngine = new GameEngine(this);
-
 
 
         placeCastleOnMap();
         spawnEnemiesOnEdges(20);
         Random rand = new Random();
-
-
 
 
         // onMouse Events
@@ -139,14 +133,95 @@ public class GameScreen {
                 });
             }
 
-
-//            System.out.println(this.elementUnderCursor.xIndex + "   " + this.elementUnderCursor.yIndex + "    " + this.elementUnderCursor.boxCentre);
-            //System.out.println("projectiles at " + currX + " " + currY + "  " + this.gameEngine.gameMap.map[this.elementUnderCursor.xIndex][this.elementUnderCursor.yIndex].enemyProjectileList.size());
-//            System.out.println("fval: " + this.gameEngine.friendlyProjectiles.size() + " " + this.gameEngine.friendlyProjectilesToRemove.size()
-//                    + " " + this.gameEngine.enemies.size() + " " + this.gameEngine.deadEnemies.size() + " " + this.gameEngine.gameMap.sumProj());
-            //test
-            //this.castle.destroyBuilding();
         });
+    }
+
+
+
+    HealthBar h1 = new HealthBar();
+
+
+    // ========================================= Główna metoda ==============================================
+
+    public void run() {
+
+        // pętle rysują wszystkie kafelki
+
+        for (int i = 0; i < Constants.numberOfTiles; i++) {
+            for (int j = 0; j < Constants.numberOfTiles; j++) {
+                elements[i][j].draw(this.gc);
+
+
+            }
+        }
+
+
+        this.gameEngine.clearEnemiesInTowers();
+        this.gameEngine.moveProjectiles();
+        this.gameEngine.friendlyProjectiles.forEach((Projectile p) -> p.draw(this.gc));
+        this.gameEngine.enemyProjectiles.forEach((Projectile p) -> p.draw(this.gc));
+        this.gameEngine.checkCollisions();
+        this.gameEngine.removeRemainingProjectiles();
+
+
+        this.gameEngine.enemies.forEach(Enemy::move);
+        this.gameEngine.enemies.forEach((Enemy e) -> {
+            e.draw(this.gc);
+        });
+
+        this.gameEngine.defensiveBuildings.forEach(Building::drawHealthBar);
+        this.gameEngine.towers.forEach(Building::drawHealthBar);
+
+        this.gameEngine.addEnemiesToTowers();
+        //test
+        this.h1.drawTest(this.gc);
+        this.h1.reportHealthChange(this.h1.currentPercentage - 0.0025);
+
+
+    }
+
+
+    // Metoda stawia zamek na środku mapy
+    private void placeCastleOnMap() {
+        this.setSelectedListBuilding(1);
+
+        Integer[] arr = Constants.buildingSizes.get(1);
+        int x = arr[0];
+        int y = arr[1];
+
+        int castleXPosition = (Constants.numberOfTiles - x) / 2;
+        int castleYPosition = (Constants.numberOfTiles - y) / 2;
+
+        this.placeSelectedListBuilding(BuildingFactory.getBuildingById(selectedListBuildingID, castleXPosition, castleYPosition, this, gameEngine));
+    }
+
+
+    // Metoda spawnująca przeciwników na krawędziach
+    private void spawnEnemiesOnEdges(int countOfEnemies) {
+        // TODO change hardcoded values
+
+
+        Random rand = new Random();
+        int side;
+        int pos;
+        try {
+            for (int i = 0; i < countOfEnemies; i++) {
+                side = rand.nextInt(4);
+                pos = rand.nextInt(599);
+
+                this.gameEngine.addEnemy(switch (side) {
+                    case 0 -> new BasicEnemy(0, pos, this.gameEngine.gameMap);
+                    case 1 -> new BasicEnemy(pos, 0, this.gameEngine.gameMap);
+                    case 2 -> new BasicEnemy(599, pos, this.gameEngine.gameMap);
+                    case 3 -> new BasicEnemy(pos, 599, this.gameEngine.gameMap);
+                    default -> throw new IllegalStateException("Unexpected value: " + side);
+                });
+
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     public void addObserver(SelectionObserver o) {
@@ -176,97 +251,6 @@ public class GameScreen {
 
     public void updateInfoPane() {
         //TODO
-    }
-
-    HealthBar h1 = new HealthBar();
-
-
-
-    // ========================================= Główna metoda ==============================================
-
-    public void run() {
-
-        // pętle rysują wszystkie kafelki
-
-        for (int i = 0; i < Constants.numberOfTiles; i++) {
-            for (int j = 0; j < Constants.numberOfTiles; j++) {
-                elements[i][j].draw(this.gc);
-
-
-            }
-        }
-
-            this.gameEngine.clearEnemiesInTowers();
-
-
-            this.gameEngine.moveProjectiles();
-            this.gameEngine.friendlyProjectiles.forEach((Projectile p) -> p.draw(this.gc));
-
-            this.gameEngine.enemyProjectiles.forEach((Projectile p) -> p.draw(this.gc));
-            this.gameEngine.checkCollisions();
-
-            this.gameEngine.removeRemainingProjectiles();
-
-
-            this.gameEngine.enemies.forEach(Enemy::move);
-            this.gameEngine.enemies.forEach((Enemy e) -> {
-                e.draw(this.gc);
-            });
-
-            this.gameEngine.defensiveBuildings.forEach(Building::drawHealthBar);
-            this.gameEngine.towers.forEach(Building::drawHealthBar);
-
-            this.gameEngine.addEnemiesToTowers();
-            //test
-            this.h1.drawTest(this.gc);
-            this.h1.reportHealthChange(this.h1.currentPercentage-0.0025);
-
-
-    }
-
-
-    // Metoda stawia zamek na środku mapy
-    private void placeCastleOnMap(){
-        this.setSelectedListBuilding(1);
-
-        Integer[] arr = Constants.buildingSizes.get(1);
-        int x = arr[0];
-        int y = arr[1];
-
-        int castleXPosition = (Constants.numberOfTiles - x) / 2;
-        int castleYPosition = (Constants.numberOfTiles - y) / 2;
-
-        this.placeSelectedListBuilding(BuildingFactory.getBuildingById(selectedListBuildingID, castleXPosition, castleYPosition, this, gameEngine));
-    }
-
-
-
-    // Metoda spawnująca przeciwników na krawędziach
-    private void spawnEnemiesOnEdges(int countOfEnemies){
-        // TODO change hardcoded values
-
-
-        Random rand = new Random();
-        int side;
-        int pos;
-        try {
-            for (int i = 0; i < countOfEnemies; i++) {
-                 side = rand.nextInt(4);
-                 pos = rand.nextInt(599);
-
-                 this.gameEngine.addEnemy(switch(side){
-                     case 0 -> new BasicEnemy(0, pos, this.gameEngine.gameMap);
-                     case 1 -> new BasicEnemy(pos, 0, this.gameEngine.gameMap);
-                     case 2 -> new BasicEnemy(599, pos, this.gameEngine.gameMap);
-                     case 3 -> new BasicEnemy(pos, 599, this.gameEngine.gameMap);
-                     default -> throw new IllegalStateException("Unexpected value: " + side);
-                 });
-
-            }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
     }
 
 }
