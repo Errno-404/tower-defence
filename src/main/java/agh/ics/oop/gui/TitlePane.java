@@ -28,7 +28,7 @@ public class TitlePane extends VBox implements WaveStateObserver {
         this.currentPhaseLabel = new Label("Shopping Phase");
         this.currentPhaseLabel.setFont(new Font(40));
 
-        this.startWaveButton = new Button("Start Wave number: " + this.gs.waveWanager.waveNumber + "!");
+        this.startWaveButton = new Button("Start wave 1");
         this.startWaveButton.setMaxWidth(Double.MAX_VALUE);
         this.startWaveButton.setOnMouseClicked(event -> {
             if (!gs.isWaveStarted) {
@@ -55,10 +55,12 @@ public class TitlePane extends VBox implements WaveStateObserver {
     @Override
     public void changeWaveState() {
        { if (this.gs.isWaveStarted) {
+
             this.startWaveButton.setVisible(false);
-            this.currentPhaseLabel.setText("Wave number: " + this.gs.waveWanager.waveNumber);
+            this.currentPhaseLabel.setText("Wave " + this.gs.waveWanager.waveNumber);
         }
         else{
+            this.startWaveButton.setText("Start wave " + this.gs.waveWanager.waveNumber);
             this.currentPhaseLabel.setText("Shopping Phase");
             this.startWaveButton.setVisible(true);
         }
