@@ -4,16 +4,12 @@ package agh.ics.oop.gui;
 import agh.ics.oop.Constants;
 import agh.ics.oop.Enemies.BasicEnemy;
 import agh.ics.oop.Enemies.Enemy;
-import agh.ics.oop.Enemies.WaveWanager;
+import agh.ics.oop.Enemies.WaveManager;
 import agh.ics.oop.GameEngine;
 import agh.ics.oop.Interfaces.ShopSelectionObserver;
-import agh.ics.oop.Attacks.HomingProjectileTestClass;
 import agh.ics.oop.Attacks.Projectile;
 import agh.ics.oop.Interfaces.WaveStateObserver;
-import agh.ics.oop.Vector;
 import agh.ics.oop.buildings.*;
-import agh.ics.oop.buildings.AttackingBuildings.AttackingBuilding;
-import agh.ics.oop.maps.mapElement;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -37,7 +33,7 @@ public class GameScreen implements ShopSelectionObserver, WaveStateObserver {
 
     public GameEngine gameEngine;
 
-    public WaveWanager waveWanager;
+    public WaveManager waveManager;
 
     boolean isOver = false;
     public boolean isWaveStarted = false;
@@ -97,10 +93,10 @@ public class GameScreen implements ShopSelectionObserver, WaveStateObserver {
         // Adding gameEngine to screen
         this.gameEngine = new GameEngine(this);
 
-        this.waveWanager = new WaveWanager(this);
-        this.gameEngine.addEnemyKilledObserver(this.waveWanager);
+        this.waveManager = new WaveManager(this);
+        this.gameEngine.addEnemyKilledObserver(this.waveManager);
 
-        this.waveWanager.addObserver(this);
+        this.waveManager.addObserver(this);
 
         // TODO zmienić na fale
         placeCastleOnMap();

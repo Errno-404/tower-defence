@@ -1,16 +1,10 @@
 
 package agh.ics.oop.gui;
 
-import agh.ics.oop.Interfaces.ShopSelectionObserver;
-import agh.ics.oop.buildings.Building;
-import agh.ics.oop.buildings.BuildingFactory;
 import agh.ics.oop.buildings.BuildingsName;
-import agh.ics.oop.buildings.Castle;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-
-import java.util.ArrayList;
 
 public class TowerPane extends VBox {
 
@@ -28,7 +22,7 @@ public class TowerPane extends VBox {
 
         this.shop = new Shop(gs);
         this.gs.gameEngine.addEnemyKilledObserver(this.shop);
-        gs.waveWanager.addObserver(this.shop);
+        gs.waveManager.addObserver(this.shop);
     }
 
 
