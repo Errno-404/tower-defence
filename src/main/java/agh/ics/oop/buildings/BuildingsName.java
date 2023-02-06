@@ -30,6 +30,8 @@ public enum BuildingsName {
                 case VERTICALWALL -> new Image(new FileInputStream("src/main/resources/VerticalWall.png"));
                 default ->  throw new RuntimeException();
                 };
+            };
+
             } catch (FileNotFoundException ex) {
             throw new RuntimeException(ex);
         }
