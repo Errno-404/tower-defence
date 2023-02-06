@@ -1,5 +1,8 @@
+
 package agh.ics.oop.gui;
 
+import agh.ics.oop.Interfaces.ShopSelectionObserver;
+import agh.ics.oop.buildings.Building;
 import agh.ics.oop.buildings.BuildingFactory;
 import agh.ics.oop.buildings.BuildingsName;
 import javafx.scene.image.Image;
@@ -15,12 +18,8 @@ public class TowerPane extends VBox {
 
     Shop shop;
 
-    public TowerPane(GameScreen gs){
-        this.buildingList = new ArrayList<>();
-        for(BuildingsName bn: BuildingsName.values()){
-            buildingList.add(BuildingFactory.getBuildingById(bn,0,0,gs,gs.gameEngine));
-        }
-
+    public TowerPane(GameScreen gs) {
+        this.buildingList = BuildingsName.values();
         this.gs = gs;
 
         this.setSpacing(20);
@@ -31,8 +30,8 @@ public class TowerPane extends VBox {
     }
 
 
-    private void createBuildings(){
-        for(BuildingsName building : buildingList){
+    private void createBuildings() {
+        for (BuildingsName building : buildingList) {
             Image img = building.getImage();
             ImageView imgView = new ImageView(img);
 
@@ -40,12 +39,10 @@ public class TowerPane extends VBox {
 
 
             this.getChildren().add(imgView);
-
-
         }
     }
 
-    public Shop getShop(){
+    public Shop getShop() {
         return this.shop;
     }
 }
