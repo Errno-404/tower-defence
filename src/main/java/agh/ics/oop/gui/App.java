@@ -50,13 +50,17 @@ public class App extends Application {
 
 
         Pane bottomPane = new Pane(); //TODO: Zmienic na InfoPane.coś
+
+
+
         bottomPane.getChildren().add(new Label("Bottom Pane (info o obecnie wybranej wiezy/jednostce albo cos w tym stylu?)"));
         bpane.setBottom(bottomPane);
 
+
+
+
         // ========================================= Informacje o fali =================================================
-        Pane topPane = new Pane(); //TODO: Zmienic na StatPane.coś
-        topPane.getChildren().add(new Label("Money"));
-        topPane.getChildren().add(new Label("Hello"));
+        Pane topPane = new TitlePane(this.gameScreen);
         bpane.setTop(topPane);
 
         Pane leftPane = new Pane(); //TODO: Zmienić na LeftPane.coś
