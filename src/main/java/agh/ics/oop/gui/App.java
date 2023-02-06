@@ -1,6 +1,7 @@
 package agh.ics.oop.gui;
 
 import agh.ics.oop.GameEngine;
+import agh.ics.oop.buildings.Building;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -9,6 +10,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.util.ArrayList;
 
 public class App extends Application {
 
@@ -27,9 +30,27 @@ public class App extends Application {
         BorderPane bpane = new BorderPane();
         bpane.setCenter(this.gameScreen.canvas);
 
-        Pane towers = new Pane(); //TODO: Zmienic na TowerPane.VBox/HBox/Pane czy coś, jeśli trzeba dodać coś w stylu SelectionObserver
-        towers.getChildren().add(new Label("Tower list (right pane)"));
-        bpane.setRight(towers);
+
+
+
+        // ============================================ Tower selection ================================================
+
+        ArrayList<Building> towers = new ArrayList<>();
+
+
+        Pane towerList = new TowerPane(this.gameScreen, towers);
+        towerList.getChildren().add(new Label("Tower list (right pane)"));
+        bpane.setRight(towerList);
+
+
+
+
+
+
+
+
+
+
 
         Pane bottomPane = new Pane(); //TODO: Zmienic na InfoPane.coś
         bottomPane.getChildren().add(new Label("Bottom Pane (info o obecnie wybranej wiezy/jednostce albo cos w tym stylu?)"));

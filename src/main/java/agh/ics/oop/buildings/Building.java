@@ -147,6 +147,10 @@ public abstract class Building implements Hittable {
         this.healthBar.draw(gs.gc, this.hitbox);
     }
 
+    public Image getImage() {
+        return image;
+    }
+
     //test
     public void reduceHealth(double t){
         this.currentHealth-=t;
