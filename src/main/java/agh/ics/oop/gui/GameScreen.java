@@ -122,6 +122,7 @@ public class GameScreen {
 
 
             //test
+            spawnEnemiesOnEdges(5);
             int currX = this.elementUnderCursor.xIndex;
             int currY = this.elementUnderCursor.yIndex;
             if (selectedListBuildingID == 0 && this.gameEngine.gameMap.castleCentre == null) {
@@ -140,10 +141,6 @@ public class GameScreen {
 
         });
     }
-
-
-    // TODO ??
-    HealthBar h1 = new HealthBar();
 
 
     // ================================================= Main method ===================================================

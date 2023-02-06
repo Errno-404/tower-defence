@@ -155,6 +155,9 @@ public abstract class Building implements Hittable {
     public void reduceHealth(double t){
         this.currentHealth-=t;
         if(this.currentHealth <= 0){
+            if(this instanceof AttackingBuilding a1){
+                a1.attackManager.cancel();
+            }
             this.observer.forEach((BuildingDestroyedObserver o) -> {
                 o.reportBuildingDestroyed(this);
             });

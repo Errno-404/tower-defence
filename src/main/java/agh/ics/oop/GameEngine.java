@@ -139,6 +139,36 @@ public class GameEngine implements BuildingDestroyedObserver {
     }
 
 
+
+    // ============================================== Building management ==============================================
+
+    public void addBuilding(Building b) {
+        if (this.gameMap.canPlace(b.hitbox)) {
+            if (b instanceof DefensiveBuilding b1) {
+                this.defensiveBuildings.add(b1);
+            } else if (b instanceof AttackingBuilding b2) {
+                this.towers.add(b2);
+            }
+            b.addDestroyedObserver(this);
+            b.addDestroyedObserver(this.gameMap);
+            this.gameMap.placeBuildingOnMap(b);
+        } else {
+            System.out.println("cant place!!!!");
+        }
+    }
+
+
+    @Override
+    public void reportBuildingDestroyed(Building b) {
+        if (b instanceof DefensiveBuilding) {
+            this.defensiveBuildings.remove(b);
+        } else if (b instanceof AttackingBuilding) {
+            this.towers.remove(b);
+            //TODO
+        }
+    }
+
+    // ===================================== Collisions management =====================================================
     private boolean checkEnemyHitAtPosition(int x, int y, Enemy e) {
         if (!this.gameMap.isOnMap(x, y)) {
             return false;
@@ -171,7 +201,6 @@ public class GameEngine implements BuildingDestroyedObserver {
         this.friendlyProjectilesToRemove.clear();
         return false;
     }
-
 
     private void checkEnemyCollisions() {
         this.enemies.forEach((Enemy e) -> {
@@ -221,57 +250,6 @@ public class GameEngine implements BuildingDestroyedObserver {
 
     }
 
-
-    // ============================================== Building management ==============================================
-
-    public void addBuilding(Building b) {
-        if (this.gameMap.canPlace(b.hitbox)) {
-            if (b instanceof DefensiveBuilding b1) {
-                this.defensiveBuildings.add(b1);
-            } else if (b instanceof AttackingBuilding b2) {
-                this.towers.add(b2);
-            }
-            b.addDestroyedObserver(this);
-            b.addDestroyedObserver(this.gameMap);
-            this.gameMap.placeBuildingOnMap(b);
-        } else {
-            System.out.println("cant place!!!!");
-        }
-    }
-
-
-    @Override
-    public void reportBuildingDestroyed(Building b) {
-        if (b instanceof DefensiveBuilding) {
-            this.defensiveBuildings.remove(b);
-        } else if (b instanceof AttackingBuilding) {
-            this.towers.remove(b);
-            //TODO
-        }
-    }
-
-
-    private void checkBuildingCollisions(LinkedList<Building> buildings) {
-
-        buildings.forEach((Building b) -> {
-            Vector ul = b.hitbox.upperLeft;
-            Vector lr = b.hitbox.lowerRight;
-            for (int i = ul.getXindex(); i < ul.getXindex() + b.getWidthInTiles(); i++) {
-                for (int j = lr.getYindex(); j < lr.getYindex() + b.getHeightInTiles(); j++) {
-                    for (Projectile projectile : this.gameMap.map[i][j].enemyProjectileList) {
-                        if (projectile.getHitbox().collidesWith(b.hitbox)) {
-                            projectile.hit(b);
-                            this.gameMap.projectileHit(projectile, false);
-                        }
-                    }
-
-                }
-            }
-        });
-    }
-
-    // ===================================== Collisions management =====================================================
-
     public void checkCollisions() {
         checkEnemyCollisions();
 
@@ -296,6 +274,7 @@ public class GameEngine implements BuildingDestroyedObserver {
                             this.gameMap.projectileHit(projectile, false);
                             if (b.getCurrentHealth() <= 0) {
                                 this.destroyedBuildings.add(b);
+                                b.destroyBuilding();
                                 break;
                             }
                         }
@@ -323,6 +302,7 @@ public class GameEngine implements BuildingDestroyedObserver {
 
                             if (b.getCurrentHealth() <= 0) {
                                 this.destroyedBuildings.add(b);
+                                b.destroyBuilding();
                                 break;
                             }
                         }
@@ -334,44 +314,6 @@ public class GameEngine implements BuildingDestroyedObserver {
             this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);
             this.enemyProjectilesToRemove.clear();
         });
-
-
-        // TODO Do usunięcia ?
-
-        //this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);
-        //this.enemyProjectilesToRemove.clear();
-
-        /*this.activeTowers.forEach((Building b) -> {
-            Vector ul = b.hitbox.upperLeft;
-            Vector lr = b.hitbox.lowerRight;
-            for(int i = ul.getXindex(); i<lr.getXindex() + b.getWidthInTiles(); i++){
-                for(int j = ul.getYindex(); j < lr.getYindex() + b.getHeightInTiles(); j++){
-                    for (Projectile projectile : this.gameMap.map[i][j].enemyProjectileList) {
-                        if(projectile.getHitbox().collidesWith(b.hitbox)){
-                            projectile.hit(b);
-                            this.enemyProjectilesToRemove.add(projectile);
-                            this.gameMap.projectileHit(projectile, false);
-
-                            if(b.getCurrentHealth() <= 0){
-                                this.destroyedBuildings.add(b);
-                                break;
-                            }
-                        }
-                    }
-
-                }
-            }
-            this.gameMap.clearUsedEnemyProjectiles(this.enemyProjectilesToRemove);
-            this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);
-            this.enemyProjectilesToRemove.clear();
-        });*/
-        /*this.gameMap.clearUsedProjectiles(this.friendlyProjectilesToRemove, this.enemyProjectilesToRemove);
-
-        this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);
-        this.enemyProjectilesToRemove.clear();
-
-        this.friendlyProjectiles.removeAll(this.friendlyProjectilesToRemove);
-        this.friendlyProjectilesToRemove.clear();*/
     }
 
 
