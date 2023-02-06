@@ -21,6 +21,7 @@ public class Shop implements EnemyKilledObserver {
         {
             put(BuildingsName.TOWER, 5);
             put(BuildingsName.HORIZONTALWALL,5);
+            put(BuildingsName.VERTICALWALL,5);
         }
     };
 

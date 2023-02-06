@@ -27,7 +27,7 @@ public abstract class Building implements Hittable {
 
     protected double currentHealth;
     protected double maxHealth;
-    private HealthBar healthBar;
+    protected HealthBar healthBar;
 
     private Image image;
 

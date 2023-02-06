@@ -1,10 +1,5 @@
 package agh.ics.oop.gui;
 
-import agh.ics.oop.GameEngine;
-import agh.ics.oop.Vector;
-import agh.ics.oop.buildings.AttackingBuildings.BasicTower;
-import agh.ics.oop.buildings.Building;
-import agh.ics.oop.buildings.DefensiveBuildings.Wall;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -12,14 +7,11 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 
 public class App extends Application {
 
