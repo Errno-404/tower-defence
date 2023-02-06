@@ -294,6 +294,7 @@ public class GameEngine implements BuildingDestroyedObserver {
             Vector lr = b.hitbox.lowerRight;
             for (int i = ul.getXindex(); i < lr.getXindex() + b.getWidthInTiles(); i++) {
                 for (int j = ul.getYindex(); j < lr.getYindex() + b.getHeightInTiles(); j++) {
+                    if(gameMap.isOnMap(i,j)){
                     for (Projectile projectile : this.gameMap.map[i][j].enemyProjectileList) {
                         if (projectile.getHitbox().collidesWith(b.hitbox)) {
                             projectile.hit(b);
@@ -308,6 +309,7 @@ public class GameEngine implements BuildingDestroyedObserver {
                         }
                     }
 
+                }
                 }
             }
             this.gameMap.clearUsedEnemyProjectiles(this.enemyProjectilesToRemove);
