@@ -71,6 +71,8 @@ public abstract class AttackingBuilding extends Building {
             }
             default -> throw new IllegalArgumentException(this.getName() + " reached maximum level: " + this.level);
         }
+        this.currentHealth = this.maxHealth;
+        this.drawHealthBar();
     }
 
 }
