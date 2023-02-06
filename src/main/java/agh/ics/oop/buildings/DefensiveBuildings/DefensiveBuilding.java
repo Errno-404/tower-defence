@@ -41,4 +41,10 @@ public abstract class DefensiveBuilding extends Building {
         this.defence += deltaDefence;
 
     }
+
+    @Override
+    public void upgrade(){
+
+    }
+
 }

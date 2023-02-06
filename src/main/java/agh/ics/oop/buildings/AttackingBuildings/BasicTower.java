@@ -9,7 +9,6 @@ import agh.ics.oop.buildings.BuildingsName;
 import agh.ics.oop.gui.GameScreen;
 import javafx.scene.image.Image;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class BasicTower extends AttackingBuilding {
@@ -23,7 +22,7 @@ public class BasicTower extends AttackingBuilding {
     public void attack() {
         if(!this.enemiesInRange.isEmpty()){
             Enemy target = this.enemiesInRange.first();
-            this.ge.addProjectile(true, (Projectile) AttackFactory.BasicTowerAttack(target,new Vector(hitbox.getCentre()), this.attackPower));
+            this.ge.addProjectile(true, (Projectile) AttackFactory.BasicTowerAttack(target,new Vector(hitbox.getCentre()), this.attackStrength));
         }
     }
 
