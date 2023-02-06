@@ -9,7 +9,8 @@ public enum BuildingsName {
     CASTLE,
     TOWER,
     HORIZONTALWALL,
-    VERTICALWALL;
+    VERTICALWALL,
+    CIRCLEBUILDING;
 
     public int convert(){
         return switch (this){
@@ -18,6 +19,7 @@ public enum BuildingsName {
             case TOWER -> 1;
             case HORIZONTALWALL -> 2;
             case VERTICALWALL -> 3;
+            case CIRCLEBUILDING -> 4;
         };
     }
 
@@ -28,6 +30,7 @@ public enum BuildingsName {
                 case TOWER -> new Image(new FileInputStream("src/main/resources/Tower1.png"));
                 case HORIZONTALWALL -> new Image(new FileInputStream("src/main/resources/WallHorizontal.png"));
                 case VERTICALWALL -> new Image(new FileInputStream("src/main/resources/VerticalWall.png"));
+                case CIRCLEBUILDING -> new Image(new FileInputStream("src/main/resources/CircleTower.png"));
                 default ->  throw new RuntimeException();
                 };
             } catch (FileNotFoundException ex) {

@@ -20,10 +20,20 @@ public class BasicTower extends AttackingBuilding {
 
     @Override
     public void attack() {
-        if(!this.enemiesInRange.isEmpty()){
+        if(canAttack()){
             Enemy target = this.enemiesInRange.first();
-            this.ge.addProjectile(true, (Projectile) AttackFactory.BasicTowerAttack(target,new Vector(hitbox.getCentre()), this.attackStrength));
+            this.ge.addProjectile(true, (Projectile) AttackFactory.BasicTowerAttack(target.getHitbox().centre,new Vector(hitbox.getCentre()), this.attackStrength));
         }
+    }
+
+    @Override
+    public boolean canAttack() {
+        return !this.enemiesInRange.isEmpty();
+    }
+
+    @Override
+    public void upgradeEffect() {
+        //TODO
     }
 
 

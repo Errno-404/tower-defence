@@ -20,7 +20,7 @@ public abstract class AttackingBuilding extends Building {
     public Timer attackManager;
 
 
-    private double attackSpeed;
+    protected double attackSpeed;
 
     protected double attackStrength;
 
@@ -47,6 +47,10 @@ public abstract class AttackingBuilding extends Building {
 
     public abstract void attack();
 
+    public abstract boolean canAttack();
+
+    public abstract void upgradeEffect();
+
     @Override
     public void upgrade(){
 
@@ -56,21 +60,25 @@ public abstract class AttackingBuilding extends Building {
             case 1 -> {
                 this.attackStrength += 20;
                 this.maxHealth += 100;
+                this.upgradeEffect();
                 System.out.println(level);
             }
             case 2 -> {
                 this.attackStrength += 50;
                 this.maxHealth += 200;
+                this.upgradeEffect();
                 System.out.println(level);
             }
             case 3 -> {
                 this.attackStrength += 100;
                 this.maxHealth += 300;
+                this.upgradeEffect();
                 System.out.println(level);
             }
             case 4 -> {
                 this.attackStrength += 200;
                 this.maxHealth += 1000;
+                this.upgradeEffect();
 
             }
             default -> throw new IllegalArgumentException(this.getName() + " reached maximum level: " + this.level);
@@ -78,6 +86,15 @@ public abstract class AttackingBuilding extends Building {
         this.level ++;
         this.currentHealth = this.maxHealth;
         this.drawHealthBar();
+    }
+
+    protected void changeAttackSpeed(int newValue){
+        this.attackSpeed = newValue;
+        this.attackManager.cancel();
+
+        this.attackTimerTask = new TowerAttackManager(this);
+        this.attackManager = new Timer();
+        this.attackManager.scheduleAtFixedRate(this.attackTimerTask, 0L, (long) this.attackSpeed);
     }
 
 }

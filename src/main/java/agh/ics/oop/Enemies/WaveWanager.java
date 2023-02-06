@@ -50,6 +50,7 @@ public class WaveWanager implements EnemyKilledObserver {
         System.out.println("starting new wave");
         this.currentWaveNumber++;
         this.totalToSpawn = getTotalEnemyCountThisWave();
+        System.out.println("spawning: "+this.totalToSpawn +" enemeies");
         changeWaveStates();
         this.waveTimer = new Timer();
         this.waveTimer.scheduleAtFixedRate(new WaveSpawner(this.totalToSpawn,this.spawner),10L,500L);
