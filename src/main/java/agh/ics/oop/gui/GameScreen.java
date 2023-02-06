@@ -13,6 +13,7 @@ import agh.ics.oop.buildings.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import jdk.jfr.Description;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -87,33 +88,13 @@ public class GameScreen {
 
         // Dodanie silnika do ekranu
         this.gameEngine = new GameEngine(this);
+
+
+
+        placeCastleOnMap();
+        spawnEnemiesOnEdges(20);
         Random rand = new Random();
 
-
-        // Stawianie zamku (zamek ma id = 1)
-        this.setSelectedListBuilding(1);
-
-        Integer[] arr = Constants.buildingSizes.get(1);
-        int x = arr[0];
-        int y = arr[1];
-
-        int castleXPosition = (Constants.numberOfTiles - x) / 2;
-        int castleYPosition = (Constants.numberOfTiles - y) / 2;
-
-        this.placeSelectedListBuilding(BuildingFactory.getBuildingById(selectedListBuildingID, castleXPosition, castleYPosition, this, gameEngine));
-
-
-
-
-
-
-        try {
-            for (int i = 0; i < 5; i++) {
-                this.gameEngine.addEnemy(new BasicEnemy(rand.nextDouble(0,600), rand.nextDouble(0,600),this.gameEngine.gameMap));
-            }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
 
 
 
@@ -240,52 +221,52 @@ public class GameScreen {
             this.h1.drawTest(this.gc);
             this.h1.reportHealthChange(this.h1.currentPercentage-0.0025);
 
-        // rysowanie delikatnych linii siatki
-//        gc.setFill(Color.LIGHTGRAY);
-//        gc.setLineWidth(0.05);
-//        for (int x = 0; x <= Constants.CanvasWidth; x += Constants.tileWidth) {
-//            gc.strokeLine(x, 0, x, Constants.CanvasWidth);
-//        }
-//        for (int y = 0; y <= Constants.CanvasWidth; y += Constants.tileWidth) {
-//            gc.strokeLine(0, y, Constants.CanvasWidth, y);
-//        }
-
-
-//            this.gameEngine.defensiveBuildings.forEach(Building::drawHealthBar);
-//            this.gameEngine.activeTowers.forEach(Building::drawHealthBar);
-//            this.gameEngine.waitingTowers.forEach(Building::drawHealthBar);
-//            //this.gameEngine.enemies.forEach(Enemy::drawOnCanvas);
-//
-//            this.gameEngine.moveProjectiles();
-//            this.gameEngine.friendlyProjectiles.forEach((Projectile p) -> p.draw(this.gc));
-//            this.gameEngine.enemyProjectiles.forEach((Projectile p) -> p.draw(this.gc));
-//            this.gameEngine.checkCollisions();
-//
-//
-//            this.gameEngine.enemies.forEach(Enemy::move);
-//            this.gameEngine.enemies.forEach((Enemy e) -> {
-//                e.draw(this.gc);
-//            });
-//            //test
-//            this.h1.drawTest(this.gc);
-//            this.h1.reportHealthChange(this.h1.currentPercentage-0.0025);
-//
-//
-//            this.gameEngine.defensiveBuildings.forEach((DefensiveBuilding b) -> {
-//                //b.reduceHealth(0.1);
-//                if(b.getCurrentHealth() <= 0){
-//                    this.gameEngine.destroyedBuildings.add(b);
-//                }
-//            });
-//            this.gameEngine.defensiveBuildings.removeAll(this.gameEngine.destroyedBuildings);
-//            this.gameEngine.destroyedBuildings.forEach(Building::destroyBuilding);
-//            this.gameEngine.destroyedBuildings.clear(); //zmienic usuwanie zniszczonych budynkow na funkcje w GameEngine
-//
-//
-//            if(this.h1.currentPercentage<=0){
-//                this.h1.reportHealthChange(1.0);
-//            }
-//        }
 
     }
+
+
+    // Metoda stawia zamek na środku mapy
+    private void placeCastleOnMap(){
+        this.setSelectedListBuilding(1);
+
+        Integer[] arr = Constants.buildingSizes.get(1);
+        int x = arr[0];
+        int y = arr[1];
+
+        int castleXPosition = (Constants.numberOfTiles - x) / 2;
+        int castleYPosition = (Constants.numberOfTiles - y) / 2;
+
+        this.placeSelectedListBuilding(BuildingFactory.getBuildingById(selectedListBuildingID, castleXPosition, castleYPosition, this, gameEngine));
+    }
+
+
+
+    // Metoda spawnująca przeciwników na krawędziach
+    private void spawnEnemiesOnEdges(int countOfEnemies){
+        // TODO change hardcoded values
+
+
+        Random rand = new Random();
+        int side;
+        int pos;
+        try {
+            for (int i = 0; i < countOfEnemies; i++) {
+                 side = rand.nextInt(4);
+                 pos = rand.nextInt(599);
+
+                 this.gameEngine.addEnemy(switch(side){
+                     case 0 -> new BasicEnemy(0, pos, this.gameEngine.gameMap);
+                     case 1 -> new BasicEnemy(pos, 0, this.gameEngine.gameMap);
+                     case 2 -> new BasicEnemy(599, pos, this.gameEngine.gameMap);
+                     case 3 -> new BasicEnemy(pos, 599, this.gameEngine.gameMap);
+                     default -> throw new IllegalStateException("Unexpected value: " + side);
+                 });
+
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
 }
