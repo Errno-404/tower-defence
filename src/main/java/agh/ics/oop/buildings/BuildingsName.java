@@ -8,7 +8,8 @@ import java.io.FileNotFoundException;
 public enum BuildingsName {
     CASTLE,
     TOWER,
-    HORIZONTALWALL;
+    HORIZONTALWALL,
+    VERTICALWALL;
 
     public int convert(){
         return switch (this){
@@ -16,6 +17,7 @@ public enum BuildingsName {
             case CASTLE -> 0;
             case TOWER -> 1;
             case HORIZONTALWALL -> 2;
+            case VERTICALWALL -> 3;
         };
     }
 
@@ -25,7 +27,11 @@ public enum BuildingsName {
                 case CASTLE -> new Image(new FileInputStream("src/main/resources/test.png"));
                 case TOWER -> new Image(new FileInputStream("src/main/resources/Tower1.png"));
                 case HORIZONTALWALL -> new Image(new FileInputStream("src/main/resources/WallHorizontal.png"));
+                case VERTICALWALL -> new Image(new FileInputStream("src/main/resources/VerticalWall.png"));
+                default ->  throw new RuntimeException();
+                };
             };
+
             } catch (FileNotFoundException ex) {
             throw new RuntimeException(ex);
         }

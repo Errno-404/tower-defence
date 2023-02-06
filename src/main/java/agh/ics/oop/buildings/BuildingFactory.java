@@ -5,7 +5,8 @@ import agh.ics.oop.Constants;
 import agh.ics.oop.GameEngine;
 import agh.ics.oop.Vector;
 import agh.ics.oop.buildings.AttackingBuildings.BasicTower;
-import agh.ics.oop.buildings.DefensiveBuildings.Wall;
+import agh.ics.oop.buildings.DefensiveBuildings.HorizontalWall;
+import agh.ics.oop.buildings.DefensiveBuildings.VerticalWall;
 import agh.ics.oop.gui.GameScreen;
 import javafx.scene.image.Image;
 
@@ -40,7 +41,15 @@ public class BuildingFactory {
             case HORIZONTALWALL:{
                 Vector position = new Vector(px ,py);
                 try {
-                    return new Wall(5, 1, position, new Image(new FileInputStream("src/main/resources/WallHorizontal.png")), gs, 200, 10);
+                    return new HorizontalWall(5, 1, position, new Image(new FileInputStream("src/main/resources/WallHorizontal.png")), gs, 200, 10);
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            case VERTICALWALL:{
+                Vector position = new Vector(px ,py);
+                try {
+                    return new VerticalWall(1, 5, position, new Image(new FileInputStream("src/main/resources/VerticalWall.png")), gs, 200, 10);
                 } catch (FileNotFoundException e) {
                     throw new RuntimeException(e);
                 }

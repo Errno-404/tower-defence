@@ -81,6 +81,16 @@ public class HealthBar implements HealthChangeObserver {
 
         gc.setFill(null);
     }
+
+    public void drawVertical(GraphicsContext gc, RectangularHitbox hb){
+        Vector upperLeft = hb.upperLeft;
+        Vector lowerRight = hb.lowerRight;
+        gc.setFill(Color.BLACK);
+
+
+
+        gc.setFill(null);
+    }
     //testFunctions
     public void drawTest(GraphicsContext gc){
 
