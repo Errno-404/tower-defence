@@ -39,6 +39,12 @@ public abstract class Building implements Hittable {
     private final ArrayList<BuildingDestroyedObserver> observer = new ArrayList<>();
 
 
+
+
+    // Building level
+
+    protected int level = 1;
+
     protected Building(int widthInTiles, int heightInTiles, Vector position, double health, Image img, GameScreen gs) {
         this.widthInTiles = widthInTiles;
         this.heightInTiles = heightInTiles;
@@ -74,34 +80,6 @@ public abstract class Building implements Hittable {
         }
     }
 
-//    protected Building(int widthInTiles, int heightInTiles, int upperLeftx, int upperLefty, int health, Image img, GameScreen gs) {
-//        this.widthInTiles = widthInTiles;
-//        this.heightInTiles = heightInTiles;
-//
-//        this.currentHealth = health;
-//        this.maxHealth = health;
-//        this.gs = gs;
-//
-//        this.healthBar = new HealthBar();
-//
-//        this.hitbox = new RectangularHitbox(new Vector(upperLeftx*Constants.tileWidth, upperLefty*Constants.tileWidth),
-//                new Vector((upperLeftx + widthInTiles)*Constants.tileWidth, (upperLefty + heightInTiles)*Constants.tileWidth));
-//
-//        this.viewArray = new ImageView[(int) widthInTiles][(int) heightInTiles];
-//
-//
-//
-//        PixelReader reader = img.getPixelReader();
-//        for(int i = 0; i< widthInTiles; i++){
-//            for(int j = 0; j< heightInTiles; j++){
-//                //Rectangle2D viewport = new Rectangle2D(i* Constants.boxWidth, j*Constants.boxHeight, Constants.boxWidth, Constants.boxHeight);
-//                WritableImage croppedImage = new WritableImage(reader, (int) (i*Constants.tileWidth), (int) (j*Constants.tileWidth), (int) Constants.tileWidth, (int) Constants.tileWidth);
-//                ImageView temp = new ImageView(croppedImage);
-//                viewArray[i][j] = temp;
-//                //gs.elements[upperLeftx+i][upperLefty+j].updateImage(temp);
-//            }
-//        }
-//    }
 
     public void addDestroyedObserver(BuildingDestroyedObserver o){
         this.observer.add(o);
@@ -167,10 +145,6 @@ public abstract class Building implements Hittable {
         this.healthBar.reportHealthChange(this.currentHealth/this.maxHealth);
     }
 
-
-    @Override
-    public String toString(){
-        return "*";
-    }
+    public abstract void upgrade();
 
 }

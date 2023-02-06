@@ -10,6 +10,8 @@ import agh.ics.oop.Attacks.HomingProjectileTestClass;
 import agh.ics.oop.Attacks.Projectile;
 import agh.ics.oop.Vector;
 import agh.ics.oop.buildings.*;
+import agh.ics.oop.buildings.AttackingBuildings.AttackingBuilding;
+import agh.ics.oop.maps.mapElement;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -122,11 +124,22 @@ public class GameScreen implements ShopSelectionObserver {
 
 
         this.canvas.setOnMouseClicked(e -> {
+
+
+
             if (!isOver) {
                 //test
                 spawnEnemiesOnEdges(5);
                 int currX = this.elementUnderCursor.xIndex;
                 int currY = this.elementUnderCursor.yIndex;
+
+                Building building = this.gameEngine.gameMap.map[currX][currY].buildingID;
+                if(building != null){
+                    building.upgrade();
+                }
+
+
+
                 if (this.selectedBuildingSquare!= null && this.selectedBuildingSquare.validPosition) {
                     placeSelectedListBuilding(BuildingFactory.getBuildingById(this.selectedListBuildingID, currX, currY, this, gameEngine));
                     this.gameEngine.enemyProjectiles.forEach((Projectile p) -> {

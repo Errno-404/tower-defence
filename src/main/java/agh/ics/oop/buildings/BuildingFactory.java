@@ -37,7 +37,7 @@ public class BuildingFactory {
                     throw new RuntimeException(e);
                 }
             }
-            case WALL:{
+            case HORIZONTALWALL:{
                 Vector position = new Vector(px ,py);
                 try {
                     return new Wall(5, 1, position, new Image(new FileInputStream("src/main/resources/WallHorizontal.png")), gs, 200, 10);

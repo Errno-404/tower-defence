@@ -20,7 +20,7 @@ public class Shop implements EnemyKilledObserver {
     private final static HashMap<BuildingsName, Integer> shopList = new HashMap<>(){
         {
             put(BuildingsName.TOWER, 5);
-            put(BuildingsName.WALL,5);
+            put(BuildingsName.HORIZONTALWALL,5);
         }
     };
 

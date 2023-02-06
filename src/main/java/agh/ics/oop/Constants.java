@@ -2,9 +2,6 @@ package agh.ics.oop;
 
 import agh.ics.oop.buildings.BuildingsName;
 
-import java.awt.*;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.HashMap;
 
 public final class Constants {
@@ -35,7 +32,7 @@ public final class Constants {
     public final static HashMap<BuildingsName, Integer[]> buildingSizes = new HashMap<>() {{
         put(BuildingsName.CASTLE, new Integer[]{3,3,1,1});
         put(BuildingsName.TOWER, new Integer[]{2,2,1,1});
-        put(BuildingsName.WALL, new Integer[]{5, 1, 1, 1});
+        put(BuildingsName.HORIZONTALWALL, new Integer[]{5, 1, 1, 1});
     }
     };
 

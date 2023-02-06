@@ -41,4 +41,33 @@ public abstract class DefensiveBuilding extends Building {
         this.defence += deltaDefence;
 
     }
+
+    @Override
+    public void upgrade(){
+        this.level ++;
+        switch (this.level) {
+            case 2 -> {
+                this.defence += 0.1;
+                this.maxHealth += 100;
+            }
+            case 3 -> {
+                this.defence += 0.1;
+                this.maxHealth += 200;
+            }
+            case 4 -> {
+                this.defence += 0.1;
+                this.maxHealth += 300;
+            }
+            case 5 -> {
+                this.defence += 0.2;
+                this.maxHealth += 1000;
+            }
+            default -> throw new IllegalArgumentException(this.getName() + " reached maximum level: " + this.level);
+        }
+        this.currentHealth = this.maxHealth;
+        this.drawHealthBar();
+
+
+    }
+
 }
