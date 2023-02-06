@@ -1,27 +1,21 @@
 package agh.ics.oop;
 
+import agh.ics.oop.buildings.BuildingsName;
+
 import java.util.HashMap;
 
 public final class Constants {
     public final static double tileSize = 10;
-//    public final static double tileWidth = 10;
 
-//    public final static double CanvasWidth = 600;
     public final static double canvasSize = 600;
 
-//    public final static int numberOfTiles = (int) (Constants.CanvasWidth/Constants.boxWidth);
     public final static int numberOfTiles = (int) (Constants.canvasSize /Constants.tileSize);
 
-    public final static HashMap<Integer, String> buildingIDs = new HashMap<>() {{
-        put(1, "Castle");
-        put(2, "BasicTower");
-    }
-
-    };
 
     public final static HashMap<Integer, Integer[]> buildingSizes = new HashMap<>() {{
-        put(1, new Integer[]{3,3,1,1});
-        put(2, new Integer[]{2,2,1,1});
+        put(BuildingsName.CASTLE.convert(), new Integer[]{3,3,1,1});
+        put(BuildingsName.TOWER.convert(), new Integer[]{2,2,1,1});
+        put(BuildingsName.WALL.convert(), new Integer[]{1, 1, 1, 1});
     }
     };
 

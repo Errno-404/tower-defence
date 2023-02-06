@@ -4,16 +4,19 @@ import agh.ics.oop.GameEngine;
 import agh.ics.oop.Vector;
 import agh.ics.oop.buildings.AttackingBuildings.BasicTower;
 import agh.ics.oop.buildings.Building;
+import agh.ics.oop.buildings.DefensiveBuildings.Wall;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
@@ -41,16 +44,14 @@ public class App extends Application {
 
         ArrayList<Building> towers = new ArrayList<>();
         Building building = new BasicTower(new Vector(0, 0), this.gameScreen, this.gameScreen.gameEngine);
+
+        // TODO wall zwraca wyjątek
+//        Wall wall = new Wall(5, 1, new Vector(1, 1), new Image(new FileInputStream("src/main/resources/yellowRect.png")), this.gameScreen, 200, 0);
+
         towers.add(building);
-        towers.add(building);
-
-
-
-
+//        towers.add(wall);
         Pane towerList = new TowerPane(this.gameScreen, towers);
         towerList.setPadding(new Insets(0, 10, 0, 10));
-
-
         bpane.setRight(towerList);
 
 
@@ -67,12 +68,14 @@ public class App extends Application {
         bottomPane.getChildren().add(new Label("Bottom Pane (info o obecnie wybranej wiezy/jednostce albo cos w tym stylu?)"));
         bpane.setBottom(bottomPane);
 
+        // ========================================= Informacje o fali =================================================
         Pane topPane = new Pane(); //TODO: Zmienic na StatPane.coś
-        topPane.getChildren().add(new Label("moze HP/gold i jakies inne rzeczy(topPane)\n\n\n"));
+        topPane.getChildren().add(new Label("Money"));
+        topPane.getChildren().add(new Label("Hello"));
         bpane.setTop(topPane);
 
         Pane leftPane = new Pane(); //TODO: Zmienić na LeftPane.coś
-        leftPane.getChildren().add(new Label("nwm co tu moze byc jeszcze, moze sie przyda (leftPane)"));
+        leftPane.getChildren().add(new Label(""));
         bpane.setLeft(leftPane);
 
         //gameScreen.addObserver(...)
