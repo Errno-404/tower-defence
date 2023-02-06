@@ -98,46 +98,47 @@ public class GameScreen implements ShopSelectionObserver {
 
         // graphical representation of cursor
         this.canvas.setOnMouseMoved(e -> {
+            if(!isOver) {
+                double mouseX = e.getX();
+                double mouseY = e.getY();
 
-            double mouseX = e.getX();
-            double mouseY = e.getY();
-
-            int arrayIndexX = (int) (mouseX / Constants.tileSize);
-            int arrayIndexY = (int) (mouseY / Constants.tileSize);
+                int arrayIndexX = (int) (mouseX / Constants.tileSize);
+                int arrayIndexY = (int) (mouseY / Constants.tileSize);
 
 
-            if (this.elementUnderCursor != elements[arrayIndexX][arrayIndexY]) {
-                this.elementUnderCursor.revert();
-                this.elementUnderCursor = elements[arrayIndexX][arrayIndexY];
-                this.elementUnderCursor.highlight();
+                if (this.elementUnderCursor != elements[arrayIndexX][arrayIndexY]) {
+                    this.elementUnderCursor.revert();
+                    this.elementUnderCursor = elements[arrayIndexX][arrayIndexY];
+                    this.elementUnderCursor.highlight();
+                }
+
+
+                if (this.selectedBuildingSquare != null) {
+                    this.selectedBuildingSquare.move(arrayIndexX, arrayIndexY);
+                }
+
             }
-
-
-            if (this.selectedBuildingSquare != null) {
-                this.selectedBuildingSquare.move(arrayIndexX, arrayIndexY);
-            }
-
         });
 
 
         this.canvas.setOnMouseClicked(e -> {
+            if (!isOver) {
+                //test
+                spawnEnemiesOnEdges(5);
+                int currX = this.elementUnderCursor.xIndex;
+                int currY = this.elementUnderCursor.yIndex;
+                if (selectedListBuildingID == null) {
+                    setSelectedListBuilding(BuildingsName.WALL);
+                } else if (this.selectedBuildingSquare.validPosition) {
+                    placeSelectedListBuilding(BuildingFactory.getBuildingById(this.selectedListBuildingID, currX, currY, this, gameEngine));
+                    this.gameEngine.enemyProjectiles.forEach((Projectile p) -> {
+                        if (p instanceof HomingProjectileTestClass p1) {
+                            p1.updateTarget(new Vector(rand.nextDouble(0, 600), rand.nextDouble(0, 600)));
+                        }
+                    });
+                }
 
-
-            //test
-            spawnEnemiesOnEdges(5);
-            int currX = this.elementUnderCursor.xIndex;
-            int currY = this.elementUnderCursor.yIndex;
-            if (selectedListBuildingID == null) {
-                setSelectedListBuilding(BuildingsName.WALL);
-            } else if (this.selectedBuildingSquare.validPosition) {
-                placeSelectedListBuilding(BuildingFactory.getBuildingById(this.selectedListBuildingID, currX, currY, this, gameEngine));
-                this.gameEngine.enemyProjectiles.forEach((Projectile p) -> {
-                    if (p instanceof HomingProjectileTestClass p1) {
-                        p1.updateTarget(new Vector(rand.nextDouble(0, 600), rand.nextDouble(0, 600)));
-                    }
-                });
             }
-
         });
     }
 
