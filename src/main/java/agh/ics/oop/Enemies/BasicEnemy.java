@@ -15,8 +15,8 @@ public class BasicEnemy extends Enemy{
 
 
 
-    public BasicEnemy(double px, double py, GameMap map) throws FileNotFoundException {
-        super(px, py, 15, 15,250,new StandardMeleeAttack(5), map,new Image(new FileInputStream("src/main/resources/EnemySquare1.png")));
+    public BasicEnemy(double px, double py, double attackPower,GameMap map) throws FileNotFoundException {
+        super(px, py, 15, 15,250,new StandardMeleeAttack(attackPower), map,new Image(new FileInputStream("src/main/resources/EnemySquare1.png")));
         this.goldOnDeath = 5;
 
     }

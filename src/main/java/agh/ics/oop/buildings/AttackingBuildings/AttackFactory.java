@@ -8,7 +8,7 @@ import agh.ics.oop.Vector;
 
 public class AttackFactory{
 
-    public static Attack BasicTowerAttack(Enemy target, Vector startingPosition){
-        return new NormalProjectile(startingPosition,5,target.getHitbox().centre);
+    public static Attack BasicTowerAttack(Enemy target, Vector startingPosition, double power){
+        return new NormalProjectile(startingPosition,5,power,target.getHitbox().centre);
     }
 }
