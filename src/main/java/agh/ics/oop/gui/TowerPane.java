@@ -1,6 +1,7 @@
 package agh.ics.oop.gui;
 
 import agh.ics.oop.buildings.Building;
+import agh.ics.oop.buildings.BuildingsName;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -29,7 +30,7 @@ public class TowerPane extends VBox {
             Image img = building.getImage();
             ImageView imgView = new ImageView(img);
 
-            imgView.setOnMouseClicked(event -> this.gs.setSelectedListBuilding(2));
+            imgView.setOnMouseClicked(event -> this.gs.setSelectedListBuilding(BuildingsName.TOWER));
 
 
             this.getChildren().add(imgView);

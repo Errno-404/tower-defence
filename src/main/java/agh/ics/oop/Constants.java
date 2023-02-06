@@ -12,10 +12,10 @@ public final class Constants {
     public final static int numberOfTiles = (int) (Constants.canvasSize /Constants.tileSize);
 
 
-    public final static HashMap<Integer, Integer[]> buildingSizes = new HashMap<>() {{
-        put(BuildingsName.CASTLE.convert(), new Integer[]{3,3,1,1});
-        put(BuildingsName.TOWER.convert(), new Integer[]{2,2,1,1});
-        put(BuildingsName.WALL.convert(), new Integer[]{1, 1, 1, 1});
+    public final static HashMap<BuildingsName, Integer[]> buildingSizes = new HashMap<>() {{
+        put(BuildingsName.CASTLE, new Integer[]{3,3,1,1});
+        put(BuildingsName.TOWER, new Integer[]{2,2,1,1});
+        put(BuildingsName.WALL, new Integer[]{1, 1, 1, 1});
     }
     };
 

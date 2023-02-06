@@ -10,9 +10,9 @@ import java.io.FileNotFoundException;
 
 public class BuildingFactory {
 
-    public static Building getBuildingById(Integer id, int px, int py, GameScreen gs, GameEngine ge){
+    public static Building getBuildingById(BuildingsName id, int px, int py, GameScreen gs, GameEngine ge){
         switch(id){
-            case 1:{
+            case CASTLE:{
                 try{
 
                 Vector position = new Vector(px, py);
@@ -21,7 +21,7 @@ public class BuildingFactory {
                     throw new RuntimeException(e);
                 }
             }
-            case 2:{
+            case TOWER:{
                 try{
                     Vector position = new Vector(px ,py);
                     return new BasicTower(position,gs, ge);

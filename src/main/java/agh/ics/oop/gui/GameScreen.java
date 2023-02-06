@@ -34,7 +34,7 @@ public class GameScreen {
     GameEngine gameEngine;
 
 
-    private int selectedListBuildingID = 0; //if not null, place on mouseClick (if possible) the building on
+    private BuildingsName selectedListBuildingID = null; //if not null, place on mouseClick (if possible) the building on
     // current cursor element and set back to null
     private BuildingCreationSquare selectedBuildingSquare = null;
     private Building selectedExistingBuilding; //change on canvas click when selectedListBuilding is null
@@ -125,11 +125,8 @@ public class GameScreen {
             spawnEnemiesOnEdges(5);
             int currX = this.elementUnderCursor.xIndex;
             int currY = this.elementUnderCursor.yIndex;
-            if (selectedListBuildingID == 0 && this.gameEngine.gameMap.castleCentre == null) {
-                setSelectedListBuilding(1);
-
-            } else if (selectedListBuildingID == 0) {
-                setSelectedListBuilding(2);
+            if (selectedListBuildingID == null) {
+                setSelectedListBuilding(BuildingsName.TOWER);
             } else if (this.selectedBuildingSquare.validPosition) {
                 placeSelectedListBuilding(BuildingFactory.getBuildingById(this.selectedListBuildingID, currX, currY, this, gameEngine));
                 this.gameEngine.enemyProjectiles.forEach((Projectile p) -> {
@@ -174,20 +171,14 @@ public class GameScreen {
         this.gameEngine.addEnemiesToTowers();
 
 
-        // TODO można usunąć?
-
-//        this.h1.drawTest(this.gc);
-//        this.h1.reportHealthChange(this.h1.currentPercentage - 0.0025);
-
-
     }
 
 
     // Method places Castle in the middle of the map
     private void placeCastleOnMap() {
-        this.setSelectedListBuilding(1);
+        this.setSelectedListBuilding(BuildingsName.CASTLE);
 
-        Integer[] arr = Constants.buildingSizes.get(1);
+        Integer[] arr = Constants.buildingSizes.get(BuildingsName.CASTLE);
         int x = arr[0];
         int y = arr[1];
 
@@ -242,8 +233,8 @@ public class GameScreen {
         }
     }
 
-    public void setSelectedListBuilding(Integer id) {
-        if (this.gameEngine.gameMap.castleCentre != null && id == 1) {
+    public void setSelectedListBuilding(BuildingsName id) {
+        if (this.gameEngine.gameMap.castleCentre != null && id == BuildingsName.CASTLE) {
             return;
         }
         this.selectedListBuildingID = id;
@@ -252,7 +243,7 @@ public class GameScreen {
 
     public void placeSelectedListBuilding(Building b) {
         this.gameEngine.addBuilding(b);
-        this.selectedListBuildingID = 0;
+        this.selectedListBuildingID = null;
         this.selectedBuildingSquare.remove();
         this.selectedBuildingSquare = null;
     }
