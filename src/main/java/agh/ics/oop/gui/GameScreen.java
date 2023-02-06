@@ -40,7 +40,7 @@ public class GameScreen implements ShopSelectionObserver, WaveStateObserver {
     public WaveWanager waveWanager;
 
     boolean isOver = false;
-    boolean isWaveStarted = false;
+    public boolean isWaveStarted = false;
 
 
     private BuildingsName selectedListBuildingID = null; //if not null, place on mouseClick (if possible) the building on
@@ -142,12 +142,14 @@ public class GameScreen implements ShopSelectionObserver, WaveStateObserver {
                 int currX = this.elementUnderCursor.xIndex;
                 int currY = this.elementUnderCursor.yIndex;
 
-                Building building = this.gameEngine.gameMap.map[currX][currY].buildingID;
-                if(building != null){
-                    building.upgrade();
-                }
+
 
                 if(!isWaveStarted){
+                    Building building = this.gameEngine.gameMap.map[currX][currY].buildingID;
+                    if(building != null){
+                        building.upgrade();
+                    }
+
                     this.waveWanager.startNewWave();
                     if (this.selectedBuildingSquare!= null && this.selectedBuildingSquare.validPosition) {
                         placeSelectedListBuilding(BuildingFactory.getBuildingById(this.selectedListBuildingID, currX, currY, this, gameEngine));
