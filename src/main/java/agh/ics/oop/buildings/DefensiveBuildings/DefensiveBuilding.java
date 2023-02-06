@@ -64,6 +64,7 @@ public abstract class DefensiveBuilding extends Building {
             }
             default -> throw new IllegalArgumentException(this.getName() + " reached maximum level: " + this.level);
         }
+        System.out.println("upgraded");
         this.currentHealth = this.maxHealth;
         this.drawHealthBar();
 

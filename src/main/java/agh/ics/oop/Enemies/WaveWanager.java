@@ -53,8 +53,6 @@ public class WaveWanager implements EnemyKilledObserver {
         changeWaveStates();
         this.waveTimer = new Timer();
         this.waveTimer.scheduleAtFixedRate(new WaveSpawner(this.totalToSpawn,this.spawner),10L,500L);
-
-
     }
 
 
@@ -62,7 +60,7 @@ public class WaveWanager implements EnemyKilledObserver {
     public void addGold(Integer n) {
         this.currentlyKilled++;
         if(currentlyKilled>=this.totalToSpawn){
-            this.waveTimer.purge();
+            this.waveTimer.cancel();
             changeWaveStates();
             resetWaveParameters();
         }

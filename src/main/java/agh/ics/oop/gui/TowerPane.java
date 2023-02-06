@@ -28,7 +28,6 @@ public class TowerPane extends VBox {
 
         this.shop = new Shop(gs);
         this.gs.gameEngine.addEnemyKilledObserver(this.shop);
-
         gs.waveWanager.addObserver(this.shop);
     }
 
@@ -42,7 +41,9 @@ public class TowerPane extends VBox {
             Image img = building.getImage();
             ImageView imgView = new ImageView(img);
 
-            imgView.setOnMouseClicked(event -> this.shop.buy(building));
+            imgView.setOnMouseClicked(event -> {
+                if(!this.gs.isWaveStarted)  this.shop.buy(building);
+            });
 
 
             this.getChildren().add(imgView);
