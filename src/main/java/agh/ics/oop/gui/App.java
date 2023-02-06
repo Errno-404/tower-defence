@@ -1,16 +1,20 @@
 package agh.ics.oop.gui;
 
 import agh.ics.oop.GameEngine;
+import agh.ics.oop.Vector;
+import agh.ics.oop.buildings.AttackingBuildings.BasicTower;
 import agh.ics.oop.buildings.Building;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class App extends Application {
@@ -18,7 +22,7 @@ public class App extends Application {
     private GameScreen gameScreen;
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws FileNotFoundException {
 
         this.gameScreen = new GameScreen();
         primaryStage.setTitle("Tower Defence");
@@ -36,10 +40,17 @@ public class App extends Application {
         // ============================================ Tower selection ================================================
 
         ArrayList<Building> towers = new ArrayList<>();
+        Building building = new BasicTower(new Vector(0, 0), this.gameScreen, this.gameScreen.gameEngine);
+        towers.add(building);
+        towers.add(building);
+
+
 
 
         Pane towerList = new TowerPane(this.gameScreen, towers);
-        towerList.getChildren().add(new Label("Tower list (right pane)"));
+        towerList.setPadding(new Insets(0, 10, 0, 10));
+
+
         bpane.setRight(towerList);
 
 
