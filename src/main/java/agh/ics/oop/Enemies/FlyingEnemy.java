@@ -14,6 +14,7 @@ public class FlyingEnemy extends Enemy{
 
     public FlyingEnemy(double px, double py,double hp, Attack attack, GameMap map, Image sprite) {
         super(px, py, 30,30, hp, attack, map, sprite);
+        this.goldOnDeath = 5;
     }
 
     @Override
