@@ -13,6 +13,8 @@ public class EnemyAttackManager extends TimerTask {
     public void run() {
         if(this.enemy.canAttack()){
             this.enemy.attack();
+
         }
+        System.out.println("Enemy shooting");
     }
 }

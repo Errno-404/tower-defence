@@ -12,5 +12,6 @@ public class TowerAttackManager extends TimerTask {
     @Override
     public void run() {
         this.tower.attack();
+        System.out.println("Here");
     }
 }

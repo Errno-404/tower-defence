@@ -183,6 +183,7 @@ public class GameScreen implements ShopSelectionObserver {
             this.gc.fillRect(0,0,600,600);
         }
 
+//        System.out.println("Run");
 
     }
 

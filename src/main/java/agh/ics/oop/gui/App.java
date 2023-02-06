@@ -8,6 +8,7 @@ import agh.ics.oop.buildings.DefensiveBuildings.Wall;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -74,9 +75,13 @@ public class App extends Application {
         //TODO: Może zmienić observerów na https://docs.oracle.com/en/java/javase/11/docs/api/java.desktop/java/beans/PropertyChangeListener.html
 
 
-
+        primaryStage.setOnCloseRequest(event -> {
+            gameScreen.endGame();
+            Platform.exit();
+        });
         primaryStage.setScene(new Scene(bpane));
         primaryStage.show();
+
 
     }
 }

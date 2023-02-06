@@ -30,7 +30,7 @@ public abstract class AttackingBuilding extends Building {
         this.attackSpeed = attackSpeed;
         this.attackTimerTask = new TowerAttackManager(this);
         this.attackManager = new Timer();
-        this.attackManager.scheduleAtFixedRate((TimerTask) this.attackTimerTask, 0L, (long) this.attackSpeed*500);
+        this.attackManager.scheduleAtFixedRate(this.attackTimerTask, 0L, (long) this.attackSpeed*500);
 
     }
 

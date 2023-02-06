@@ -122,7 +122,7 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
                 }
             }
         }
-        System.out.println("done after: " + itercount);
+//        System.out.println("done after: " + itercount);
 
     }
 
