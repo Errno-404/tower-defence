@@ -40,16 +40,17 @@ public class GameScreen {
 
     //test
     ArrayList<Projectile> projectiles = new ArrayList<>();
-    Castle castle;
 
+
+
+    // ################################################### Tworzenie ekranu ###################################################################
 
     public GameScreen() {
         double canvasSize = Constants.canvasSize;
         this.canvas = new Canvas(canvasSize, canvasSize);
         this.gc = canvas.getGraphicsContext2D();
 
-
-        this.elements = new CanvasElement[(int) canvasSize][(int) canvasSize];
+        this.elements = new CanvasElement[Constants.numberOfTiles + 1][Constants.numberOfTiles + 1];
         try {
 
             // Grafika trawy - podłoża
@@ -59,17 +60,10 @@ public class GameScreen {
             Image darkerGrass = new Image(new FileInputStream("src/main/resources/darkerGrass.png"),
                     Constants.tileSize, Constants.tileSize, true, false);
 
-
-//            Image defaultImage = new Image(new FileInputStream("src/main/resources/blueRect.png"));
-//            Image defaultBlack = new Image(new FileInputStream("src/main/resources/blackRect.png"));
-
-
-            // Grafika kursora ?
-
             Image cursorImg = new Image(new FileInputStream("src/main/resources/yellowRect.png"));
 
 
-            // Dodawanie odpowiedniego elementu do narysowania
+            // Dodawanie tła kafelków
 
             for (int i = 0; i < Constants.numberOfTiles; i++) {
                 for (int j = 0; j < Constants.numberOfTiles; j++) {
@@ -89,22 +83,29 @@ public class GameScreen {
         }
 
 
+
+
         // Dodanie silnika do ekranu
         this.gameEngine = new GameEngine(this);
         Random rand = new Random();
 
 
-//        for(int i = 0;i<1000;i++){
-//            this.gameEngine.addProjectile(false);
-//        }
+        // Stawianie zamku (zamek ma id = 1)
+        this.setSelectedListBuilding(1);
 
-//        for (int i = 0; i < 1000; i++) {
-//            this.gameEngine.addProjectile(true);
-//        }
+        Integer[] arr = Constants.buildingSizes.get(1);
+        int x = arr[0];
+        int y = arr[1];
 
-        for(int i = 0;i<0;i++){
-            this.gameEngine.addProjectile(true);
-        }
+        int castleXPosition = (Constants.numberOfTiles - x) / 2;
+        int castleYPosition = (Constants.numberOfTiles - y) / 2;
+
+        this.placeSelectedListBuilding(BuildingFactory.getBuildingById(selectedListBuildingID, castleXPosition, castleYPosition, this, gameEngine));
+
+
+
+
+
 
         try {
             for (int i = 0; i < 5; i++) {
@@ -114,14 +115,6 @@ public class GameScreen {
             throw new RuntimeException(e);
         }
 
-        // co to jest?
-//        try {
-//            for (int i = 0; i < 5; i++) {
-//                this.gameEngine.addEnemy(new BasicEnemy(rand.nextDouble(0, 600), rand.nextDouble(0, 600), this.gameEngine.gameMap));
-//            }
-//        } catch (FileNotFoundException e) {
-//            throw new RuntimeException(e);
-//        }
 
 
         // onMouse Events
@@ -140,7 +133,7 @@ public class GameScreen {
                 this.elementUnderCursor.highlight();
             }
 
-            // TODO ??
+
             if (this.selectedBuildingSquare != null) {
                 this.selectedBuildingSquare.move(arrayIndexX, arrayIndexY);
             }

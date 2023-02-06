@@ -126,8 +126,8 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
     }
 
     public boolean canPlace(RectangularHitbox hb){
-        for(int i = (int) hb.upperLeft.getXindex(); i<hb.lowerRight.getXindex(); i++){
-            for(int j = (int) hb.upperLeft.getYindex(); j<hb.lowerRight.getYindex(); j++){
+        for(int i = hb.upperLeft.getXindex(); i<hb.lowerRight.getXindex(); i++){
+            for(int j = hb.upperLeft.getYindex(); j<hb.lowerRight.getYindex(); j++){
                 if(i < 0 || i >= Constants.numberOfTiles || j < 0 || j >= Constants.numberOfTiles){
                     return false;
                 }
@@ -139,7 +139,7 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
         return true;
     }
 
-    public void placeMap(Building building){
+    public void placeBuildingOnMap(Building building){
         Vector anchorPoint = building.getAnchorPosition();
 
         int xIndex = anchorPoint.getXindex();

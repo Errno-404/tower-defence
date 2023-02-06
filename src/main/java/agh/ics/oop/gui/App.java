@@ -19,7 +19,7 @@ public class App extends Application {
 
         this.gameScreen = new GameScreen();
         primaryStage.setTitle("Tower Defence");
-        Timeline tl = new Timeline(new KeyFrame(Duration.millis((15)), e-> {gameScreen.run();}));
+        Timeline tl = new Timeline(new KeyFrame(Duration.millis((15)), e-> gameScreen.run()));
         tl.setCycleCount(Timeline.INDEFINITE);
         tl.play();
 
