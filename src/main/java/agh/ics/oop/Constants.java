@@ -15,7 +15,7 @@ public final class Constants {
     public final static HashMap<BuildingsName, Integer[]> buildingSizes = new HashMap<>() {{
         put(BuildingsName.CASTLE, new Integer[]{3,3,1,1});
         put(BuildingsName.TOWER, new Integer[]{2,2,1,1});
-        put(BuildingsName.WALL, new Integer[]{1, 1, 1, 1});
+        put(BuildingsName.WALL, new Integer[]{5, 1, 1, 1});
     }
     };
 

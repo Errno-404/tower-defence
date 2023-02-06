@@ -126,7 +126,7 @@ public class GameScreen {
             int currX = this.elementUnderCursor.xIndex;
             int currY = this.elementUnderCursor.yIndex;
             if (selectedListBuildingID == null) {
-                setSelectedListBuilding(BuildingsName.TOWER);
+                setSelectedListBuilding(BuildingsName.WALL);
             } else if (this.selectedBuildingSquare.validPosition) {
                 placeSelectedListBuilding(BuildingFactory.getBuildingById(this.selectedListBuildingID, currX, currY, this, gameEngine));
                 this.gameEngine.enemyProjectiles.forEach((Projectile p) -> {

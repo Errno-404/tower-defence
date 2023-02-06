@@ -4,8 +4,11 @@ package agh.ics.oop.buildings;
 import agh.ics.oop.GameEngine;
 import agh.ics.oop.Vector;
 import agh.ics.oop.buildings.AttackingBuildings.BasicTower;
+import agh.ics.oop.buildings.DefensiveBuildings.Wall;
 import agh.ics.oop.gui.GameScreen;
+import javafx.scene.image.Image;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class BuildingFactory {
@@ -25,6 +28,14 @@ public class BuildingFactory {
                 try{
                     Vector position = new Vector(px ,py);
                     return new BasicTower(position,gs, ge);
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            case WALL:{
+                Vector position = new Vector(px ,py);
+                try {
+                    return new Wall(5, 1, position, new Image(new FileInputStream("src/main/resources/WallHorizontal.png")), gs, 200, 10);
                 } catch (FileNotFoundException e) {
                     throw new RuntimeException(e);
                 }
