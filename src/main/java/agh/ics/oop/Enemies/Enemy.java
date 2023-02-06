@@ -36,7 +36,7 @@ public abstract class Enemy implements Hittable {
     public Enemy(double px, double py,double sizex, double sizey, double hp, Attack attack, GameMap map,Image sprite){
         this.currentHealth = hp;
         this.maxHealth = hp;
-        this.hitbox = new RectangularHitbox(new Vector(px,py), new Vector(px + sizex, py + sizey));
+        this.hitbox = new RectangularHitbox(new Vector(px,py),sizex);
 
         this.enemyAttackTimer = new Timer();
 
