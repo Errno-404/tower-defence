@@ -12,8 +12,8 @@ import java.io.FileNotFoundException;
 public class HomingProjectile extends Projectile{
     Enemy target;
 
-    public HomingProjectile(Vector position, double velocity, Enemy target) {
-        super(position, velocity);
+    public HomingProjectile(Vector position, double velocity, double strength, Enemy target) {
+        super(position, velocity, strength);
         this.target = target;
 
         try {

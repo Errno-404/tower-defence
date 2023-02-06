@@ -12,8 +12,8 @@ public class HomingProjectileTestClass extends Projectile{
     Vector target;
 
 
-    public HomingProjectileTestClass(Vector position, double velocity) {
-        super(position, velocity);
+    public HomingProjectileTestClass(Vector position, double velocity, double strength) {
+        super(position, velocity,  strength);
         this.target = new Vector(500,500);
 
         try {
