@@ -14,8 +14,8 @@ import java.util.HashSet;
 import java.util.LinkedList;
 
 public class mapElement {
-    Integer x;
-    Integer y;
+    public Integer x;
+    public Integer y;
 
     public Vector squareCentre;
 
