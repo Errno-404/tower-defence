@@ -27,7 +27,9 @@ public class TowerPane extends VBox {
         this.createBuildings();
 
         this.shop = new Shop(gs);
-        this.gs.gameEngine.setEnemyKilledObserver(this.shop);
+        this.gs.gameEngine.addEnemyKilledObserver(this.shop);
+
+        gs.waveWanager.addObserver(this.shop);
     }
 
 

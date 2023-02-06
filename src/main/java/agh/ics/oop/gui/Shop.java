@@ -2,14 +2,17 @@ package agh.ics.oop.gui;
 
 import agh.ics.oop.Interfaces.EnemyKilledObserver;
 import agh.ics.oop.Interfaces.ShopSelectionObserver;
+import agh.ics.oop.Interfaces.WaveStateObserver;
 import agh.ics.oop.buildings.BuildingsName;
 
 import java.util.HashMap;
 
-public class Shop implements EnemyKilledObserver {
+public class Shop implements EnemyKilledObserver, WaveStateObserver {
 
     private double gold;
     ShopSelectionObserver obs;
+
+    private boolean isWaveStarted;
 
     public Shop(ShopSelectionObserver o){
         this.obs = o;
@@ -31,8 +34,12 @@ public class Shop implements EnemyKilledObserver {
             this.gold-=shopList.get(building);
         }
     }
-
+    @Override
     public void addGold(Integer n){
         this.gold+=n;
+    }
+    @Override
+    public void changeWaveState(){
+        this.isWaveStarted = !isWaveStarted;
     }
 }

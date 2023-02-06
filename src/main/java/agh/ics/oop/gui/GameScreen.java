@@ -4,10 +4,12 @@ package agh.ics.oop.gui;
 import agh.ics.oop.Constants;
 import agh.ics.oop.Enemies.BasicEnemy;
 import agh.ics.oop.Enemies.Enemy;
+import agh.ics.oop.Enemies.WaveWanager;
 import agh.ics.oop.GameEngine;
 import agh.ics.oop.Interfaces.ShopSelectionObserver;
 import agh.ics.oop.Attacks.HomingProjectileTestClass;
 import agh.ics.oop.Attacks.Projectile;
+import agh.ics.oop.Interfaces.WaveStateObserver;
 import agh.ics.oop.Vector;
 import agh.ics.oop.buildings.*;
 import agh.ics.oop.buildings.AttackingBuildings.AttackingBuilding;
@@ -22,7 +24,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class GameScreen implements ShopSelectionObserver {
+public class GameScreen implements ShopSelectionObserver, WaveStateObserver {
 
     public Canvas canvas;
     public GraphicsContext gc;
@@ -35,7 +37,10 @@ public class GameScreen implements ShopSelectionObserver {
 
     public GameEngine gameEngine;
 
+    public WaveWanager waveWanager;
+
     boolean isOver = false;
+    boolean isWaveStarted = false;
 
 
     private BuildingsName selectedListBuildingID = null; //if not null, place on mouseClick (if possible) the building on
@@ -92,10 +97,15 @@ public class GameScreen implements ShopSelectionObserver {
         // Adding gameEngine to screen
         this.gameEngine = new GameEngine(this);
 
+        this.waveWanager = new WaveWanager(this);
+        this.gameEngine.addEnemyKilledObserver(this.waveWanager);
+
+        this.waveWanager.addObserver(this);
+
         // TODO zmienić na fale
         placeCastleOnMap();
-        spawnEnemiesOnEdges(20);
-        Random rand = new Random();
+        //spawnEnemiesOnEdges(20);
+        //Random rand = new Random();
 
 
         // graphical representation of cursor
@@ -129,7 +139,6 @@ public class GameScreen implements ShopSelectionObserver {
 
             if (!isOver) {
                 //test
-                spawnEnemiesOnEdges(5);
                 int currX = this.elementUnderCursor.xIndex;
                 int currY = this.elementUnderCursor.yIndex;
 
@@ -138,16 +147,16 @@ public class GameScreen implements ShopSelectionObserver {
                     building.upgrade();
                 }
 
-
-
-                if (this.selectedBuildingSquare!= null && this.selectedBuildingSquare.validPosition) {
-                    placeSelectedListBuilding(BuildingFactory.getBuildingById(this.selectedListBuildingID, currX, currY, this, gameEngine));
-                    this.gameEngine.enemyProjectiles.forEach((Projectile p) -> {
-                        if (p instanceof HomingProjectileTestClass p1) {
-                            p1.updateTarget(new Vector(rand.nextDouble(0, 600), rand.nextDouble(0, 600)));
-                        }
-                    });
+                if(!isWaveStarted){
+                    this.waveWanager.startNewWave();
+                    if (this.selectedBuildingSquare!= null && this.selectedBuildingSquare.validPosition) {
+                        placeSelectedListBuilding(BuildingFactory.getBuildingById(this.selectedListBuildingID, currX, currY, this, gameEngine));
+                    }
                 }
+
+
+
+
 
             }
         });
@@ -156,6 +165,10 @@ public class GameScreen implements ShopSelectionObserver {
     public void endGame(){
         this.gameEngine.removeAllGameOver();
         this.isOver = true;
+    }
+    @Override
+    public void changeWaveState(){
+        this.isWaveStarted = !isWaveStarted;
     }
 
 
