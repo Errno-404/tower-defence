@@ -6,9 +6,8 @@ import agh.ics.oop.gui.GameScreen;
 
 import java.util.ArrayList;
 import java.util.Timer;
-import java.util.TimerTask;
 
-public class WaveWanager implements EnemyKilledObserver {
+public class WaveManager implements EnemyKilledObserver {
     int currentWaveNumber;
     GameScreen gameScreen;
     EnemySpawner spawner;
@@ -19,14 +18,14 @@ public class WaveWanager implements EnemyKilledObserver {
 
     double initialWaitTime = 500;
 
-    int currentlyKilled = 0;
-    int totalToSpawn = 0;
+    public int currentlyKilled = 0;
+    public int totalToSpawn = 0;
 
     Timer waveTimer;
 
     public int waveNumber = 1;
 
-    public WaveWanager(GameScreen gs){
+    public WaveManager(GameScreen gs){
         this.currentWaveNumber=0;
         this.gameScreen=gs;
         this.spawner = new EnemySpawner(gs.gameEngine);

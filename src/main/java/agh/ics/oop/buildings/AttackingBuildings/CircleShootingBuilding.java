@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class CircleShootingBuilding extends AttackingBuilding{
 
-    private ArrayList<Vector> directionVectors;
+    private final ArrayList<Vector> directionVectors;
 
     public CircleShootingBuilding(int widthInTiles, int heightInTiles, Vector position, double attackSpeed, double attackStrength, GameScreen gs, Image img, GameEngine ge){
         super(widthInTiles,heightInTiles,position,attackSpeed,attackStrength,gs,img, ge);
@@ -45,38 +45,29 @@ public class CircleShootingBuilding extends AttackingBuilding{
 
     @Override
     public void upgradeEffect() {
-        switch(this.level){
-            case 1:{
+        switch (this.level) {
+            case 1 -> {
                 Vector temp = this.hitbox.centre;
-                ArrayList<Vector> newVectors = new ArrayList<>(){
+                ArrayList<Vector> newVectors = new ArrayList<>() {
                     {
-                        add(new Vector(temp.getX()-10, temp.getY()-10));
-                        add(new Vector(temp.getX()+10,temp.getY()+10));
+                        add(new Vector(temp.getX() - 10, temp.getY() - 10));
+                        add(new Vector(temp.getX() + 10, temp.getY() + 10));
                     }
                 };
                 this.directionVectors.addAll(newVectors);
-                break;
             }
-            case 2:{
+            case 2 -> {
                 Vector temp = this.hitbox.centre;
-                ArrayList<Vector> newVectors = new ArrayList<>(){
+                ArrayList<Vector> newVectors = new ArrayList<>() {
                     {
-                        add(new Vector(temp.getX()-10,temp.getY()+10));
-                        add(new Vector(temp.getX()+10,temp.getY()-10));
+                        add(new Vector(temp.getX() - 10, temp.getY() + 10));
+                        add(new Vector(temp.getX() + 10, temp.getY() - 10));
                     }
                 };
                 this.directionVectors.addAll(newVectors);
-                break;
 
             }
-            case 3:{
-                this.changeAttackSpeed((int)this.attackSpeed/3);
-                break;
-            }
-            case 4:{
-                this.changeAttackSpeed((int)this.attackSpeed/3);
-                break;
-            }
+            case 3, 4 -> this.changeAttackSpeed((int) this.attackSpeed / 3);
         }
     }
 
