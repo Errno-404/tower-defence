@@ -261,6 +261,7 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
                 this.gameScreen.elements[i][j].setOriginalView();
                 this.map[i][j].reachable = true;
                 this.map[i][j].placeable = true;
+                this.map[i][j].buildingID = null;
             }
         }
 

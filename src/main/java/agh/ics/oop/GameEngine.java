@@ -61,6 +61,7 @@ public class GameEngine implements BuildingDestroyedObserver {
         this.gameMap.addProjectile(h1, type);
     }
 
+        //zmienic nazwe na addProjectile, usunąć funkcje wyżej
     public void addProjectileReal(boolean type, Projectile p){
         p.setObserver(this.gameMap);
         p.addOutObserver(this.gameMap);
