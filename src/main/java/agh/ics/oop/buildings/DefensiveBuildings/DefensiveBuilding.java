@@ -10,7 +10,7 @@ import javafx.scene.image.Image;
 public abstract class DefensiveBuilding extends Building {
 
     // Defensive parameters
-    private double defence;
+    protected double defence;
 
 
     // int widthInTiles, int heightInTiles, Vector position, double health, Image img, GameScreen gs

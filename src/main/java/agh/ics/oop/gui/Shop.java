@@ -13,7 +13,8 @@ public class Shop implements EnemyKilledObserver {
 
     public Shop(ShopSelectionObserver o){
         this.obs = o;
-        this.gold = 10;
+        this.gold = 5000;
+
     }
 
     private final static HashMap<BuildingsName, Integer> shopList = new HashMap<>(){

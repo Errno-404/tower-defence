@@ -25,7 +25,7 @@ public class mapElement {
     public boolean reachable;
     public boolean placeable;
 
-    public double mapWeightValue = Double.MAX_VALUE; //do znajdywania najkrotszych sciezek
+    public int mapWeightValue = Integer.MAX_VALUE; //do znajdywania najkrotszych sciezek
 
     public HashSet<Projectile> friendlyProjectileList;
     public HashSet<Projectile> friendlyProjectileToRemove;

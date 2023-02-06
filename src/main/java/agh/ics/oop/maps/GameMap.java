@@ -12,13 +12,11 @@ import agh.ics.oop.Vector;
 import agh.ics.oop.buildings.AttackingBuildings.AttackingBuilding;
 import agh.ics.oop.buildings.Building;
 import agh.ics.oop.buildings.Castle;
+import agh.ics.oop.buildings.DefensiveBuildings.DefensiveBuilding;
 import agh.ics.oop.gui.GameScreen;
 import javafx.util.Pair;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 
 public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestroyedObserver, OutOfMapObserver {
@@ -61,18 +59,18 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
         return i >= 0 && i < Constants.numberOfTiles && j >= 0 && j < Constants.numberOfTiles;
     }
     public void updateMapWeights(){
-        castleCentre.mapWeightValue = 0;
 
         boolean[][] visited = new boolean[Constants.numberOfTiles][Constants.numberOfTiles];
         for(int i = 0; i< Constants.numberOfTiles; i++){
             for(int j = 0; j<Constants.numberOfTiles; j++){
                 visited[i][j] = false;
+                this.map[i][j].mapWeightValue = Integer.MAX_VALUE;
             }
         }
-        visited[castleCentre.x][castleCentre.y] = true;
 
-        Queue<Pair<Integer, Integer>> queue = new LinkedList<>();
-        ArrayList<Pair<Integer, Integer>> moves = new ArrayList<Pair<Integer, Integer>>() {
+
+        Queue<DijkstraNode> queue = new PriorityQueue<>();
+        ArrayList<Pair<Integer, Integer>> moves = new ArrayList<>() {
             {
                 add(new Pair<>(1,0));
                 add(new Pair<>(0,1));
@@ -88,37 +86,41 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
             }
         };
 
-        queue.add(new Pair<>(castleCentre.x, castleCentre.y));
+        visited[castleCentre.x][castleCentre.y] = true;
+        this.map[castleCentre.x][castleCentre.y].mapWeightValue = 0;
+        queue.add(new DijkstraNode(0,castleCentre.x, castleCentre.y));
+
 
         int itercount = 0;
 
         while(!queue.isEmpty()){
             itercount+=1;
-            Pair<Integer, Integer> top = queue.element();
-            queue.remove();
-            visited[top.getKey()][top.getValue()] = true;
-
-
+            DijkstraNode top = queue.remove();
+            visited[top.x][top.y] = true;
 
             for(Pair<Integer, Integer> move: moves){
-                int nextPosX = top.getKey() + move.getKey();
-                int nextPosY = top.getValue() + move.getValue();
+                 int newX = top.x + move.getKey();
+                 int newY = top.y + move.getValue();
+                 if(!isOnMap(newX, newY)){
+                     continue;
+                 }
 
-                if(isOnMap(nextPosX, nextPosY)){
-                    if(!this.map[nextPosX][nextPosY].reachable || visited[nextPosX][nextPosY]){
-                        continue;
-                    }
-                    else if(this.map[nextPosX][nextPosY].buildingID != null){
-                        this.map[nextPosX][nextPosY].mapWeightValue = this.map[top.getKey()][top.getValue()].mapWeightValue + 10;
-                        queue.add(new Pair<>(nextPosX, nextPosY));
-                    }
-                    else{
-                        this.map[nextPosX][nextPosY].mapWeightValue = this.map[top.getKey()][top.getValue()].mapWeightValue + 1;
-                        queue.add(new Pair<>(nextPosX, nextPosY));
-                    }
+                 int newDist;
 
-                    visited[nextPosX][nextPosY] = true;
+                 if(this.map[newX][newY].buildingID == null){
+                     newDist  = this.map[top.x][top.y].mapWeightValue + 1;
+                 }
+                 else if(this.map[newX][newY].buildingID instanceof AttackingBuilding){
+                     newDist  = this.map[top.x][top.y].mapWeightValue + 10;
+                 }
+                 else{
+                     newDist  = this.map[top.x][top.y].mapWeightValue + 50;
+                 }
 
+
+                 if(newDist < this.map[newX][newY].mapWeightValue){
+                     this.map[newX][newY].mapWeightValue = newDist;
+                     queue.add(new DijkstraNode(newDist,newX, newY));
                 }
             }
         }
