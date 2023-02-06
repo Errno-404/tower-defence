@@ -30,7 +30,7 @@ public abstract class Enemy implements Hittable {
     GameMap map;
     Attack attack;
 
-    Timer enemyAttackTimer;
+    public Timer enemyAttackTimer;
 
     protected Integer goldOnDeath;
 

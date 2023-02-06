@@ -1,3 +1,4 @@
+
 package agh.ics.oop.gui;
 
 import agh.ics.oop.Interfaces.ShopSelectionObserver;
@@ -17,7 +18,7 @@ public class TowerPane extends VBox {
 
     Shop shop;
 
-    public TowerPane(GameScreen gs){
+    public TowerPane(GameScreen gs) {
         this.buildingList = BuildingsName.values();
         this.gs = gs;
 
@@ -29,8 +30,8 @@ public class TowerPane extends VBox {
     }
 
 
-    private void createBuildings(){
-        for(BuildingsName building : buildingList){
+    private void createBuildings() {
+        for (BuildingsName building : buildingList) {
             Image img = building.getImage();
             ImageView imgView = new ImageView(img);
 
@@ -41,7 +42,7 @@ public class TowerPane extends VBox {
         }
     }
 
-    public Shop getShop(){
+    public Shop getShop() {
         return this.shop;
     }
 }

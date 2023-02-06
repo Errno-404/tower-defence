@@ -335,9 +335,7 @@ public class GameEngine implements BuildingDestroyedObserver {
         this.friendlyProjectiles.clear();
         this.friendlyProjectilesToRemove.clear();
 
-        this.towers.forEach((AttackingBuilding a) ->{
-            a.attackManager.cancel();
-        });
+        this.towers.forEach((AttackingBuilding a) -> a.attackManager.cancel());
         this.towers.clear();
         this.defensiveBuildings.clear();
     }
