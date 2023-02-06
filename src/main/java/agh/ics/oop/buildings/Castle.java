@@ -12,13 +12,11 @@ import java.io.FileNotFoundException;
 public class Castle extends DefensiveBuilding {
 
 
-    // int widthInTiles, int heightInTiles, Vector position, double health, Image img, GameScreen gs
     public Castle(Vector position, GameScreen gs) throws FileNotFoundException {
         super(3,3, position,1000,new Image(new FileInputStream("src/main/resources/test.png")), gs, 0.0);
     }
     @Override
     public void getHit(Attack attack){
-        //System.out.println("getting hit by " + attack.getStrength());
         this.reduceHealth(attack.getStrength());
     }
 }

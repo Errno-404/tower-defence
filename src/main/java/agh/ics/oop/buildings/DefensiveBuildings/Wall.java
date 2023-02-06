@@ -8,8 +8,6 @@ import javafx.scene.image.Image;
 
 public class Wall extends DefensiveBuilding {
     public Wall(int widthInTiles, int heightInTiles, Vector position, Image img, GameScreen gs, double health, double defence) {
-
-        // int widthInTiles, int heightInTiles, Vector position, double health, Image img, GameScreen gs, double defence
         super(widthInTiles, heightInTiles, position, health, img, gs, defence);
     }
 

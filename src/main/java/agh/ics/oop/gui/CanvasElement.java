@@ -15,7 +15,7 @@ public class CanvasElement {
     public int xIndex;
     public int yIndex;
 
-    public Vector boxCentre;
+//    public Vector boxCentre;
 
 
     private final ImageView originalImage;
@@ -26,7 +26,7 @@ public class CanvasElement {
 
     private ImageView img; //image that is used to draw
 
-    private ImageView temporaryView;
+//    private ImageView temporaryView;
 
 
     public CanvasElement(Image img, Image cursorImg,int posx, int posy){
@@ -48,7 +48,7 @@ public class CanvasElement {
         this.xIndex = posx;
         this.yIndex = posy;
 
-        this.boxCentre = new Vector(this.xIndex* Constants.tileSize + Constants.tileSize /2, this.yIndex*Constants.tileSize + Constants.tileSize /2);
+//        this.boxCentre = new Vector(this.xIndex* Constants.tileSize + Constants.tileSize /2, this.yIndex*Constants.tileSize + Constants.tileSize /2);
 
     }
 

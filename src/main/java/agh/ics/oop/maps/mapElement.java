@@ -59,26 +59,26 @@ public class mapElement {
         this.canvasElement = ce;
     }
 
-    public void clearUsedProjectiles(boolean isFriendly){
-        if(isFriendly) {
-            this.friendlyProjectileList.removeAll(this.friendlyProjectileToRemove);
-            this.friendlyProjectileToRemove.clear();
-        }
-        else{
-            this.enemyProjectileList.removeAll(this.enemyProjectilesToRemove);
-            this.enemyProjectilesToRemove.clear();
-        }
-    }
+//    public void clearUsedProjectiles(boolean isFriendly){
+//        if(isFriendly) {
+//            this.friendlyProjectileList.removeAll(this.friendlyProjectileToRemove);
+//            this.friendlyProjectileToRemove.clear();
+//        }
+//        else{
+//            this.enemyProjectileList.removeAll(this.enemyProjectilesToRemove);
+//            this.enemyProjectilesToRemove.clear();
+//        }
+//    }
 
-    public void clearDeadEnemies(HashSet<Enemy> el){
-        this.enemyList.removeAll(el);
-    }
+//    public void clearDeadEnemies(HashSet<Enemy> el){
+//        this.enemyList.removeAll(el);
+//    }
 
     public void updateCanvas(ImageView iv){
         this.canvasElement.updateImage(iv);
     }
 
-    public void revertCanvas(){
-        this.canvasElement.setOriginalView();
-    }
+//    public void revertCanvas(){
+//        this.canvasElement.setOriginalView();
+//    }
 }
