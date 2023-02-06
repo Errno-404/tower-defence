@@ -1,6 +1,7 @@
 package agh.ics.oop.buildings;
 
 
+import agh.ics.oop.Constants;
 import agh.ics.oop.GameEngine;
 import agh.ics.oop.Vector;
 import agh.ics.oop.buildings.AttackingBuildings.BasicTower;
@@ -27,7 +28,11 @@ public class BuildingFactory {
             case TOWER:{
                 try{
                     Vector position = new Vector(px ,py);
-                    return new BasicTower(position,gs, ge);
+
+                    // TODO give parameters
+
+                    Image img = new Image( new FileInputStream(Constants.basicTowerImagePath));
+                    return new BasicTower(Constants.basicTowerWidth, Constants.basicTowerHeight, position,Constants.basicTowerAttackSpeed, Constants.basicTowerAttackStrength, gs, img, ge);
                 } catch (FileNotFoundException e) {
                     throw new RuntimeException(e);
                 }

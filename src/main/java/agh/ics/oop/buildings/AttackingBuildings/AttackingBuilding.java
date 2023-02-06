@@ -15,7 +15,6 @@ public abstract class AttackingBuilding extends Building {
 
     TreeSet<Enemy> enemiesInRange = new TreeSet<>((Enemy e1, Enemy e2) -> (int) (e1.distanceFromCastle() - e2.distanceFromCastle()));
 
-    private double radius;
     public GameEngine ge;
 
     TowerAttackManager attackTimerTask;
@@ -33,7 +32,7 @@ public abstract class AttackingBuilding extends Building {
         this.attackSpeed = attackSpeed;
         this.attackTimerTask = new TowerAttackManager(this);
         this.attackManager = new Timer();
-        this.attackManager.scheduleAtFixedRate(this.attackTimerTask, 0L, (long) this.attackSpeed*1000);
+        this.attackManager.scheduleAtFixedRate(this.attackTimerTask, 0L, (long) this.attackSpeed);
 
     }
 
