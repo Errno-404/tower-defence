@@ -2,6 +2,9 @@ package agh.ics.oop;
 
 import agh.ics.oop.buildings.BuildingsName;
 
+import java.awt.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 
 public final class Constants {
@@ -17,16 +20,16 @@ public final class Constants {
 
     // ============================================ Basic Tower constants ==============================================
 
-    public static final double basicAttackStrength = 150.0;
     public static final double basicProjectileSpeed = 10.0 ;
 
 
 
+    public static final int basicTowerWidth = 2;
+    public static final int basicTowerHeight = 2;
 
-
-
-
-
+    public static final double basicTowerAttackSpeed = 500.0;
+    public static final double basicTowerAttackStrength = 200.0;
+    public static final String basicTowerImagePath = "src/main/resources/Tower1.png";
 
 
     public final static HashMap<BuildingsName, Integer[]> buildingSizes = new HashMap<>() {{

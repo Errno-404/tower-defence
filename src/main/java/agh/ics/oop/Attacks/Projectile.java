@@ -29,12 +29,6 @@ public abstract class Projectile extends Attack {
         this.hitbox = new RectangularHitbox(position, 3);
     }
 
-//    protected Projectile(Vector position, double velocity){
-//        super(Constants.basicAttackStrength);
-//        this.position = position;
-//        this.velocity = velocity;
-//        this.hitbox = new RectangularHitbox(position, 3);
-//    }
 
     public abstract void move();
 
