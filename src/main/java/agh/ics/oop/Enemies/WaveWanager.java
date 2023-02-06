@@ -24,6 +24,8 @@ public class WaveWanager implements EnemyKilledObserver {
 
     Timer waveTimer;
 
+    public int waveNumber = 1;
+
     public WaveWanager(GameScreen gs){
         this.currentWaveNumber=0;
         this.gameScreen=gs;
@@ -51,6 +53,7 @@ public class WaveWanager implements EnemyKilledObserver {
         this.currentWaveNumber++;
         this.totalToSpawn = getTotalEnemyCountThisWave();
         changeWaveStates();
+        this.waveNumber ++;
         this.waveTimer = new Timer();
         this.waveTimer.scheduleAtFixedRate(new WaveSpawner(this.totalToSpawn,this.spawner),10L,500L);
     }
