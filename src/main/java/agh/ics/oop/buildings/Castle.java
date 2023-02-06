@@ -19,5 +19,8 @@ public class Castle extends DefensiveBuilding {
     @Override
     public void getHit(Attack attack){
         this.reduceHealth(attack.getStrength());
+        if(this.currentHealth <= 0){
+            this.gs.endGame();
+        }
     }
 }

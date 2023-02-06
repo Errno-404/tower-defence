@@ -32,7 +32,7 @@ public abstract class Building implements Hittable {
     private Image image;
 
     private ImageView[][] viewArray;
-    private final GameScreen gs;
+    protected final GameScreen gs;
 
     protected BuildingsName bname;
 

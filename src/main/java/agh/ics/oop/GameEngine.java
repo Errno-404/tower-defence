@@ -327,6 +327,20 @@ public class GameEngine implements BuildingDestroyedObserver {
         });
     }
 
+    public void removeAllGameOver(){
+        this.enemies.clear();
+        this.enemyProjectiles.clear();
+        this.enemyProjectilesToRemove.clear();
+        this.friendlyProjectiles.clear();
+        this.friendlyProjectilesToRemove.clear();
+
+        this.towers.forEach((AttackingBuilding a) ->{
+            a.attackManager.cancel();
+        });
+        this.towers.clear();
+        this.defensiveBuildings.clear();
+    }
+
 
 
 }

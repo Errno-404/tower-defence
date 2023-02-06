@@ -13,6 +13,7 @@ import agh.ics.oop.buildings.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -30,7 +31,9 @@ public class GameScreen implements ShopSelectionObserver {
 
     ArrayList<ShopSelectionObserver> observers;
 
-    GameEngine gameEngine;
+    public GameEngine gameEngine;
+
+    boolean isOver = false;
 
 
     private BuildingsName selectedListBuildingID = null; //if not null, place on mouseClick (if possible) the building on
@@ -138,13 +141,19 @@ public class GameScreen implements ShopSelectionObserver {
         });
     }
 
+    public void endGame(){
+        this.gameEngine.removeAllGameOver();
+        this.run();
+        this.isOver = true;
+    }
+
 
     // ================================================= Main method ===================================================
 
     public void run() {
 
         // Drawing all tiles
-
+        if(!isOver){
         for (int i = 0; i < Constants.numberOfTiles; i++) {
             for (int j = 0; j < Constants.numberOfTiles; j++) {
                 elements[i][j].draw(this.gc);
@@ -168,6 +177,11 @@ public class GameScreen implements ShopSelectionObserver {
         this.gameEngine.towers.forEach(Building::drawHealthBar);
 
         this.gameEngine.addEnemiesToTowers();
+        }
+        else{
+            this.gc.setFill(Color.BLACK);
+            this.gc.fillRect(0,0,600,600);
+        }
 
 
     }
