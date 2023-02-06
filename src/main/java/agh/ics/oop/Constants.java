@@ -18,7 +18,7 @@ public final class Constants {
     // ============================================ Basic Tower constants ==============================================
 
     public static final double basicAttackStrength = 150.0;
-    public static final double basicProjectileSpeed = 5.0 ;
+    public static final double basicProjectileSpeed = 10.0 ;
 
 
 

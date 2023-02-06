@@ -26,7 +26,7 @@ public class BasicTower extends AttackingBuilding {
     public void attack() {
         if(!this.enemiesInRange.isEmpty()){
             Enemy target = this.enemiesInRange.first();
-            this.ge.addProjectile(true, (Projectile) AttackFactory.BasicTowerAttack(target,new Vector(hitbox.getCentre()), this.attackPower));
+            this.ge.addProjectile(true, (Projectile) AttackFactory.BasicTowerAttack(target,new Vector(hitbox.getCentre())));
         }
     }
 
