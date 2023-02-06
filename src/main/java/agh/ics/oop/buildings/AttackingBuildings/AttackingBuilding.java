@@ -23,14 +23,17 @@ public abstract class AttackingBuilding extends Building {
 
     private double attackSpeed;
 
-    protected AttackingBuilding(int widthInTiles, int heightInTiles, Vector position, double attackSpeed, GameScreen gs, Image img, GameEngine ge) {
+    protected double attackPower;
+
+    protected AttackingBuilding(int widthInTiles, int heightInTiles, Vector position, double attackSpeed, double attackPower,GameScreen gs, Image img, GameEngine ge) {
         super(widthInTiles, heightInTiles, position, 100, img, gs);
         this.ge = ge;
 
+        this.attackPower = attackPower;
         this.attackSpeed = attackSpeed;
         this.attackTimerTask = new TowerAttackManager(this);
         this.attackManager = new Timer();
-        this.attackManager.scheduleAtFixedRate(this.attackTimerTask, 0L, (long) this.attackSpeed*500);
+        this.attackManager.scheduleAtFixedRate(this.attackTimerTask, 0L, (long) this.attackSpeed*1000);
 
     }
 

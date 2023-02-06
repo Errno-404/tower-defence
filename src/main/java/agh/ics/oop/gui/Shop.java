@@ -20,7 +20,6 @@ public class Shop implements EnemyKilledObserver {
         {
             put(BuildingsName.TOWER, 5);
             put(BuildingsName.WALL,5);
-
         }
     };
 

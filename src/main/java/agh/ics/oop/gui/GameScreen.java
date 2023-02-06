@@ -127,9 +127,7 @@ public class GameScreen implements ShopSelectionObserver {
                 spawnEnemiesOnEdges(5);
                 int currX = this.elementUnderCursor.xIndex;
                 int currY = this.elementUnderCursor.yIndex;
-                if (selectedListBuildingID == null) {
-                    setSelectedListBuilding(BuildingsName.WALL);
-                } else if (this.selectedBuildingSquare.validPosition) {
+                if (this.selectedBuildingSquare!= null && this.selectedBuildingSquare.validPosition) {
                     placeSelectedListBuilding(BuildingFactory.getBuildingById(this.selectedListBuildingID, currX, currY, this, gameEngine));
                     this.gameEngine.enemyProjectiles.forEach((Projectile p) -> {
                         if (p instanceof HomingProjectileTestClass p1) {
@@ -217,12 +215,12 @@ public class GameScreen implements ShopSelectionObserver {
                 pos = rand.nextInt(Constants.numberOfTiles);
 
                 this.gameEngine.addEnemy(switch (side) {
-                    case 0 -> new BasicEnemy(0, pos * Constants.tileSize, this.gameEngine.gameMap);
-                    case 1 -> new BasicEnemy(pos * Constants.tileSize, 0, this.gameEngine.gameMap);
+                    case 0 -> new BasicEnemy(0, pos * Constants.tileSize, 10,this.gameEngine.gameMap);
+                    case 1 -> new BasicEnemy(pos * Constants.tileSize, 0, 10,this.gameEngine.gameMap);
                     case 2 -> new BasicEnemy((Constants.numberOfTiles - 1)*Constants.tileSize,
-                            pos * Constants.tileSize, this.gameEngine.gameMap);
+                            pos * Constants.tileSize, 10,this.gameEngine.gameMap);
                     case 3 -> new BasicEnemy(pos * Constants.tileSize,
-                            (Constants.numberOfTiles -1) * Constants.tileSize, this.gameEngine.gameMap);
+                            (Constants.numberOfTiles -1) * Constants.tileSize, 10,this.gameEngine.gameMap);
                     default -> throw new IllegalStateException("Unexpected value: " + side);
                 });
 
