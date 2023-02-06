@@ -17,6 +17,7 @@ import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 
@@ -272,7 +273,7 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
         }
     }
 
-    public void clearUsedEnemyProjectiles(LinkedList<Projectile> p1){
+    public void clearUsedEnemyProjectiles(List<Projectile> p1){
         p1.forEach((Projectile p) -> {
             int x = p.getHitbox().centre.getXindex();
             int y = p.getHitbox().centre.getYindex();
@@ -281,7 +282,7 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
         });
     }
 
-    public void clearUsedFriendlyProjectiles(LinkedList<Projectile> p2){
+    public void clearUsedFriendlyProjectiles(List<Projectile> p2){
         p2.forEach((Projectile p) -> {
             int x = p.getHitbox().centre.getXindex();
             int y = p.getHitbox().centre.getYindex();
