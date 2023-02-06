@@ -63,6 +63,9 @@ public abstract class Enemy implements Hittable {
     @Override
     public void reduceHealth(double h){
         this.currentHealth-=h;
+        if(this.currentHealth <= 0){
+            this.enemyAttackTimer.cancel();
+        }
         this.hpObs.reportHealthChange(currentHealth/maxHealth);
     }
 
