@@ -23,12 +23,15 @@ public class BasicEnemy extends Enemy{
 
     @Override
     public void attack() {
-        Building target = this.map.map[this.getHitbox().centre.getXindex()][this.getHitbox().centre.getYindex()].buildingID;
+        Building target = this.map.map[this.currentDestination.getKey()][this.currentDestination.getValue()].buildingID;
         target.getHit(this.attack);
     }
 
     @Override
     public boolean canAttack() {
-        return this.map.map[this.hitbox.centre.getXindex()][this.hitbox.centre.getYindex()].buildingID != null;
+        if(this.currentDestination == null){
+            return false;
+        }
+        return this.map.map[this.currentDestination.getKey()][this.currentDestination.getValue()].buildingID != null;
     }
 }

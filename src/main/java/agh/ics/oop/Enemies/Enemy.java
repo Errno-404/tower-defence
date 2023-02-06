@@ -34,6 +34,8 @@ public abstract class Enemy implements Hittable {
 
     protected Integer goldOnDeath;
 
+    protected Pair<Integer, Integer> currentDestination = null;
+
 
     public Enemy(double px, double py,double sizex, double sizey, double hp, Attack attack, GameMap map,Image sprite){
         this.currentHealth = hp;
@@ -80,7 +82,7 @@ public abstract class Enemy implements Hittable {
         int oldposX = hitbox.centre.getXindex();
         int oldposY = hitbox.centre.getYindex();
 
-        if(this.map.map[oldposX][oldposY].buildingID != null){
+        if(this.currentDestination != null &&this.map.map[currentDestination.getKey()][currentDestination.getValue()].buildingID != null){
             return;
         }
         else{
@@ -119,6 +121,8 @@ public abstract class Enemy implements Hittable {
 
             int nextXsquare = currX + moves.get(minIndex).getKey();
             int nextYsquare = currY + moves.get(minIndex).getValue();
+
+            this.currentDestination = new Pair<>(nextXsquare, nextYsquare);
 
 
             this.hitbox.moveAlongVector(this.hitbox.centre.getDirectionVector(this.map.map[nextXsquare][nextYsquare].squareCentre));
