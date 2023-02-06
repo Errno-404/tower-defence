@@ -29,7 +29,7 @@ public abstract class Projectile extends Attack {
     }
 
     protected Projectile(Vector position, double velocity){
-        super(50);
+        super(200);
         this.position = position;
         this.velocity = velocity;
         this.hitbox = new RectangularHitbox(position, 3);

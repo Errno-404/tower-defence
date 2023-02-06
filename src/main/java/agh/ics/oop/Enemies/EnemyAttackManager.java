@@ -15,6 +15,5 @@ public class EnemyAttackManager extends TimerTask {
             this.enemy.attack();
 
         }
-        System.out.println("Enemy shooting");
     }
 }
