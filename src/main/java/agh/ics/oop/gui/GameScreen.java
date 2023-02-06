@@ -34,7 +34,8 @@ public class GameScreen {
     GameEngine gameEngine;
 
 
-    private int selectedListBuildingID = 0; //if not null, place on mouseClick (if possible) the building on current cursor element and set back to null
+    private int selectedListBuildingID = 0; //if not null, place on mouseClick (if possible) the building on
+    // current cursor element and set back to null
     private BuildingCreationSquare selectedBuildingSquare = null;
     private Building selectedExistingBuilding; //change on canvas click when selectedListBuilding is null
 
@@ -43,8 +44,7 @@ public class GameScreen {
     ArrayList<Projectile> projectiles = new ArrayList<>();
 
 
-    // ################################################### Tworzenie ekranu ###################################################################
-
+    // ================================================= Constructor ===================================================
     public GameScreen() {
         double canvasSize = Constants.canvasSize;
         this.canvas = new Canvas(canvasSize, canvasSize);
@@ -53,7 +53,7 @@ public class GameScreen {
         this.elements = new CanvasElement[Constants.numberOfTiles + 1][Constants.numberOfTiles + 1];
         try {
 
-            // Grafika trawy - podłoża
+            // Adding grass graphics
 
             Image lighterGrass = new Image(new FileInputStream("src/main/resources/lighterGrass.png"),
                     Constants.tileSize, Constants.canvasSize, true, false);
@@ -63,7 +63,7 @@ public class GameScreen {
             Image cursorImg = new Image(new FileInputStream("src/main/resources/yellowRect.png"));
 
 
-            // Dodawanie tła kafelków
+            // Adding graphic to tiles
 
             for (int i = 0; i < Constants.numberOfTiles; i++) {
                 for (int j = 0; j < Constants.numberOfTiles; j++) {
@@ -77,22 +77,24 @@ public class GameScreen {
 
                 }
             }
+
+            // Setting cursor to upper left tile
             this.elementUnderCursor = elements[0][0];
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
 
 
-        // Dodanie silnika do ekranu
+        // Adding gameEngine to screen
         this.gameEngine = new GameEngine(this);
 
-
+        // TODO zmienić na fale
         placeCastleOnMap();
         spawnEnemiesOnEdges(20);
         Random rand = new Random();
 
 
-        // onMouse Events
+        // graphical representation of cursor
         this.canvas.setOnMouseMoved(e -> {
 
             double mouseX = e.getX();
@@ -115,7 +117,10 @@ public class GameScreen {
 
         });
 
+
         this.canvas.setOnMouseClicked(e -> {
+
+
             //test
             int currX = this.elementUnderCursor.xIndex;
             int currY = this.elementUnderCursor.yIndex;
@@ -137,25 +142,24 @@ public class GameScreen {
     }
 
 
-
+    // TODO ??
     HealthBar h1 = new HealthBar();
 
 
-    // ========================================= Główna metoda ==============================================
+    // ================================================= Main method ===================================================
 
     public void run() {
 
-        // pętle rysują wszystkie kafelki
+        // Drawing all tiles
 
         for (int i = 0; i < Constants.numberOfTiles; i++) {
             for (int j = 0; j < Constants.numberOfTiles; j++) {
                 elements[i][j].draw(this.gc);
-
-
             }
         }
 
 
+        // single iteration which moves everything
         this.gameEngine.clearEnemiesInTowers();
         this.gameEngine.moveProjectiles();
         this.gameEngine.friendlyProjectiles.forEach((Projectile p) -> p.draw(this.gc));
@@ -165,23 +169,24 @@ public class GameScreen {
 
 
         this.gameEngine.enemies.forEach(Enemy::move);
-        this.gameEngine.enemies.forEach((Enemy e) -> {
-            e.draw(this.gc);
-        });
+        this.gameEngine.enemies.forEach((Enemy e) -> e.draw(this.gc));
 
         this.gameEngine.defensiveBuildings.forEach(Building::drawHealthBar);
         this.gameEngine.towers.forEach(Building::drawHealthBar);
 
         this.gameEngine.addEnemiesToTowers();
-        //test
-        this.h1.drawTest(this.gc);
-        this.h1.reportHealthChange(this.h1.currentPercentage - 0.0025);
+
+
+        // TODO można usunąć?
+
+//        this.h1.drawTest(this.gc);
+//        this.h1.reportHealthChange(this.h1.currentPercentage - 0.0025);
 
 
     }
 
 
-    // Metoda stawia zamek na środku mapy
+    // Method places Castle in the middle of the map
     private void placeCastleOnMap() {
         this.setSelectedListBuilding(1);
 
@@ -196,7 +201,7 @@ public class GameScreen {
     }
 
 
-    // Metoda spawnująca przeciwników na krawędziach
+    // Method spawns Enemies on edges in random points, countOfEnemies says how many enemies should be spawned at once
     private void spawnEnemiesOnEdges(int countOfEnemies) {
         // TODO change hardcoded values
 
@@ -207,13 +212,15 @@ public class GameScreen {
         try {
             for (int i = 0; i < countOfEnemies; i++) {
                 side = rand.nextInt(4);
-                pos = rand.nextInt(599);
+                pos = rand.nextInt(Constants.numberOfTiles);
 
                 this.gameEngine.addEnemy(switch (side) {
-                    case 0 -> new BasicEnemy(0, pos, this.gameEngine.gameMap);
-                    case 1 -> new BasicEnemy(pos, 0, this.gameEngine.gameMap);
-                    case 2 -> new BasicEnemy(599, pos, this.gameEngine.gameMap);
-                    case 3 -> new BasicEnemy(pos, 599, this.gameEngine.gameMap);
+                    case 0 -> new BasicEnemy(0, pos * Constants.tileSize, this.gameEngine.gameMap);
+                    case 1 -> new BasicEnemy(pos * Constants.tileSize, 0, this.gameEngine.gameMap);
+                    case 2 -> new BasicEnemy((Constants.numberOfTiles - 1)*Constants.tileSize,
+                            pos * Constants.tileSize, this.gameEngine.gameMap);
+                    case 3 -> new BasicEnemy(pos * Constants.tileSize,
+                            (Constants.numberOfTiles -1) * Constants.tileSize, this.gameEngine.gameMap);
                     default -> throw new IllegalStateException("Unexpected value: " + side);
                 });
 
@@ -223,6 +230,10 @@ public class GameScreen {
         }
 
     }
+
+
+    // ========================================== Selecting buildings ==================================================
+
 
     public void addObserver(SelectionObserver o) {
         this.observers.add(o);
