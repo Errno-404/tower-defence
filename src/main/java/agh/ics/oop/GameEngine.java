@@ -328,6 +328,7 @@ public class GameEngine implements BuildingDestroyedObserver {
     }
 
     public void removeAllGameOver(){
+        this.enemies.forEach(Enemy::turnOff);
         this.enemies.clear();
         this.enemyProjectiles.clear();
         this.enemyProjectilesToRemove.clear();

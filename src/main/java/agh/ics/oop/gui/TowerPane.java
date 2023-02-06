@@ -12,33 +12,29 @@ import java.util.ArrayList;
 
 public class TowerPane extends VBox {
 
-    ArrayList<Building> buildingList;
+    BuildingsName[] buildingList;
     GameScreen gs;
 
     Shop shop;
 
     public TowerPane(GameScreen gs){
-        this.buildingList = new ArrayList<>();
-        for(BuildingsName bn: BuildingsName.values()){
-            buildingList.add(BuildingFactory.getBuildingById(bn,0,0,gs,gs.gameEngine));
-        }
-
+        this.buildingList = BuildingsName.values();
         this.gs = gs;
 
         this.setSpacing(20);
-        this.createBuildings(this.buildingList);
+        this.createBuildings();
 
         this.shop = new Shop(gs);
         this.gs.gameEngine.setEnemyKilledObserver(this.shop);
     }
 
 
-    private void createBuildings(ArrayList<Building> buildingList){
-        for(Building building : buildingList){
+    private void createBuildings(){
+        for(BuildingsName building : buildingList){
             Image img = building.getImage();
             ImageView imgView = new ImageView(img);
 
-            imgView.setOnMouseClicked(event -> this.shop.buy(building.getName()));
+            imgView.setOnMouseClicked(event -> this.shop.buy(building));
 
 
             this.getChildren().add(imgView);

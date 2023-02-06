@@ -57,6 +57,10 @@ public abstract class Enemy implements Hittable {
 
     public abstract boolean canAttack();
 
+    public void turnOff(){
+        this.enemyAttackTimer.cancel();
+    }
+
     @Override
     public void getHit(Attack a) {
         this.reduceHealth(a.getStrength());

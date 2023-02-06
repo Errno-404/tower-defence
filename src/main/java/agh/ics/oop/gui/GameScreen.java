@@ -144,7 +144,6 @@ public class GameScreen implements ShopSelectionObserver {
 
     public void endGame(){
         this.gameEngine.removeAllGameOver();
-        this.run();
         this.isOver = true;
     }
 
