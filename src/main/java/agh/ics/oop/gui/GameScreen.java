@@ -150,7 +150,7 @@ public class GameScreen implements ShopSelectionObserver, WaveStateObserver {
                         building.upgrade();
                     }
 
-                    this.waveWanager.startNewWave();
+//                    this.waveWanager.startNewWave();
                     if (this.selectedBuildingSquare!= null && this.selectedBuildingSquare.validPosition) {
                         placeSelectedListBuilding(BuildingFactory.getBuildingById(this.selectedListBuildingID, currX, currY, this, gameEngine));
                     }
