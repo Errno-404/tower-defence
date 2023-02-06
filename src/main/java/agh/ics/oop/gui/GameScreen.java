@@ -5,7 +5,7 @@ import agh.ics.oop.Constants;
 import agh.ics.oop.Enemies.BasicEnemy;
 import agh.ics.oop.Enemies.Enemy;
 import agh.ics.oop.GameEngine;
-import agh.ics.oop.Interfaces.SelectionObserver;
+import agh.ics.oop.Interfaces.ShopSelectionObserver;
 import agh.ics.oop.Attacks.HomingProjectileTestClass;
 import agh.ics.oop.Attacks.Projectile;
 import agh.ics.oop.Vector;
@@ -13,14 +13,13 @@ import agh.ics.oop.buildings.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import jdk.jfr.Description;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class GameScreen {
+public class GameScreen implements ShopSelectionObserver {
 
     public Canvas canvas;
     public GraphicsContext gc;
@@ -29,7 +28,7 @@ public class GameScreen {
 
     public CanvasElement[][] elements;
 
-    ArrayList<SelectionObserver> observers;
+    ArrayList<ShopSelectionObserver> observers;
 
     GameEngine gameEngine;
 
@@ -223,15 +222,15 @@ public class GameScreen {
     // ========================================== Selecting buildings ==================================================
 
 
-    public void addObserver(SelectionObserver o) {
+    public void addObserver(ShopSelectionObserver o) {
         this.observers.add(o);
     }
 
-    public void notifySelectionChange() {
-        for (SelectionObserver o : this.observers) {
+    /*public void notifySelectionChange() {
+        for (ShopSelectionObserver o : this.observers) {
             o.updateSelected(selectedExistingBuilding);
         }
-    }
+    }*/
 
     public void setSelectedListBuilding(BuildingsName id) {
         if (this.gameEngine.gameMap.castleCentre != null && id == BuildingsName.CASTLE) {
@@ -252,4 +251,8 @@ public class GameScreen {
         //TODO
     }
 
+    @Override
+    public void updateSelected(BuildingsName o) {
+        this.setSelectedListBuilding(o);
+    }
 }

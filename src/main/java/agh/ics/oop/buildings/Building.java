@@ -34,6 +34,8 @@ public abstract class Building implements Hittable {
     private ImageView[][] viewArray;
     private final GameScreen gs;
 
+    protected BuildingsName bname;
+
     private final ArrayList<BuildingDestroyedObserver> observer = new ArrayList<>();
 
 
@@ -115,8 +117,8 @@ public abstract class Building implements Hittable {
         }
     }
 
-    public void updateCanvas(){
-
+    public BuildingsName getName(){
+        return this.bname;
     }
 
     //@Override

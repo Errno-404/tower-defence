@@ -5,6 +5,7 @@ import agh.ics.oop.Attacks.Projectile;
 import agh.ics.oop.Enemies.Enemy;
 import agh.ics.oop.GameEngine;
 import agh.ics.oop.Vector;
+import agh.ics.oop.buildings.BuildingsName;
 import agh.ics.oop.gui.GameScreen;
 import javafx.scene.image.Image;
 
@@ -18,6 +19,7 @@ public class BasicTower extends AttackingBuilding {
 
     public BasicTower(Vector position, GameScreen gs, GameEngine ge) throws FileNotFoundException {
         super(2,2,position,1,gs,new Image(new FileInputStream("src/main/resources/Tower1.png")), ge);
+        this.bname = BuildingsName.TOWER;
     }
 
     @Override

@@ -32,6 +32,8 @@ public abstract class Enemy implements Hittable {
 
     Timer enemyAttackTimer;
 
+    protected Integer goldOnDeath;
+
 
     public Enemy(double px, double py,double sizex, double sizey, double hp, Attack attack, GameMap map,Image sprite){
         this.currentHealth = hp;
@@ -142,5 +144,9 @@ public abstract class Enemy implements Hittable {
 
     public RectangularHitbox getHitbox(){
         return  this.hitbox;
+    }
+
+    public Integer getGoldGiven(){
+        return this.goldOnDeath;
     }
 }

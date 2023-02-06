@@ -42,14 +42,7 @@ public class App extends Application {
 
         // ============================================ Tower selection ================================================
 
-        ArrayList<Building> towers = new ArrayList<>();
-        Building building = new BasicTower(new Vector(0, 0), this.gameScreen, this.gameScreen.gameEngine);
-
-        // TODO wall zwraca wyjątek
-        Wall wall = new Wall(5, 1, new Vector(1, 1), new Image(new FileInputStream("src/main/resources/WallHorizontal.png")), this.gameScreen, 200, 0);
-        towers.add(building);
-//        towers.add(wall);
-        Pane towerList = new TowerPane(this.gameScreen, towers);
+        Pane towerList = new TowerPane(this.gameScreen);
         towerList.setPadding(new Insets(0, 10, 0, 10));
         bpane.setRight(towerList);
 

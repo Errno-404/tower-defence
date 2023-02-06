@@ -1,6 +1,8 @@
 package agh.ics.oop.gui;
 
+import agh.ics.oop.Interfaces.ShopSelectionObserver;
 import agh.ics.oop.buildings.Building;
+import agh.ics.oop.buildings.BuildingFactory;
 import agh.ics.oop.buildings.BuildingsName;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,15 +15,21 @@ public class TowerPane extends VBox {
     ArrayList<Building> buildingList;
     GameScreen gs;
 
-    public TowerPane(GameScreen gs ,ArrayList<Building> blist){
+    Shop shop;
+
+    public TowerPane(GameScreen gs){
+        this.buildingList = new ArrayList<>();
+        for(BuildingsName bn: BuildingsName.values()){
+            buildingList.add(BuildingFactory.getBuildingById(bn,0,0,gs,gs.gameEngine));
+        }
+
         this.gs = gs;
-        this.buildingList = blist;
 
         this.setSpacing(20);
         this.createBuildings(this.buildingList);
 
-
-
+        this.shop = new Shop(gs);
+        this.gs.gameEngine.setEnemyKilledObserver(this.shop);
     }
 
 
@@ -30,10 +38,14 @@ public class TowerPane extends VBox {
             Image img = building.getImage();
             ImageView imgView = new ImageView(img);
 
-            imgView.setOnMouseClicked(event -> this.gs.setSelectedListBuilding(BuildingsName.TOWER));
+            imgView.setOnMouseClicked(event -> this.shop.buy(building.getName()));
 
 
             this.getChildren().add(imgView);
         }
+    }
+
+    public Shop getShop(){
+        return this.shop;
     }
 }

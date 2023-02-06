@@ -5,6 +5,7 @@ import agh.ics.oop.Enemies.Enemy;
 import agh.ics.oop.Hitboxes.RectangularHitbox;
 import agh.ics.oop.Interfaces.BuildingDestroyedObserver;
 import agh.ics.oop.Attacks.Projectile;
+import agh.ics.oop.Interfaces.EnemyKilledObserver;
 import agh.ics.oop.buildings.AttackingBuildings.AttackingBuilding;
 import agh.ics.oop.buildings.Building;
 import agh.ics.oop.buildings.DefensiveBuildings.DefensiveBuilding;
@@ -21,6 +22,8 @@ import java.util.Random;
 public class GameEngine implements BuildingDestroyedObserver {
     public GameScreen gs;
     public GameMap gameMap;
+
+    private EnemyKilledObserver enemyKilledObserver;
 
     public List<Projectile> friendlyProjectiles = Collections.synchronizedList(new LinkedList<>());
 
@@ -48,6 +51,9 @@ public class GameEngine implements BuildingDestroyedObserver {
         this.gameMap = new GameMap(this.gs);
     }
 
+    public void setEnemyKilledObserver(EnemyKilledObserver enemyKilledObserver) {
+        this.enemyKilledObserver = enemyKilledObserver;
+    }
 
     // ============================================== Projectiles ======================================================
 
@@ -254,7 +260,10 @@ public class GameEngine implements BuildingDestroyedObserver {
         checkEnemyCollisions();
 
 
-        this.deadEnemies.forEach((Enemy e) -> this.gameMap.removeEnemy(e));
+        this.deadEnemies.forEach((Enemy e) -> {
+            this.gameMap.removeEnemy(e);
+            this.enemyKilledObserver.addGold(e.getGoldGiven());
+        });
 
         this.enemies.removeAll(deadEnemies);
         this.deadEnemies.clear();
