@@ -25,8 +25,7 @@ public enum BuildingsName {
                 case CASTLE -> new Image(new FileInputStream("src/main/resources/test.png"));
                 case TOWER -> new Image(new FileInputStream("src/main/resources/Tower1.png"));
                 case HORIZONTALWALL -> new Image(new FileInputStream("src/main/resources/WallHorizontal.png"));
-                default ->  throw new RuntimeException();
-                };
+            };
             } catch (FileNotFoundException ex) {
             throw new RuntimeException(ex);
         }
