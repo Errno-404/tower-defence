@@ -12,19 +12,21 @@ import agh.ics.oop.buildings.DefensiveBuildings.DefensiveBuilding;
 import agh.ics.oop.gui.GameScreen;
 import agh.ics.oop.maps.GameMap;
 
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 public class GameEngine implements BuildingDestroyedObserver {
     public GameScreen gs;
     public GameMap gameMap;
 
-    public LinkedList<Projectile> friendlyProjectiles = new LinkedList<>();
+    public List<Projectile> friendlyProjectiles = Collections.synchronizedList(new LinkedList<>());
 
-    public LinkedList<Projectile> friendlyProjectilesToRemove = new LinkedList<>();
-    public LinkedList<Projectile> enemyProjectiles = new LinkedList<>();
+    public List<Projectile> friendlyProjectilesToRemove = Collections.synchronizedList(new LinkedList<>());
+    public List<Projectile> enemyProjectiles = Collections.synchronizedList(new LinkedList<>());
 
-    public LinkedList<Projectile> enemyProjectilesToRemove = new LinkedList<>();
+    public List<Projectile> enemyProjectilesToRemove = Collections.synchronizedList(new LinkedList<>());
 
     public LinkedList<Enemy> enemies = new LinkedList<>();
 
