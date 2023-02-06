@@ -7,8 +7,8 @@ public class ExplodingProjectile extends Projectile{
     ExplosionEffect onHitEffect;
     Vector target;
 
-    protected ExplodingProjectile(Vector position, double velocity, Vector target) {
-        super(position, velocity);
+    protected ExplodingProjectile(Vector position, double velocity, double strength, Vector target) {
+        super(position, velocity, strength);
         this.target = target;
     }
 

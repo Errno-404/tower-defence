@@ -12,6 +12,23 @@ public final class Constants {
     public final static int numberOfTiles = (int) (Constants.canvasSize /Constants.tileSize);
 
 
+
+
+
+    // ============================================ Basic Tower constants ==============================================
+
+    public static final double basicAttackStrength = 150.0;
+    public static final double basicProjectileSpeed = 5.0 ;
+
+
+
+
+
+
+
+
+
+
     public final static HashMap<BuildingsName, Integer[]> buildingSizes = new HashMap<>() {{
         put(BuildingsName.CASTLE, new Integer[]{3,3,1,1});
         put(BuildingsName.TOWER, new Integer[]{2,2,1,1});

@@ -12,8 +12,21 @@ import java.io.FileNotFoundException;
 public class NormalProjectile extends Projectile{
     Vector direction;
 
-    public NormalProjectile(Vector position, double velocity, Vector target) {
-        super(position, velocity);
+//    public NormalProjectile(Vector position, double velocity, Vector target) {
+//        super(position, velocity);
+//        this.direction = position.getDirectionVector(target);
+//        this.direction.normalise();
+//        this.direction.multiplyScalar(this.velocity);
+//        try {
+//            this.sprite = new ImageView(new Image(new FileInputStream("src/main/resources/yellowRect.png")));
+//        } catch (FileNotFoundException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//    }
+
+    public NormalProjectile(Vector position, double velocity, double strength, Vector target) {
+        super(position, velocity, strength);
         this.direction = position.getDirectionVector(target);
         this.direction.normalise();
         this.direction.multiplyScalar(this.velocity);
@@ -24,6 +37,8 @@ public class NormalProjectile extends Projectile{
         }
 
     }
+
+
 
     @Override
     public void move() {

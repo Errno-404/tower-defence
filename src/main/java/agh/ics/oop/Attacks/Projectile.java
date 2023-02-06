@@ -1,5 +1,6 @@
 package agh.ics.oop.Attacks;
 
+import agh.ics.oop.Constants;
 import agh.ics.oop.Hitboxes.RectangularHitbox;
 import agh.ics.oop.Interfaces.Hittable;
 import agh.ics.oop.Interfaces.OutOfMapObserver;
@@ -25,15 +26,15 @@ public abstract class Projectile extends Attack {
         super(str);
         this.position = position;
         this.velocity = velocity;
-        this.hitbox = new RectangularHitbox(position, 4);
-    }
-
-    protected Projectile(Vector position, double velocity){
-        super(200);
-        this.position = position;
-        this.velocity = velocity;
         this.hitbox = new RectangularHitbox(position, 3);
     }
+
+//    protected Projectile(Vector position, double velocity){
+//        super(Constants.basicAttackStrength);
+//        this.position = position;
+//        this.velocity = velocity;
+//        this.hitbox = new RectangularHitbox(position, 3);
+//    }
 
     public abstract void move();
 
