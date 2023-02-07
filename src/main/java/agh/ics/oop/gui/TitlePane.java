@@ -2,33 +2,40 @@ package agh.ics.oop.gui;
 
 import agh.ics.oop.Interfaces.WaveStateObserver;
 import agh.ics.oop.Interfaces.EnemyKilledObserver;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 
 
-
-public class TitlePane extends VBox implements WaveStateObserver, EnemyKilledObserver {
+public class TitlePane extends GridPane implements WaveStateObserver, EnemyKilledObserver {
     private final GameScreen gs;
     private final Button startWaveButton;
     private final Label currentPhaseLabel;
 
     private final ProgressBar waveProgress;
 
-    public TitlePane(GameScreen gs){
+    private Label moneyLabel;
+
+    private Label moneyValueLabel;
+
+    public TitlePane(GameScreen gs) {
         this.gs = gs;
         gs.waveManager.addObserver(this);
         gs.gameEngine.addEnemyKilledObserver(this);
 
+
+        // Phase Label
         this.currentPhaseLabel = new Label("Shopping Phase");
         this.currentPhaseLabel.setFont(new Font(40));
 
+
+        // Start Button
         this.startWaveButton = new Button("Start wave 1");
+        this.startWaveButton.setFont(new Font(20));
         this.startWaveButton.setMaxWidth(Double.MAX_VALUE);
         this.startWaveButton.setOnMouseClicked(event -> {
             if (!gs.isWaveStarted) {
@@ -36,50 +43,75 @@ public class TitlePane extends VBox implements WaveStateObserver, EnemyKilledObs
             }
         });
 
-        this.setSpacing(20);
-        this.setPadding(new Insets(0, 0, 20, 0));
+        // Progress Bar
+        this.waveProgress = new ProgressBar();
+        this.waveProgress.setMaxWidth(Double.MAX_VALUE);
+        this.waveProgress.setMinHeight(44);
 
-        startWaveButton.setFont(new Font(20));
-        currentPhaseLabel.setContentDisplay(ContentDisplay.CENTER);
-        this.setAlignment(Pos.CENTER);
+        // Money Label
+        this.moneyLabel = new Label("Money");
+
+        // MoneyValueLabel
+
+        this.moneyValueLabel = new Label(Double.toString(Shop.getGold()));
+
+//        GridPane.setHalignment(moneyLabel, HPos.CENTER);
 
 
+        // GridPane settings
+//        this.setGridLinesVisible(true);
+//        this.setStyle("-fx-background-color: #8fe3be");
+        this.setVgap(5);
 
 
+        ColumnConstraints columnConstraints = new ColumnConstraints();
+        columnConstraints.setPercentWidth(10);
 
+        for (int i = 0; i < 10; i++) {
+            this.getColumnConstraints().add(columnConstraints);
+        }
 
-        startWaveButton.setStyle("");
-      this.getChildren().addAll(currentPhaseLabel, startWaveButton);
+        GridPane.setHalignment(currentPhaseLabel, HPos.CENTER);
+        GridPane.setHalignment(startWaveButton, HPos.CENTER);
+        GridPane.setHalignment(moneyLabel, HPos.CENTER);
+        GridPane.setValignment(moneyLabel, VPos.BOTTOM);
 
-      this.waveProgress = new ProgressBar();
-      this.waveProgress.setMaxWidth(Double.MAX_VALUE);
-      this.waveProgress.setMinHeight(44);
-
+        GridPane.setHalignment(moneyValueLabel, HPos.CENTER);
+        GridPane.setValignment(moneyValueLabel, VPos.TOP);
+        this.add(this.currentPhaseLabel, 2, 0, 5, 1);
+        this.add(this.startWaveButton, 2, 1, 5, 1);
+        this.add(this.moneyLabel, 0, 0, 1, 1);
+        this.add(this.moneyValueLabel, 0, 1, 1, 1);
     }
 
     @Override
     public void changeWaveState() {
-       { if (this.gs.isWaveStarted) {
+        {
+            if (this.gs.isWaveStarted) {
+                this.getChildren().remove(startWaveButton);
 
-            this.startWaveButton.setVisible(false);
-            this.getChildren().remove(1);
-            this.currentPhaseLabel.setText("Wave " + this.gs.waveManager.waveNumber);
-            this.waveProgress.setProgress(this.gs.waveManager.totalToSpawn);
-            this.getChildren().add(waveProgress);
-        }
-        else{
-            this.startWaveButton.setText("Start wave " + this.gs.waveManager.waveNumber);
-            this.currentPhaseLabel.setText("Shopping Phase");
-            this.getChildren().remove(1);
-            this.getChildren().add(startWaveButton);
-            this.startWaveButton.setVisible(true);
-        }
 
-}}
+                this.currentPhaseLabel.setText("Wave " + this.gs.waveManager.waveNumber);
+                this.waveProgress.setProgress(this.gs.waveManager.totalToSpawn);
+                this.add(waveProgress, 2, 1, 5, 1);
+
+            } else {
+                this.startWaveButton.setText("Start wave " + this.gs.waveManager.waveNumber);
+                this.currentPhaseLabel.setText("Shopping Phase");
+                this.getChildren().remove(waveProgress);
+                this.add(startWaveButton, 2, 1, 5, 1);
+
+            }
+
+        }
+    }
 
     @Override
     public void addGold(Integer n) {
-        this.waveProgress.setProgress(1.0 - (double)this.gs.waveManager.currentlyKilled / this.gs.waveManager.totalToSpawn);
+        double gold = Shop.getGold();
+        String goldStr = Double.toString(gold);
+        this.moneyValueLabel.setText(goldStr);
+        this.waveProgress.setProgress(1.0 - (double) this.gs.waveManager.currentlyKilled / this.gs.waveManager.totalToSpawn);
     }
 }
 

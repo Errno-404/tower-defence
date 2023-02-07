@@ -35,6 +35,8 @@ public class TowerPane extends VBox {
             Image img = building.getImage();
             ImageView imgView = new ImageView(img);
 
+            // TODO zmienić buy na kliknięcie na mapie!
+
             imgView.setOnMouseClicked(event -> {
                 if(!this.gs.isWaveStarted)  this.shop.buy(building);
             });

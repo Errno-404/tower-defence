@@ -26,7 +26,7 @@ public abstract class Projectile extends Attack {
         super(str);
         this.position = position;
         this.velocity = velocity;
-        this.hitbox = new RectangularHitbox(position, 3);
+        this.hitbox = new RectangularHitbox(position, 5);
     }
 
 

@@ -17,10 +17,17 @@ public class App extends Application {
 
     private GameScreen gameScreen;
 
+    
+    private TowerPane towerPane;
+
     @Override
     public void start(Stage primaryStage) throws FileNotFoundException {
 
         this.gameScreen = new GameScreen();
+
+        
+        
+        
         primaryStage.setTitle("Tower Defence");
         Timeline tl = new Timeline(new KeyFrame(Duration.millis((15)), e-> gameScreen.run()));
         tl.setCycleCount(Timeline.INDEFINITE);
@@ -35,9 +42,10 @@ public class App extends Application {
 
         // ============================================ Tower selection ================================================
 
-        Pane towerList = new TowerPane(this.gameScreen);
-        towerList.setPadding(new Insets(0, 10, 0, 10));
-        bpane.setRight(towerList);
+        this.towerPane= new TowerPane(this.gameScreen);
+        this.towerPane.setPadding(new Insets(0, 10, 0, 10));
+        bpane.setRight(this.towerPane);
+
 
 
 
@@ -80,4 +88,5 @@ public class App extends Application {
 
 
     }
+
 }

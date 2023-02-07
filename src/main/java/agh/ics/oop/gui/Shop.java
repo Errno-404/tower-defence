@@ -9,14 +9,14 @@ import java.util.HashMap;
 
 public class Shop implements EnemyKilledObserver, WaveStateObserver {
 
-    private double gold;
+    private static double gold;
     ShopSelectionObserver obs;
 
     private boolean isWaveStarted;
 
     public Shop(ShopSelectionObserver o){
         this.obs = o;
-        this.gold = 5000;
+        gold = 5000;
 
     }
 
@@ -30,17 +30,22 @@ public class Shop implements EnemyKilledObserver, WaveStateObserver {
     };
 
     public void buy(BuildingsName building){
-        if(this.gold >= shopList.get(building)){
+        if(gold >= shopList.get(building)){
             this.obs.updateSelected(building);
-            this.gold-=shopList.get(building);
+            gold-=shopList.get(building);
         }
+        this.addGold(0);
     }
     @Override
     public void addGold(Integer n){
-        this.gold+=n;
+        gold+=n;
     }
     @Override
     public void changeWaveState(){
         this.isWaveStarted = !isWaveStarted;
+    }
+
+    public static double getGold(){
+        return gold;
     }
 }
