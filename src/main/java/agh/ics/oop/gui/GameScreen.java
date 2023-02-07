@@ -51,6 +51,8 @@ public class GameScreen implements ShopSelectionObserver, WaveStateObserver {
     ArrayList<Projectile> projectiles = new ArrayList<>();
 
 
+
+
     // ================================================= Constructor ===================================================
     public GameScreen() {
         double canvasSize = Constants.canvasSize;
@@ -160,6 +162,8 @@ public class GameScreen implements ShopSelectionObserver, WaveStateObserver {
 
             }
         });
+
+
     }
 
     public void endGame(){

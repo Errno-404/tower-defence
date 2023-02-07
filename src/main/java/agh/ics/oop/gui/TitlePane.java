@@ -1,7 +1,9 @@
 package agh.ics.oop.gui;
 
+import agh.ics.oop.Interfaces.BuyObserver;
 import agh.ics.oop.Interfaces.WaveStateObserver;
 import agh.ics.oop.Interfaces.EnemyKilledObserver;
+import agh.ics.oop.buildings.BuildingsName;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.control.Button;
@@ -11,7 +13,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 
 
-public class TitlePane extends GridPane implements WaveStateObserver, EnemyKilledObserver {
+public class TitlePane extends GridPane implements WaveStateObserver, EnemyKilledObserver, BuyObserver {
     private final GameScreen gs;
     private final Button startWaveButton;
     private final Label currentPhaseLabel;
@@ -22,11 +24,18 @@ public class TitlePane extends GridPane implements WaveStateObserver, EnemyKille
 
     private Label moneyValueLabel;
 
-    public TitlePane(GameScreen gs) {
+    private TowerPane towerPane;
+
+
+    public TitlePane(GameScreen gs, TowerPane towerPane) {
         this.gs = gs;
         gs.waveManager.addObserver(this);
         gs.gameEngine.addEnemyKilledObserver(this);
 
+
+
+        this.towerPane = towerPane;
+        towerPane.shop.addBuyObserver(this);
 
         // Phase Label
         this.currentPhaseLabel = new Label("Shopping Phase");
@@ -53,7 +62,7 @@ public class TitlePane extends GridPane implements WaveStateObserver, EnemyKille
 
         // MoneyValueLabel
 
-        this.moneyValueLabel = new Label(Double.toString(Shop.getGold()));
+        this.moneyValueLabel = new Label(Double.toString(this.towerPane.shop.getGold()));
 
 //        GridPane.setHalignment(moneyLabel, HPos.CENTER);
 
@@ -108,10 +117,18 @@ public class TitlePane extends GridPane implements WaveStateObserver, EnemyKille
 
     @Override
     public void addGold(Integer n) {
-        double gold = Shop.getGold();
+        double gold = this.towerPane.shop.getGold();
         String goldStr = Double.toString(gold);
         this.moneyValueLabel.setText(goldStr);
         this.waveProgress.setProgress(1.0 - (double) this.gs.waveManager.currentlyKilled / this.gs.waveManager.totalToSpawn);
+    }
+
+
+    @Override
+    public void reportBuy(BuildingsName buildingsName) {
+        double gold = this.towerPane.shop.getGold();
+        String goldStr = Double.toString(gold);
+        this.moneyValueLabel.setText(goldStr);
     }
 }
 

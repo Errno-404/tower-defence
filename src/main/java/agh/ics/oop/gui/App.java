@@ -40,10 +40,7 @@ public class App extends Application {
         gridPane.setGridLinesVisible(true);
         primaryStage.setScene(new Scene(gridPane));
 
-        // ============================================ Top Bar ========================================================
 
-        TitlePane topPane = new TitlePane(this.gameScreen);
-        gridPane.add(topPane, 1, 0, 1, 1);
 
 
         // ============================================ Left Bar =======================================================
@@ -63,6 +60,11 @@ public class App extends Application {
 
         gridPane.add(towerPane, 2, 1, 1, 1);
         GridPane.setHgrow(towerPane, Priority.ALWAYS);
+
+        // ============================================ Top Bar ========================================================
+
+        TitlePane topPane = new TitlePane(this.gameScreen, towerPane);
+        gridPane.add(topPane, 1, 0, 1, 1);
 
         // =========================================== Bottom Bar ======================================================
 
