@@ -17,73 +17,63 @@ public class App extends Application {
 
     private GameScreen gameScreen;
 
-    
+
     private TowerPane towerPane;
 
     @Override
     public void start(Stage primaryStage) throws FileNotFoundException {
 
+        // ====================================== Stage and timeline ===================================================
+
         this.gameScreen = new GameScreen();
 
-        
-        
-        
         primaryStage.setTitle("Tower Defence");
-        Timeline tl = new Timeline(new KeyFrame(Duration.millis((15)), e-> gameScreen.run()));
-        tl.setCycleCount(Timeline.INDEFINITE);
-        tl.play();
-
-
-        BorderPane bpane = new BorderPane();
-        bpane.setCenter(this.gameScreen.canvas);
-
-
-
-
-        // ============================================ Tower selection ================================================
-
-        this.towerPane= new TowerPane(this.gameScreen);
-        this.towerPane.setPadding(new Insets(0, 10, 0, 10));
-        bpane.setRight(this.towerPane);
-
-
-
-
-
-
-
-
-
-
-
-
-        Pane bottomPane = new Pane(); //TODO: Zmienic na InfoPane.coś
-
-
-
-        bottomPane.getChildren().add(new Label("Bottom Pane (info o obecnie wybranej wiezy/jednostce albo cos w tym stylu?)"));
-        bpane.setBottom(bottomPane);
-
-
-
-
-        // ========================================= Informacje o fali =================================================
-        Pane topPane = new TitlePane(this.gameScreen);
-        bpane.setTop(topPane);
-
-        Pane leftPane = new Pane(); //TODO: Zmienić na LeftPane.coś
-        leftPane.getChildren().add(new Label(""));
-        bpane.setLeft(leftPane);
-
-        //gameScreen.addObserver(...)
-        //TODO: Może zmienić observerów na https://docs.oracle.com/en/java/javase/11/docs/api/java.desktop/java/beans/PropertyChangeListener.html
-
-
         primaryStage.setOnCloseRequest(event -> {
             gameScreen.endGame();
             Platform.exit();
         });
-        primaryStage.setScene(new Scene(bpane));
+
+        Timeline tl = new Timeline(new KeyFrame(Duration.millis((15)), e -> gameScreen.run()));
+        tl.setCycleCount(Timeline.INDEFINITE);
+        tl.play();
+
+        // ======================================== Setting GridPane ===================================================
+
+        GridPane gridPane = new GridPane();
+        gridPane.setGridLinesVisible(true);
+        primaryStage.setScene(new Scene(gridPane));
+
+        // ============================================ Top Bar ========================================================
+
+        TitlePane topPane = new TitlePane(this.gameScreen);
+        gridPane.add(topPane, 1, 0, 1, 1);
+
+
+        // ============================================ Left Bar =======================================================
+
+        //TODO: Zmienić na LeftPane.coś
+//        Pane leftPane = new Pane();
+//        leftPane.getChildren().add(new Label(""));
+
+        // =========================================== Main View =======================================================
+
+        gridPane.add(this.gameScreen.canvas, 1, 1, 1, 1);
+
+        // =========================================== Right Bar =======================================================
+
+        this.towerPane = new TowerPane(this.gameScreen);
+        this.towerPane.setPadding(new Insets(0, 10, 0, 10));
+
+        gridPane.add(this.towerPane, 2, 1, 1, 1);
+        GridPane.setHgrow(this.towerPane, Priority.ALWAYS);
+
+        // =========================================== Bottom Bar ======================================================
+
+        Pane bottomPane = new Pane(); //TODO: Zmienic na InfoPane.coś
+        bottomPane.getChildren().add(new Label("Bottom Pane (info o obecnie wybranej wiezy/jednostce albo cos w tym stylu?)"));
+
+        gridPane.add(bottomPane, 1, 2, 1, 1);
+
         primaryStage.show();
 
 
