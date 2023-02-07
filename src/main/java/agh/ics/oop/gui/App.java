@@ -37,7 +37,7 @@ public class App extends Application {
         // ======================================== Setting GridPane ===================================================
 
         GridPane gridPane = new GridPane();
-        gridPane.setGridLinesVisible(true);
+        gridPane.setGridLinesVisible(false);
         primaryStage.setScene(new Scene(gridPane));
 
 
