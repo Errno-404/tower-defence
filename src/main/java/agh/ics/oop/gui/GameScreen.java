@@ -153,7 +153,6 @@ public class GameScreen implements ShopSelectionObserver, WaveStateObserver {
                 Building building = this.gameEngine.gameMap.map[currX][currY].buildingID;
                 if(building != null){
                     this.selectedExistingBuilding = building;
-                    this.updateInfoPane();
 
                 if(!isWaveStarted){
                     this.updateInfoPane();
@@ -161,6 +160,9 @@ public class GameScreen implements ShopSelectionObserver, WaveStateObserver {
                 else{
                     if(this.selectedExistingBuilding instanceof Castle){
                         this.selectedExistingBuilding = null;
+                    }
+                    else{
+                        this.updateInfoPane();
                     }
                 }
 
@@ -185,6 +187,8 @@ public class GameScreen implements ShopSelectionObserver, WaveStateObserver {
     @Override
     public void changeWaveState(){
         this.isWaveStarted = !isWaveStarted;
+        this.selectedExistingBuilding = null;
+        updateInfoPane();
     }
 
 

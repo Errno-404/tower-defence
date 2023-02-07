@@ -39,25 +39,59 @@ public class EnemySpawner {
 
     }
 
-    public void spawnSingularEnemy() {
+    public void spawnSingularEnemy(WaveType type, int waveNumber) {
         Random rand = new Random();
         int side;
         int pos;
 
         side = rand.nextInt(4);
         pos = rand.nextInt(Constants.numberOfTiles);
-        try {
-            this.gameEngine.addEnemy(switch (side) {
-                case 0 -> this.factory.getNewFlyingEnemy(0, pos * Constants.tileSize, 100, 10);
-                case 1 -> this.factory.getNewShootingEnemy(pos * Constants.tileSize, 0, 10, 40);
-                case 2 -> new BasicEnemy((Constants.numberOfTiles - 1) * Constants.tileSize,
-                        pos * Constants.tileSize, 10, this.gameEngine);
-                case 3 -> new BasicEnemy(pos * Constants.tileSize,
-                        (Constants.numberOfTiles - 1) * Constants.tileSize, 10, this.gameEngine);
-                default -> throw new IllegalStateException("Unexpected value: " + side);
-            });
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+        switch (type){
+            case BossWave -> {
+                Enemy enemyToAdd = switch (side) {
+                    case 0 -> this.factory.getNewBossEnemy(0, pos * Constants.tileSize, 2000, 5);
+                    case 1 -> this.factory.getNewBossEnemy(pos * Constants.tileSize, 0, 2000, 5);
+                    case 2 -> this.factory.getNewBossEnemy((Constants.numberOfTiles - 1) * Constants.tileSize,
+                            pos * Constants.tileSize, 2000,5);
+                    case 3 -> this.factory.getNewBossEnemy(pos * Constants.tileSize,
+                            (Constants.numberOfTiles - 1) * Constants.tileSize, 2000,5);
+                    default -> throw new IllegalStateException("Unexpected value: " + side);
+                };
+                enemyToAdd.multiplyHealth(healthInterpolator(waveNumber));
+                this.gameEngine.addEnemy(enemyToAdd);
+            }
+            case NormalWave -> {
+                EnemyNames randResult = EnemyNames.getRandomEnemy();
+                Enemy enemyToAdd = switch(side){
+                    case 0 -> this.factory.getDefaultEnemyByName(0, pos * Constants.tileSize, randResult);
+                    case 1 -> this.factory.getDefaultEnemyByName(pos * Constants.tileSize, 0, randResult);
+                    case 2 -> this.factory.getDefaultEnemyByName((Constants.numberOfTiles - 1) * Constants.tileSize,
+                            pos * Constants.tileSize, randResult);
+                    case 3 -> this.factory.getDefaultEnemyByName(pos * Constants.tileSize,
+                            (Constants.numberOfTiles - 1) * Constants.tileSize, randResult);
+                    default -> throw new IllegalStateException("Unexpected value: " + side);
+                };
+                enemyToAdd.multiplyHealth(this.healthInterpolator(waveNumber));
+                this.gameEngine.addEnemy(enemyToAdd);
+
+            }
+        }
+
+
+    }
+
+    private double healthInterpolator(int waveNumber){
+        if(waveNumber <= 1){
+            return 1.0;
+        }
+        else if(waveNumber >= 50){
+            return 3.0;
+        }
+        else{
+            double dWave = (double)waveNumber;
+            double t = (dWave - 1.0)/(50.0 - dWave);
+
+            return t*(50.0 - 1.0) + 1.0;
         }
     }
 }

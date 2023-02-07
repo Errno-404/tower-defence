@@ -133,14 +133,20 @@ public class StatPane implements UnitSelectionObserver, DamageTakenObserver, Bui
 
     @Override
     public void changeSelectedUnit(Building b) {
-        if(this.currentlySelected != null){
-            this.currentlySelected.removeDamageObs(this);
-            this.currentlySelected.removeDestroyedObserver(this);
+        if(b!= null) {
+            if (this.currentlySelected != null) {
+                this.currentlySelected.removeDamageObs(this);
+                this.currentlySelected.removeDestroyedObserver(this);
+            }
+            this.currentlySelected = b;
+            this.updateStats();
+            b.addDamageObs(this);
+            b.addDestroyedObserver(this);
         }
-        this.currentlySelected = b;
-        this.updateStats();
-        b.addDamageObs(this);
-        b.addDestroyedObserver(this);
+        else{
+            this.currentlySelected = null;
+            this.updateStats();
+        }
     }
 
     @Override

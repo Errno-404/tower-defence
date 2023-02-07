@@ -25,18 +25,13 @@ public class NormalProjectile extends Projectile{
 //
 //    }
 
-    public NormalProjectile(Vector position, double velocity, double strength, Vector target) {
+    public NormalProjectile(Vector position, double velocity, double strength, Vector target, Image sprite) {
         super(position, velocity, strength);
         this.direction = position.getDirectionVector(target);
         this.direction.normalise();
         this.direction.multiplyScalar(this.velocity);
-        try {
-            this.sprite = new ImageView(new Image(new FileInputStream("src/main/resources/yellowRect.png")));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+        this.sprite = new ImageView(sprite);
         }
-
-    }
 
 
 

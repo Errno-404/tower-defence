@@ -57,6 +57,10 @@ public abstract class Enemy implements Hittable {
         this.gameEngine = ge;
     }
 
+    public void multiplyHealth(double d){
+        this.maxHealth*=d;
+        this.currentHealth = maxHealth;
+    }
 
     public abstract void attack();
 

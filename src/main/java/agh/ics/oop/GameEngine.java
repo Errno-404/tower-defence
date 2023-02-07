@@ -53,6 +53,7 @@ public class GameEngine implements BuildingDestroyedObserver {
 
     // ============================================== Projectiles ======================================================
 
+
     public void addProjectile(boolean type, Projectile p) {
         p.setObserver(this.gameMap);
         p.addOutObserver(this.gameMap);
@@ -82,11 +83,13 @@ public class GameEngine implements BuildingDestroyedObserver {
             }
         });
 
+
         this.friendlyProjectiles.removeAll(this.friendlyProjectilesToRemove);
         this.friendlyProjectilesToRemove.clear();
 
         this.enemyProjectiles.removeAll(this.enemyProjectilesToRemove);
         this.enemyProjectilesToRemove.clear();
+
 
         addProjectilesToTiles();
     }
@@ -109,6 +112,8 @@ public class GameEngine implements BuildingDestroyedObserver {
                 this.gameMap.map[x][y].enemyProjectileList.add(p);
             }
         });
+
+
     }
 
     public void removeRemainingProjectiles() {

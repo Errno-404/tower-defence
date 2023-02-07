@@ -27,6 +27,7 @@ public class mapElement {
 
     public int mapWeightValue = Integer.MAX_VALUE; //do znajdywania najkrotszych sciezek
 
+
     public HashSet<Projectile> friendlyProjectileList;
     public HashSet<Projectile> friendlyProjectileToRemove;
     public HashSet<Projectile> enemyProjectileList;

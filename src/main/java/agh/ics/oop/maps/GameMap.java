@@ -177,6 +177,7 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
         }
     }
 
+
     public void addProjectile(Projectile p, boolean isFriendly){
         int xIndex = p.position.getXindex();
         int yIndex = p.position.getYindex();
@@ -217,6 +218,7 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
 
 
 
+
         }
         catch(ArrayIndexOutOfBoundsException e){
             System.out.println(old.getX() +" " + old.getXindex() + " " + old.getY() + " " + old.getYindex());
@@ -232,6 +234,7 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
         else{
             this.map[p.getHitbox().upperLeft.getXindex()][p.getHitbox().upperLeft.getYindex()].enemyProjectilesToRemove.add(p);
         }
+
     }
 
     public void clearAllProjectiles(){
@@ -242,6 +245,7 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
 
                 this.map[i][j].enemyProjectileList.clear();
                 this.map[i][j].enemyProjectilesToRemove.clear();
+
             }
         }
     }

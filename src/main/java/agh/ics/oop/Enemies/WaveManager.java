@@ -32,7 +32,13 @@ public class WaveManager implements EnemyKilledObserver {
     }
 
     int getTotalEnemyCountThisWave(){
-        return (int)Math.sqrt(this.currentWaveNumber*50);
+        if(this.currentWaveNumber%4 == 0){
+            return this.waveNumber/4;
+        }
+        else{
+            return (int)Math.sqrt(Math.pow(this.currentWaveNumber,1.54)*50);
+        }
+
     }
 
     public void addObserver(WaveStateObserver o){
@@ -55,7 +61,17 @@ public class WaveManager implements EnemyKilledObserver {
         changeWaveStates();
         this.waveNumber ++;
         this.waveTimer = new Timer();
-        this.waveTimer.scheduleAtFixedRate(new WaveSpawner(this.totalToSpawn,this.spawner),10L,500L);
+
+        WaveType type;
+
+        if(this.currentWaveNumber %4 == 0){
+            type = WaveType.BossWave;
+        }
+        else{
+            type = WaveType.NormalWave;
+        }
+
+        this.waveTimer.scheduleAtFixedRate(new WaveSpawner(this.totalToSpawn,this.spawner, type, this.waveNumber),10L,500L);
     }
 
 

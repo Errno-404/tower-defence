@@ -61,7 +61,7 @@ public class ShootingEnemy extends Enemy implements BuildingDestroyedObserver{
         this.buildingsInRange.first().addDestroyedObserver(this);
         Vector target = this.buildingsInRange.first().hitbox.centre;
         System.out.println("Attacking: "+ target);
-        this.gameEngine.addProjectile(false, (Projectile) AttackFactory.BasicTowerAttack(target,new Vector(this.hitbox.centre),this.attackPower));
+        this.gameEngine.addProjectile(false, (Projectile) AttackFactory.BasicEnemyAttack(target,new Vector(this.hitbox.centre),this.attackPower));
 
     }
 
