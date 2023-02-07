@@ -11,17 +11,14 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.FileNotFoundException;
 
 public class App extends Application {
 
     private GameScreen gameScreen;
 
 
-    private TowerPane towerPane;
-
     @Override
-    public void start(Stage primaryStage) throws FileNotFoundException {
+    public void start(Stage primaryStage) {
 
         // ====================================== Stage and timeline ===================================================
 
@@ -61,11 +58,11 @@ public class App extends Application {
 
         // =========================================== Right Bar =======================================================
 
-        this.towerPane = new TowerPane(this.gameScreen);
-        this.towerPane.setPadding(new Insets(0, 10, 0, 10));
+        TowerPane towerPane = new TowerPane(this.gameScreen);
+        towerPane.setPadding(new Insets(0, 10, 0, 10));
 
-        gridPane.add(this.towerPane, 2, 1, 1, 1);
-        GridPane.setHgrow(this.towerPane, Priority.ALWAYS);
+        gridPane.add(towerPane, 2, 1, 1, 1);
+        GridPane.setHgrow(towerPane, Priority.ALWAYS);
 
         // =========================================== Bottom Bar ======================================================
 
