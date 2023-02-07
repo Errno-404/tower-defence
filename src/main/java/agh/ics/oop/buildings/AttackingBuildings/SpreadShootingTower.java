@@ -10,6 +10,7 @@ import agh.ics.oop.buildings.BuildingsName;
 import agh.ics.oop.gui.GameScreen;
 import javafx.scene.image.Image;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -26,8 +27,9 @@ public class SpreadShootingTower extends AttackingBuilding {
 
         LinkedList<Vector> targets = new LinkedList<>();
         int it = 0;
-        for(Enemy e: this.enemiesInRange){
-            targets.add(e.getHitbox().getCentre());
+        Object[] temp = this.enemiesInRange.toArray(new Enemy[0]);
+        for(Object e: temp){
+            targets.add(((Enemy) e).getHitbox().getCentre());
             it++;
             if(it == this.numOfTargets){
                 break;

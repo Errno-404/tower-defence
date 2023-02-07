@@ -13,6 +13,6 @@ public class VerticalWall extends DefensiveBuilding{
 
     @Override
     public void drawHealthBar(){
-        this.healthBar.draw(gs.gc, this.hitbox);
+        this.healthBar.drawVertical(gs.gc, this.hitbox);
     }
 }

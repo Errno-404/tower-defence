@@ -193,8 +193,8 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
         updateMapWeights();
 
         if(building instanceof AttackingBuilding b1){
-            for(int i = 0;i < 59; i++){
-                for(int j = 0; j<59;j++){
+            for(int i = 0;i < 60; i++){
+                for(int j = 0; j<60;j++){
                     this.map[i][j].inRangeOf.add(b1);
                 }
             }

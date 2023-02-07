@@ -86,6 +86,11 @@ public class HealthBar implements HealthChangeObserver {
         Vector upperLeft = hb.upperLeft;
         Vector lowerRight = hb.lowerRight;
         gc.setFill(Color.BLACK);
+        gc.fillRect(lowerRight.getX(), upperLeft.getY(), 2,(Math.abs(lowerRight.getY() - upperLeft.getY())));
+
+        gc.setFill(this.healtColor);
+        double sizeX = this.currentPercentage*(Math.abs(lowerRight.getY() - upperLeft.getY()));
+        gc.fillRect(lowerRight.getX(), upperLeft.getY(), 2, sizeX);
 
 
 

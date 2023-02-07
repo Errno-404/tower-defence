@@ -66,7 +66,6 @@ public class Shop implements EnemyKilledObserver, WaveStateObserver {
     @Override
     public void addGold(Integer n){
         gold+=n;
-        System.out.println("buy");
 
     }
     @Override

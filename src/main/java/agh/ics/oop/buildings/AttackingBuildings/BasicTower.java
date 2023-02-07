@@ -33,7 +33,7 @@ public class BasicTower extends AttackingBuilding {
 
     @Override
     public void upgradeEffect() {
-        this.changeAttackSpeed((int) (this.attackSpeed*0.80));
+        this.changeAttackSpeed((int) (this.attackSpeed*0.7));
     }
 
 
