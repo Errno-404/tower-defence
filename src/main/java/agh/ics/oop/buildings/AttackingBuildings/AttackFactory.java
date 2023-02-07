@@ -37,9 +37,9 @@ public class AttackFactory{
         }
     }
 
-    public static Attack HealingTowerAttack(Vector target, Vector startingPosition, double attackPower){
+    public static Attack SpreadShootingTowerAttack(Vector target, Vector startingPosition, double attackPower){
         try {
-            return new NormalProjectile(startingPosition, Constants.basicProjectileSpeed, attackPower, target, new Image(new FileInputStream("src/main/resources/HealingProjectile.png")));
+            return new NormalProjectile(startingPosition, Constants.basicProjectileSpeed, attackPower, target, new Image(new FileInputStream("src/main/resources/yellowRect.png")));
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }

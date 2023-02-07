@@ -6,6 +6,7 @@ import agh.ics.oop.GameEngine;
 import agh.ics.oop.Vector;
 import agh.ics.oop.buildings.AttackingBuildings.BasicTower;
 import agh.ics.oop.buildings.AttackingBuildings.CircleShootingBuilding;
+import agh.ics.oop.buildings.AttackingBuildings.SpreadShootingTower;
 import agh.ics.oop.buildings.DefensiveBuildings.HorizontalWall;
 import agh.ics.oop.buildings.DefensiveBuildings.VerticalWall;
 import agh.ics.oop.gui.GameScreen;
@@ -59,6 +60,14 @@ public class BuildingFactory {
                 Vector position = new Vector(px ,py);
                 try {
                     return new CircleShootingBuilding(2, 2, position, 1000,30,gs, new Image(new FileInputStream("src/main/resources/CircleTower.png")),ge);
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            case SPREADSHOOTING:{
+                Vector position = new Vector(px ,py);
+                try {
+                    return new SpreadShootingTower(2, 2, position, 1000,30,gs, new Image(new FileInputStream("src/main/resources/SpreadShootingTower.png")),ge);
                 } catch (FileNotFoundException e) {
                     throw new RuntimeException(e);
                 }

@@ -35,6 +35,7 @@ public final class Constants {
         put(BuildingsName.HORIZONTALWALL, new Integer[]{5, 1, 1, 1});
         put(BuildingsName.VERTICALWALL, new Integer[]{1,5,1,1});
         put(BuildingsName.CIRCLEBUILDING, new Integer[]{2,2,1,1});
+        put(BuildingsName.SPREADSHOOTING, new Integer[]{2,2,1,1});
     }
     };
 

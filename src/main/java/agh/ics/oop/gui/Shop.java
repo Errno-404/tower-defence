@@ -33,6 +33,7 @@ public class Shop implements EnemyKilledObserver, WaveStateObserver {
             put(BuildingsName.HORIZONTALWALL,5);
             put(BuildingsName.VERTICALWALL,5);
             put(BuildingsName.CIRCLEBUILDING,5);
+            put(BuildingsName.SPREADSHOOTING,5);
         }
     };
 

@@ -28,12 +28,12 @@ public class BasicTower extends AttackingBuilding {
 
     @Override
     public boolean canAttack() {
-        return !this.enemiesInRange.isEmpty();
+        return this.enemiesInRange != null && !this.enemiesInRange.isEmpty();
     }
 
     @Override
     public void upgradeEffect() {
-        //TODO
+        this.changeAttackSpeed((int) (this.attackSpeed*0.80));
     }
 
 
