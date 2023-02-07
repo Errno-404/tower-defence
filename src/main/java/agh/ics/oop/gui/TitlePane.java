@@ -3,16 +3,12 @@ package agh.ics.oop.gui;
 import agh.ics.oop.Interfaces.WaveStateObserver;
 import agh.ics.oop.Interfaces.EnemyKilledObserver;
 import javafx.geometry.HPos;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
-
-import java.util.concurrent.Callable;
 
 
 public class TitlePane extends GridPane implements WaveStateObserver, EnemyKilledObserver {
@@ -21,6 +17,10 @@ public class TitlePane extends GridPane implements WaveStateObserver, EnemyKille
     private final Label currentPhaseLabel;
 
     private final ProgressBar waveProgress;
+
+    private Label moneyLabel;
+
+    private Label moneyValueLabel;
 
     public TitlePane(GameScreen gs) {
         this.gs = gs;
@@ -49,14 +49,19 @@ public class TitlePane extends GridPane implements WaveStateObserver, EnemyKille
         this.waveProgress.setMinHeight(44);
 
         // Money Label
+        this.moneyLabel = new Label("Money");
 
+        // MoneyValueLabel
+
+        this.moneyValueLabel = new Label(Double.toString(Shop.getGold()));
 
 //        GridPane.setHalignment(moneyLabel, HPos.CENTER);
 
 
         // GridPane settings
-        this.setGridLinesVisible(true);
-        this.setStyle("-fx-background-color: #8fe3be");
+//        this.setGridLinesVisible(true);
+//        this.setStyle("-fx-background-color: #8fe3be");
+        this.setVgap(5);
 
 
         ColumnConstraints columnConstraints = new ColumnConstraints();
@@ -68,10 +73,15 @@ public class TitlePane extends GridPane implements WaveStateObserver, EnemyKille
 
         GridPane.setHalignment(currentPhaseLabel, HPos.CENTER);
         GridPane.setHalignment(startWaveButton, HPos.CENTER);
+        GridPane.setHalignment(moneyLabel, HPos.CENTER);
+        GridPane.setValignment(moneyLabel, VPos.BOTTOM);
+
+        GridPane.setHalignment(moneyValueLabel, HPos.CENTER);
+        GridPane.setValignment(moneyValueLabel, VPos.TOP);
         this.add(this.currentPhaseLabel, 2, 0, 5, 1);
         this.add(this.startWaveButton, 2, 1, 5, 1);
-
-
+        this.add(this.moneyLabel, 0, 0, 1, 1);
+        this.add(this.moneyValueLabel, 0, 1, 1, 1);
     }
 
     @Override
@@ -98,6 +108,9 @@ public class TitlePane extends GridPane implements WaveStateObserver, EnemyKille
 
     @Override
     public void addGold(Integer n) {
+        double gold = Shop.getGold();
+        String goldStr = Double.toString(gold);
+        this.moneyValueLabel.setText(goldStr);
         this.waveProgress.setProgress(1.0 - (double) this.gs.waveManager.currentlyKilled / this.gs.waveManager.totalToSpawn);
     }
 }
