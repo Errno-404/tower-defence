@@ -125,9 +125,9 @@ public class TitlePane extends GridPane implements WaveStateObserver, EnemyKille
 
 
     @Override
-    public void reportBuy(BuildingsName buildingsName) {
-        double gold = this.towerPane.shop.getGold();
-        String goldStr = Double.toString(gold);
+    public void reportBuy(Integer gold) {
+        double gold1 = this.towerPane.shop.getGold();
+        String goldStr = Double.toString(gold1);
         this.moneyValueLabel.setText(goldStr);
     }
 }

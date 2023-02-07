@@ -8,7 +8,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class HealthBar implements HealthChangeObserver {
-    static double healthBarSizeX = 25; //remove
+    static double healthBarSizeX = 100; //remove
     static double healthBarSizeY = 15; //remove
 
 
@@ -101,5 +101,18 @@ public class HealthBar implements HealthChangeObserver {
         gc.fillRect(303,303,sizeX, healthBarSizeY);
 
         gc.setFill(null);
+    }
+
+    public void drawFixedSize(GraphicsContext gc){
+        gc.setFill(Color.BLACK);
+
+        gc.setFill(Color.BLACK);
+        gc.fillRect(0,0, 100, 10);
+        gc.setFill(this.healtColor);
+        double sizeX = this.currentPercentage*100;
+        gc.fillRect(0,0,sizeX, 10);
+
+        gc.setFill(null);
+
     }
 }

@@ -4,6 +4,7 @@ import agh.ics.oop.Interfaces.BuyObserver;
 import agh.ics.oop.Interfaces.EnemyKilledObserver;
 import agh.ics.oop.Interfaces.ShopSelectionObserver;
 import agh.ics.oop.Interfaces.WaveStateObserver;
+import agh.ics.oop.buildings.Building;
 import agh.ics.oop.buildings.BuildingsName;
 
 import java.util.ArrayList;
@@ -11,12 +12,14 @@ import java.util.HashMap;
 
 public class Shop implements EnemyKilledObserver, WaveStateObserver {
 
-    private double gold;
+    private static double gold;
     ShopSelectionObserver obs;
 
     private boolean isWaveStarted;
 
-    private ArrayList<BuyObserver> buyObservers = new ArrayList<>();
+    private static ArrayList<BuyObserver> buyObservers = new ArrayList<>();
+
+    static int currentGoldBlocked = 0;
 
     public Shop(ShopSelectionObserver o){
         this.obs = o;
@@ -34,18 +37,36 @@ public class Shop implements EnemyKilledObserver, WaveStateObserver {
     };
 
     public void buy(BuildingsName building){
-        if(gold >= shopList.get(building)){
+        if(!this.isWaveStarted && gold >= shopList.get(building) && currentGoldBlocked == 0){
             this.obs.updateSelected(building);
-            gold-=shopList.get(building);
+            currentGoldBlocked+=shopList.get(building);
         }
-        this.addGold(0);
+        else if(currentGoldBlocked != 0){
+            this.obs.updateSelected(building);
+            currentGoldBlocked+=shopList.get(building);
+        }
+        //this.addGold(0);
 
-        this.buyObservers.forEach(buyObserver -> buyObserver.reportBuy(building));
+
+    }
+
+    public static void commitTransaction(){
+        gold-=currentGoldBlocked;
+        buyObservers.forEach(buyObserver -> buyObserver.reportBuy(currentGoldBlocked));
+        currentGoldBlocked=0;
+    }
+
+    public static void sellTower(BuildingsName b, int level){
+        int sellValue = (int) shopList.get(b)/2 + 5*(level-1);
+        gold += sellValue;
+        buyObservers.forEach(buyObserver -> buyObserver.reportBuy(currentGoldBlocked));
+
     }
     @Override
     public void addGold(Integer n){
         gold+=n;
         System.out.println("buy");
+
     }
     @Override
     public void changeWaveState(){
@@ -57,7 +78,7 @@ public class Shop implements EnemyKilledObserver, WaveStateObserver {
     }
 
     public void addBuyObserver(BuyObserver buyObserver){
-        this.buyObservers.add(buyObserver);
+        buyObservers.add(buyObserver);
     }
 
 

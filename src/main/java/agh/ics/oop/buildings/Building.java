@@ -4,11 +4,14 @@ import agh.ics.oop.Attacks.Attack;
 import agh.ics.oop.Constants;
 import agh.ics.oop.Hitboxes.RectangularHitbox;
 import agh.ics.oop.Interfaces.BuildingDestroyedObserver;
+import agh.ics.oop.Interfaces.DamageTakenObserver;
 import agh.ics.oop.Interfaces.Hittable;
 import agh.ics.oop.Vector;
 import agh.ics.oop.buildings.AttackingBuildings.AttackingBuilding;
 import agh.ics.oop.gui.GameScreen;
 import agh.ics.oop.gui.HealthBar;
+import agh.ics.oop.gui.Shop;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
@@ -37,6 +40,16 @@ public abstract class Building implements Hittable {
     protected BuildingsName bname;
 
     private final ArrayList<BuildingDestroyedObserver> observer = new ArrayList<>();
+
+    private DamageTakenObserver damageObs;
+
+    public void addDamageObs(DamageTakenObserver o){
+        this.damageObs = o;
+    }
+
+    public void removeDamageObs(DamageTakenObserver o){
+        this.damageObs = null;
+    }
 
 
 
@@ -85,6 +98,10 @@ public abstract class Building implements Hittable {
         if(!this.observer.contains(o)){
             this.observer.add(o);
         }
+    }
+
+    public void removeDestroyedObserver(BuildingDestroyedObserver o){
+        this.observer.remove(o);
     }
 
     public void destroyBuilding(){
@@ -146,9 +163,30 @@ public abstract class Building implements Hittable {
                 o.reportBuildingDestroyed(this);
             });
         }
+        if(this.damageObs!= null){
+            this.damageObs.damageTaken();
+        }
+
         this.healthBar.reportHealthChange(this.currentHealth/this.maxHealth);
     }
 
     public abstract void upgrade();
+
+    public int getLevel(){
+        return this.level;
+    }
+
+    public double getMaxHealth(){
+        return this.maxHealth;
+    }
+
+    public void drawHealthBarFixed(GraphicsContext gc){
+        this.healthBar.drawFixedSize(gc);
+    }
+
+    public void sell(){
+        Shop.sellTower(this.bname, this.level);
+        this.destroyBuilding();
+    }
 
 }

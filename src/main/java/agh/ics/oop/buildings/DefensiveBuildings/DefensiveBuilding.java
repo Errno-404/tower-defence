@@ -19,7 +19,9 @@ public abstract class DefensiveBuilding extends Building {
         this.defence = defence;
     }
 
-
+    public double getDefence(){
+        return this.defence;
+    }
 
     // Game methods
     @Override
@@ -28,6 +30,7 @@ public abstract class DefensiveBuilding extends Building {
         if(this.currentHealth <= 0){
             this.destroyBuilding();
         }
+
 
 
     }

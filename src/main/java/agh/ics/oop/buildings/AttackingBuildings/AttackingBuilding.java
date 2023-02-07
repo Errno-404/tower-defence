@@ -37,6 +37,14 @@ public abstract class AttackingBuilding extends Building {
 
     }
 
+    public double getAttackStrength(){
+        return this.attackStrength;
+    }
+
+    public double getAttackSpeed(){
+        return this.attackSpeed;
+    }
+
     public void clearEnemies(){
         this.enemiesInRange.clear();
     }

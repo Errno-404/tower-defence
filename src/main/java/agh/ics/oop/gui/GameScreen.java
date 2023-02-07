@@ -8,6 +8,7 @@ import agh.ics.oop.Enemies.WaveManager;
 import agh.ics.oop.GameEngine;
 import agh.ics.oop.Interfaces.ShopSelectionObserver;
 import agh.ics.oop.Attacks.Projectile;
+import agh.ics.oop.Interfaces.UnitSelectionObserver;
 import agh.ics.oop.Interfaces.WaveStateObserver;
 import agh.ics.oop.buildings.*;
 import agh.ics.oop.buildings.DefensiveBuildings.DefensiveBuilding;
@@ -47,8 +48,11 @@ public class GameScreen implements ShopSelectionObserver, WaveStateObserver {
     private Building selectedExistingBuilding; //change on canvas click when selectedListBuilding is null
 
 
-    //test
-    ArrayList<Projectile> projectiles = new ArrayList<>();
+    private UnitSelectionObserver obs;
+
+    public void addUnitSelectionObserver(UnitSelectionObserver o){
+        this.obs = o;
+    }
 
 
 
@@ -142,18 +146,26 @@ public class GameScreen implements ShopSelectionObserver, WaveStateObserver {
                 int currX = this.elementUnderCursor.xIndex;
                 int currY = this.elementUnderCursor.yIndex;
 
+                if (this.selectedBuildingSquare!= null && this.selectedBuildingSquare.validPosition) {
+                    placeSelectedListBuilding(BuildingFactory.getBuildingById(this.selectedListBuildingID, currX, currY, this, gameEngine));
+                }
 
+                Building building = this.gameEngine.gameMap.map[currX][currY].buildingID;
+                if(building != null){
+                    this.selectedExistingBuilding = building;
+                    this.updateInfoPane();
 
                 if(!isWaveStarted){
-                    Building building = this.gameEngine.gameMap.map[currX][currY].buildingID;
-                    if(building != null){
-                        building.upgrade();
+                    this.updateInfoPane();
                     }
+                else{
+                    if(this.selectedExistingBuilding instanceof Castle){
+                        this.selectedExistingBuilding = null;
+                    }
+                }
 
 //                    this.waveWanager.startNewWave();
-                    if (this.selectedBuildingSquare!= null && this.selectedBuildingSquare.validPosition) {
-                        placeSelectedListBuilding(BuildingFactory.getBuildingById(this.selectedListBuildingID, currX, currY, this, gameEngine));
-                    }
+
                 }
 
 
@@ -291,10 +303,11 @@ public class GameScreen implements ShopSelectionObserver, WaveStateObserver {
         this.selectedListBuildingID = null;
         this.selectedBuildingSquare.remove();
         this.selectedBuildingSquare = null;
+        Shop.commitTransaction();
     }
 
     public void updateInfoPane() {
-        //TODO
+        this.obs.changeSelectedUnit(this.selectedExistingBuilding);
     }
 
     @Override

@@ -68,10 +68,10 @@ public class App extends Application {
 
         // =========================================== Bottom Bar ======================================================
 
-        Pane bottomPane = new Pane(); //TODO: Zmienic na InfoPane.coś
-        bottomPane.getChildren().add(new Label("Bottom Pane (info o obecnie wybranej wiezy/jednostce albo cos w tym stylu?)"));
+        StatPane statPane = new StatPane();
+        gridPane.add(statPane.all, 1, 2, 1, 1);
 
-        gridPane.add(bottomPane, 1, 2, 1, 1);
+        this.gameScreen.addUnitSelectionObserver(statPane);
 
         primaryStage.show();
 
