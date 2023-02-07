@@ -13,7 +13,7 @@ public class EnemySpawner {
 
     public EnemySpawner(GameEngine ge) {
         this.gameEngine = ge;
-        this.factory = new EnemyFactory(this.gameEngine.gameMap);
+        this.factory = new EnemyFactory(this.gameEngine);
     }
 
 
@@ -49,11 +49,11 @@ public class EnemySpawner {
         try {
             this.gameEngine.addEnemy(switch (side) {
                 case 0 -> this.factory.getNewFlyingEnemy(0, pos * Constants.tileSize, 100, 10);
-                case 1 -> new BasicEnemy(pos * Constants.tileSize, 0, 10, this.gameEngine.gameMap);
+                case 1 -> this.factory.getNewShootingEnemy(pos * Constants.tileSize, 0, 10, 40);
                 case 2 -> new BasicEnemy((Constants.numberOfTiles - 1) * Constants.tileSize,
-                        pos * Constants.tileSize, 10, this.gameEngine.gameMap);
+                        pos * Constants.tileSize, 10, this.gameEngine);
                 case 3 -> new BasicEnemy(pos * Constants.tileSize,
-                        (Constants.numberOfTiles - 1) * Constants.tileSize, 10, this.gameEngine.gameMap);
+                        (Constants.numberOfTiles - 1) * Constants.tileSize, 10, this.gameEngine);
                 default -> throw new IllegalStateException("Unexpected value: " + side);
             });
         } catch (FileNotFoundException e) {

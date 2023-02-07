@@ -82,7 +82,9 @@ public abstract class Building implements Hittable {
 
 
     public void addDestroyedObserver(BuildingDestroyedObserver o){
-        this.observer.add(o);
+        if(!this.observer.contains(o)){
+            this.observer.add(o);
+        }
     }
 
     public void destroyBuilding(){
@@ -93,6 +95,8 @@ public abstract class Building implements Hittable {
         if(this instanceof AttackingBuilding a1){
             a1.attackManager.cancel();
         }
+
+        this.observer.clear();
     }
 
     public BuildingsName getName(){

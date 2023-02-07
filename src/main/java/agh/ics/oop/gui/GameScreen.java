@@ -239,12 +239,12 @@ public class GameScreen implements ShopSelectionObserver, WaveStateObserver {
                 pos = rand.nextInt(Constants.numberOfTiles);
 
                 this.gameEngine.addEnemy(switch (side) {
-                    case 0 -> new BasicEnemy(0, pos * Constants.tileSize, 10,this.gameEngine.gameMap);
-                    case 1 -> new BasicEnemy(pos * Constants.tileSize, 0, 10,this.gameEngine.gameMap);
+                    case 0 -> new BasicEnemy(0, pos * Constants.tileSize, 10,this.gameEngine);
+                    case 1 -> new BasicEnemy(pos * Constants.tileSize, 0, 10,this.gameEngine);
                     case 2 -> new BasicEnemy((Constants.numberOfTiles - 1)*Constants.tileSize,
-                            pos * Constants.tileSize, 10,this.gameEngine.gameMap);
+                            pos * Constants.tileSize, 10,this.gameEngine);
                     case 3 -> new BasicEnemy(pos * Constants.tileSize,
-                            (Constants.numberOfTiles -1) * Constants.tileSize, 10,this.gameEngine.gameMap);
+                            (Constants.numberOfTiles -1) * Constants.tileSize, 10,this.gameEngine);
                     default -> throw new IllegalStateException("Unexpected value: " + side);
                 });
 

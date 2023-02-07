@@ -2,6 +2,7 @@ package agh.ics.oop.Enemies;
 
 import agh.ics.oop.Attacks.HomingProjectileTestClass;
 import agh.ics.oop.Attacks.StandardMeleeAttack;
+import agh.ics.oop.GameEngine;
 import agh.ics.oop.Vector;
 import agh.ics.oop.buildings.Building;
 import agh.ics.oop.maps.GameMap;
@@ -15,8 +16,8 @@ public class BasicEnemy extends Enemy{
 
 
 
-    public BasicEnemy(double px, double py, double attackPower,GameMap map) throws FileNotFoundException {
-        super(px, py, 15, 15,250,new StandardMeleeAttack(attackPower), map,new Image(new FileInputStream("src/main/resources/EnemySquare1.png")));
+    public BasicEnemy(double px, double py, double attackPower, GameEngine gameEngine) throws FileNotFoundException {
+        super(px, py, 15, 15,250,new StandardMeleeAttack(attackPower), gameEngine,new Image(new FileInputStream("src/main/resources/EnemySquare1.png")));
         this.goldOnDeath = 5;
 
     }
