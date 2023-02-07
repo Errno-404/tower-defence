@@ -69,15 +69,15 @@ public class GameEngine implements BuildingDestroyedObserver {
 
         this.friendlyProjectiles.forEach((Projectile p) -> {
             p.move();
-            if (p.getHitbox().centre.getX() <= 5 || p.getHitbox().centre.getY() <= 5 ||
-                    p.getHitbox().centre.getX() >= 595 || p.getHitbox().centre.getY() >= 595) {
+            if (p.getHitbox().centre.getX() <= 1 || p.getHitbox().centre.getY() <= 1 ||
+                    p.getHitbox().centre.getX() >= 599 || p.getHitbox().centre.getY() >= 599) {
                 this.friendlyProjectilesToRemove.add(p);
             }
         });
         this.enemyProjectiles.forEach((Projectile p) -> {
             p.move();
-            if (p.getHitbox().centre.getX() <= 5 || p.getHitbox().centre.getY() <= 5 ||
-                    p.getHitbox().centre.getX() >= 595 || p.getHitbox().centre.getY() >= 595) {
+            if (p.getHitbox().centre.getX() <= 1 || p.getHitbox().centre.getY() <= 1 ||
+                    p.getHitbox().centre.getX() >= 599 || p.getHitbox().centre.getY() >= 599) {
                 this.enemyProjectilesToRemove.add(p);
             }
         });
@@ -163,11 +163,17 @@ public class GameEngine implements BuildingDestroyedObserver {
     @Override
     public void reportBuildingDestroyed(Building b) {
         if (b instanceof DefensiveBuilding) {
-            this.defensiveBuildings.remove(b);
+            this.destroyedBuildings.add(b);
         } else if (b instanceof AttackingBuilding) {
-            this.towers.remove(b);
+            this.destroyedBuildings.add(b);
             //TODO
         }
+    }
+
+    public void removeDestroyedBuildings(){
+        this.defensiveBuildings.removeAll(this.destroyedBuildings);
+        this.towers.removeAll(this.destroyedBuildings);
+        this.destroyedBuildings.clear();
     }
 
     // ===================================== Collisions management =====================================================
@@ -280,7 +286,6 @@ public class GameEngine implements BuildingDestroyedObserver {
                             this.enemyProjectilesToRemove.add(projectile);
                             this.gameMap.projectileHit(projectile, false);
                             if (b.getCurrentHealth() <= 0) {
-                                this.destroyedBuildings.add(b);
                                 b.destroyBuilding();
                                 break;
                             }
@@ -309,7 +314,6 @@ public class GameEngine implements BuildingDestroyedObserver {
                             this.gameMap.projectileHit(projectile, false);
 
                             if (b.getCurrentHealth() <= 0) {
-                                this.destroyedBuildings.add(b);
                                 b.destroyBuilding();
                                 break;
                             }
