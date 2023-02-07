@@ -1,6 +1,7 @@
 package agh.ics.oop.Enemies;
 
 import agh.ics.oop.Attacks.Attack;
+import agh.ics.oop.GameEngine;
 import agh.ics.oop.Hitboxes.RectangularHitbox;
 import agh.ics.oop.Interfaces.HealthChangeObserver;
 import agh.ics.oop.Interfaces.Hittable;
@@ -28,6 +29,7 @@ public abstract class Enemy implements Hittable {
     RectangularHitbox hitbox;
 
     GameMap map;
+    GameEngine gameEngine;
     Attack attack;
 
     public Timer enemyAttackTimer;
@@ -37,7 +39,7 @@ public abstract class Enemy implements Hittable {
     protected Pair<Integer, Integer> currentDestination = null;
 
 
-    public Enemy(double px, double py,double sizex, double sizey, double hp, Attack attack, GameMap map,Image sprite){
+    public Enemy(double px, double py, double sizex, double sizey, double hp, Attack attack, GameEngine ge, Image sprite){
         this.currentHealth = hp;
         this.maxHealth = hp;
         this.hitbox = new RectangularHitbox(new Vector(px,py),sizex);
@@ -51,7 +53,8 @@ public abstract class Enemy implements Hittable {
         this.hpObs = new HealthBar();
 
         this.sprite = sprite;
-        this.map = map;
+        this.map = ge.gameMap;
+        this.gameEngine = ge;
     }
 
 

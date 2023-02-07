@@ -1,7 +1,9 @@
 package agh.ics.oop.Enemies;
 
 import agh.ics.oop.Attacks.Attack;
+import agh.ics.oop.GameEngine;
 import agh.ics.oop.Vector;
+import agh.ics.oop.buildings.Building;
 import agh.ics.oop.buildings.Castle;
 import agh.ics.oop.maps.GameMap;
 import javafx.scene.image.Image;
@@ -12,19 +14,20 @@ import java.util.ArrayList;
 public class FlyingEnemy extends Enemy{
 
 
-    public FlyingEnemy(double px, double py,double hp, Attack attack, GameMap map, Image sprite) {
-        super(px, py, 30,30, hp, attack, map, sprite);
+    public FlyingEnemy(double px, double py, double hp, Attack attack, GameEngine gameEngine, Image sprite) {
+        super(px, py, 30,30, hp, attack, gameEngine, sprite);
         this.goldOnDeath = 5;
     }
 
     @Override
     public void attack() {
-
+        Building target = this.map.map[this.hitbox.centre.getXindex()][this.hitbox.centre.getYindex()].buildingID;
+        target.getHit(this.attack);
     }
 
     @Override
     public boolean canAttack() {
-        return false;
+        return this.map.map[this.hitbox.centre.getXindex()][this.hitbox.centre.getYindex()].buildingID != null;
     }
 
     @Override
