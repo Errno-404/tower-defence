@@ -14,8 +14,12 @@ import agh.ics.oop.buildings.Building;
 import agh.ics.oop.buildings.Castle;
 import agh.ics.oop.buildings.DefensiveBuildings.DefensiveBuilding;
 import agh.ics.oop.gui.GameScreen;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.util.Pair;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.*;
 
 
@@ -38,6 +42,20 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
             for(int j = 0; j<Constants.numberOfTiles; j++){
                 map[i][j] = new mapElement(i,j, gs.elements[i][j]);
             }
+        }
+        try{
+        for(int i = 0; i<Constants.numberOfTiles; i++){
+            for(int j = 0; j<Constants.numberOfTiles; j++){
+                if(((i >= 4 && i <= 7) || i <= 55 && i >= 52) && j > 3 && j < 57){
+                    map[i][j].isObstacle = true;
+                    map[i][j].placeable = false;
+                    map[i][j].reachable = false;
+                    map[i][j].updateCanvas(new ImageView(new Image(new FileInputStream("src/main/resources/blueRect.png"))));
+            }
+        }
+        }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -108,7 +126,13 @@ public class GameMap implements ProjectileObserver, EnemyObserver, BuildingDestr
                  int newDist;
 
                  if(this.map[newX][newY].buildingID == null){
-                     newDist  = this.map[top.x][top.y].mapWeightValue + 1;
+                     if(this.map[newX][newY].isObstacle){
+                         newDist = Integer.MAX_VALUE;
+                     }
+                     else{
+                         newDist  = this.map[top.x][top.y].mapWeightValue + 1;
+                     }
+
                  }
                  else if(this.map[newX][newY].buildingID instanceof AttackingBuilding){
                      newDist  = this.map[top.x][top.y].mapWeightValue + 10;

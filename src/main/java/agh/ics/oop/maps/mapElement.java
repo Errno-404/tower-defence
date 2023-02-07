@@ -25,6 +25,8 @@ public class mapElement {
     public boolean reachable;
     public boolean placeable;
 
+    public boolean isObstacle = false;
+
     public int mapWeightValue = Integer.MAX_VALUE; //do znajdywania najkrotszych sciezek
 
 
