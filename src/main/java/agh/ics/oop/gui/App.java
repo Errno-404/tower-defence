@@ -45,9 +45,6 @@ public class App extends Application {
 
         // ============================================ Left Bar =======================================================
 
-        //TODO: Zmienić na LeftPane.coś
-//        Pane leftPane = new Pane();
-//        leftPane.getChildren().add(new Label(""));
 
         // =========================================== Main View =======================================================
 

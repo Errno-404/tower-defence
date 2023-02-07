@@ -2,9 +2,11 @@ package agh.ics.oop.buildings.AttackingBuildings;
 
 import agh.ics.oop.Enemies.Enemy;
 import agh.ics.oop.GameEngine;
+import agh.ics.oop.Interfaces.BuyObserver;
 import agh.ics.oop.Vector;
 import agh.ics.oop.buildings.Building;
 import agh.ics.oop.gui.GameScreen;
+import agh.ics.oop.gui.Shop;
 import javafx.scene.image.Image;
 
 import java.util.Timer;
@@ -61,39 +63,43 @@ public abstract class AttackingBuilding extends Building {
 
     @Override
     public void upgrade(){
+        if(Shop.gold > 5){
+            Shop.gold-=5;
+            Shop.buyObservers.forEach((BuyObserver b) ->{
+                b.reportBuy(5);
+            });
+            switch (this.level) {
+                case 1 -> {
+                    this.attackStrength += 20;
+                    this.maxHealth += 100;
+                    this.upgradeEffect();
+                    System.out.println(level);
+                }
+                case 2 -> {
+                    this.attackStrength += 50;
+                    this.maxHealth += 200;
+                    this.upgradeEffect();
+                    System.out.println(level);
+                }
+                case 3 -> {
+                    this.attackStrength += 100;
+                    this.maxHealth += 300;
+                    this.upgradeEffect();
+                    System.out.println(level);
+                }
+                case 4 -> {
+                    this.attackStrength += 200;
+                    this.maxHealth += 1000;
+                    this.upgradeEffect();
 
-        // TODO zmienić na stałe
-
-        switch (this.level) {
-            case 1 -> {
-                this.attackStrength += 20;
-                this.maxHealth += 100;
-                this.upgradeEffect();
-                System.out.println(level);
+                }
+                default -> throw new IllegalArgumentException(this.getName() + " reached maximum level: " + this.level);
             }
-            case 2 -> {
-                this.attackStrength += 50;
-                this.maxHealth += 200;
-                this.upgradeEffect();
-                System.out.println(level);
-            }
-            case 3 -> {
-                this.attackStrength += 100;
-                this.maxHealth += 300;
-                this.upgradeEffect();
-                System.out.println(level);
-            }
-            case 4 -> {
-                this.attackStrength += 200;
-                this.maxHealth += 1000;
-                this.upgradeEffect();
-
-            }
-            default -> throw new IllegalArgumentException(this.getName() + " reached maximum level: " + this.level);
+            this.level ++;
+            this.currentHealth = this.maxHealth;
+            this.drawHealthBar();
         }
-        this.level ++;
-        this.currentHealth = this.maxHealth;
-        this.drawHealthBar();
+
     }
 
     protected void changeAttackSpeed(int newValue){

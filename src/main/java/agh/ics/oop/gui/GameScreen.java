@@ -73,7 +73,7 @@ public class GameScreen implements ShopSelectionObserver, WaveStateObserver {
             Image darkerGrass = new Image(new FileInputStream("src/main/resources/darkerGrass.png"),
                     Constants.tileSize, Constants.tileSize, true, false);
 
-            Image cursorImg = new Image(new FileInputStream("src/main/resources/yellowRect.png"));
+            Image cursorImg = new Image(new FileInputStream("src/main/resources/yellowRect2.png"));
 
 
             // Adding graphic to tiles

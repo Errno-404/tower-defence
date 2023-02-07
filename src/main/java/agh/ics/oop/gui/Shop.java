@@ -12,12 +12,12 @@ import java.util.HashMap;
 
 public class Shop implements EnemyKilledObserver, WaveStateObserver {
 
-    private static double gold;
+    public static double gold;
     ShopSelectionObserver obs;
 
     private boolean isWaveStarted;
 
-    private static ArrayList<BuyObserver> buyObservers = new ArrayList<>();
+    public static ArrayList<BuyObserver> buyObservers = new ArrayList<>();
 
     static int currentGoldBlocked = 0;
 

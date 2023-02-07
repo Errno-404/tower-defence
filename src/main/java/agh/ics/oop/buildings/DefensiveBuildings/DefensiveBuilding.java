@@ -1,9 +1,11 @@
 package agh.ics.oop.buildings.DefensiveBuildings;
 
 import agh.ics.oop.Attacks.Attack;
+import agh.ics.oop.Interfaces.BuyObserver;
 import agh.ics.oop.Vector;
 import agh.ics.oop.buildings.Building;
 import agh.ics.oop.gui.GameScreen;
+import agh.ics.oop.gui.Shop;
 import javafx.scene.image.Image;
 
 
@@ -44,29 +46,36 @@ public abstract class DefensiveBuilding extends Building {
 
     @Override
     public void upgrade(){
-        this.level ++;
-        switch (this.level) {
-            case 2 -> {
-                this.defence += 0.1;
-                this.maxHealth += 100;
+        if(Shop.gold > 5){
+            Shop.gold-=5;
+            Shop.buyObservers.forEach((BuyObserver b) ->{
+                b.reportBuy(5);
+            });
+            this.level ++;
+            switch (this.level) {
+                case 2 -> {
+                    this.defence += 0.1;
+                    this.maxHealth += 100;
+                }
+                case 3 -> {
+                    this.defence += 0.1;
+                    this.maxHealth += 200;
+                }
+                case 4 -> {
+                    this.defence += 0.1;
+                    this.maxHealth += 300;
+                }
+                case 5 -> {
+                    this.defence += 0.2;
+                    this.maxHealth += 1000;
+                }
+                default -> throw new IllegalArgumentException(this.getName() + " reached maximum level: " + this.level);
             }
-            case 3 -> {
-                this.defence += 0.1;
-                this.maxHealth += 200;
-            }
-            case 4 -> {
-                this.defence += 0.1;
-                this.maxHealth += 300;
-            }
-            case 5 -> {
-                this.defence += 0.2;
-                this.maxHealth += 1000;
-            }
-            default -> throw new IllegalArgumentException(this.getName() + " reached maximum level: " + this.level);
+            System.out.println("upgraded");
+            this.currentHealth = this.maxHealth;
+            this.drawHealthBar();
         }
-        System.out.println("upgraded");
-        this.currentHealth = this.maxHealth;
-        this.drawHealthBar();
+
 
 
     }
