@@ -24,12 +24,9 @@ public abstract class DefensiveBuilding extends Building {
     // Game methods
     @Override
     public void getHit(Attack attack) {
-        double damage = attack.getStrength() - this.defence;
-        if(damage > this.currentHealth){
-            this.currentHealth = 0;
-        }
-        else{
-            this.currentHealth -= (attack.getStrength() - this.defence);
+        this.reduceHealth(attack.getStrength()*(1-this.defence));
+        if(this.currentHealth <= 0){
+            this.destroyBuilding();
         }
 
 

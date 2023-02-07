@@ -42,7 +42,7 @@ public class BuildingFactory {
             case HORIZONTALWALL:{
                 Vector position = new Vector(px ,py);
                 try {
-                    return new HorizontalWall(5, 1, position, new Image(new FileInputStream("src/main/resources/WallHorizontal.png")), gs, 200, 10);
+                    return new HorizontalWall(5, 1, position, new Image(new FileInputStream("src/main/resources/WallHorizontal.png")), gs, 200, 0.5);
                 } catch (FileNotFoundException e) {
                     throw new RuntimeException(e);
                 }
@@ -50,7 +50,7 @@ public class BuildingFactory {
             case VERTICALWALL:{
                 Vector position = new Vector(px ,py);
                 try {
-                    return new VerticalWall(1, 5, position, new Image(new FileInputStream("src/main/resources/VerticalWall.png")), gs, 200, 10);
+                    return new VerticalWall(1, 5, position, new Image(new FileInputStream("src/main/resources/VerticalWall.png")), gs, 200, 0.5);
                 } catch (FileNotFoundException e) {
                     throw new RuntimeException(e);
                 }

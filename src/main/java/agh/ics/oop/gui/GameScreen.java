@@ -10,6 +10,7 @@ import agh.ics.oop.Interfaces.ShopSelectionObserver;
 import agh.ics.oop.Attacks.Projectile;
 import agh.ics.oop.Interfaces.WaveStateObserver;
 import agh.ics.oop.buildings.*;
+import agh.ics.oop.buildings.DefensiveBuildings.DefensiveBuilding;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -18,6 +19,7 @@ import javafx.scene.paint.Color;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 public class GameScreen implements ShopSelectionObserver, WaveStateObserver {
@@ -189,13 +191,16 @@ public class GameScreen implements ShopSelectionObserver, WaveStateObserver {
         this.gameEngine.friendlyProjectiles.forEach((Projectile p) -> p.draw(this.gc));
         this.gameEngine.enemyProjectiles.forEach((Projectile p) -> p.draw(this.gc));
         this.gameEngine.checkCollisions();
+        this.gameEngine.removeDestroyedBuildings();
         this.gameEngine.removeRemainingProjectiles();
 
 
         this.gameEngine.enemies.forEach(Enemy::move);
         this.gameEngine.enemies.forEach((Enemy e) -> e.draw(this.gc));
 
-        this.gameEngine.defensiveBuildings.forEach(Building::drawHealthBar);
+        this.gameEngine.defensiveBuildings.forEach(DefensiveBuilding::drawHealthBar);
+
+
         this.gameEngine.towers.forEach(Building::drawHealthBar);
 
         this.gameEngine.addEnemiesToTowers();
