@@ -5,16 +5,16 @@
 
 ### Podstawowa wersja (8 pkt.)
 - [x] Główna mapa (funkcjonalność w tym kontrola nachodzenia na siebie elementów)
-- [ ] Przeciwnicy - spawnowanie, częstotliwość, obrażenia - brakuje nam częstotliwości
+- [x] Przeciwnicy - spawnowanie, częstotliwość, obrażenia - brakuje nam częstotliwości
 - [x] GUI z grafikami i paskami zdrowia
 - [x] Mury - znajdowanie nejlepszej ścieżki do zamku po napotkaniu muru, a w przypadku braku - niszczenie go
 ### Nasze wybory (5 pkt.)
 - [x] Sprzedawanie wieżyczek (1 pkt.)
-- [ ] Ulepszanie wieżyczek (1 pkt.)
+- [x] Ulepszanie wieżyczek (1 pkt.)
 - [x] Zachowanie wrogów (1 pkt.)
-- [ ] Mapy (1 ptk.)
-- [ ] Fale (1 pkt.)
+- [x] Mapy (1 ptk.)
+- [x] Fale (1 pkt.)
 
 Jak starczy czasu / zamienniki: 
-- [ ] Wieżyczki (2 pkt.)
-- [ ] Animacje (2 pkt.)
+- [x] Wieżyczki (2 pkt.)
+- [x] Animacje (2 pkt.)
